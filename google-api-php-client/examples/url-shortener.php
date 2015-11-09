@@ -27,15 +27,23 @@ if (!$oauth_credentials = getOAuthCredentialsFile()) {
  ************************************************/
 $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
 
+
+
 $client = new Google_Client();
 $client->setAuthConfig($oauth_credentials);
 $client->setRedirectUri($redirect_uri);
 $client->addScope([
-  "https://www.googleapis.com/auth/youtube.readonly",
- "https://www.googleapis.com/auth/yt-analytics.readonly",
- "https://www.googleapis.com/auth/youtube",
- "https://www.googleapis.com/auth/yt-analytics-monetary.readonly"
- ]);
+"https://www.googleapis.com/auth/youtube.readonly",
+"https://www.googleapis.com/auth/youtube.force-ssl",
+"https://www.googleapis.com/auth/yt-analytics.readonly",
+"https://www.googleapis.com/auth/youtube",
+"https://www.googleapis.com/auth/yt-analytics-monetary.readonly"
+]);
+
+
+
+
+
 
 /************************************************
  * When we create the service here, we pass the
@@ -45,7 +53,8 @@ $client->addScope([
  ************************************************/
 // Define an object that will be used to make all API requests.
 
-  $youtube = new Google_Service_YouTubeAnalytics($client);
+  //$youtube = new Google_Service_YouTubeAnalytics($client);
+  $youtubeData = new Google_Service_YouTube($client);
   
 /************************************************
  * If we're logging out we just need to clear our
@@ -65,7 +74,6 @@ if (isset($_REQUEST['logout'])) {
 if (isset($_GET['code'])) {
   $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
   $client->setAccessToken($token);
-
   // store in the session also
   $_SESSION['access_token'] = $token;
 
@@ -130,13 +138,27 @@ if ($client->getAccessToken() && isset($_GET['url'])) {
     $metrics = "likes,views";
     $optParams = array(); 
     
-    
+    /*
     $response = $youtube->reports->query( $id, $start_date, $end_date, $metrics, $optParams );
     var_dump($response);
     foreach( $response->getrows() as $row){
       echo sprintf(" <p>This data is weird : %s  %d  %s %d </p>", $response->getColumnHeaders()[0]['name'], $row[0], $response->getColumnHeaders()[1]['name'], $row[1]);
       
     }
+    */
+    echo "<P>";
+    $part = "id";
+    $opt  = array( 
+      'mine' => true
+    );
+    
+    $response = $youtubeData->channels->listChannels($part, $opt);
+    echo $response->getitems()[0]["id"];
+    var_dump($response);
+    
+    
+    echo "</P>";
+    
 
    }
    catch (Google_Service_Exception $e) {

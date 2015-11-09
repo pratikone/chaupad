@@ -19,7 +19,7 @@ include_once __DIR__ . '/../vendor/autoload.php';
 include_once "templates/base.php";
 
 echo pageHeader('User Query - URL Shortener');
-
+$_SERVER['DOCUMENT_ROOT'] = "C:\wamp\www\yt\google-api-php-client";
 /*************************************************
  * Ensure you've downloaded your oauth credentials
  ************************************************/
