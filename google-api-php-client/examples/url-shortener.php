@@ -153,8 +153,11 @@ if ($client->getAccessToken() && isset($_GET['url'])) {
     );
     
     $response = $youtubeData->channels->listChannels($part, $opt);
+   
     echo $response->getitems()[0]["id"];
-    var_dump($response);
+     echo "<BR>";
+    echo json_encode($response);
+    // var_dump($response);
     
     
     echo "</P>";
