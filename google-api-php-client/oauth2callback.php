@@ -4,7 +4,7 @@ require_once 'vendor/autoload.php';
 session_start();
 
 $client = new Google_Client();
-$oauth_creds = __DIR__ . './oauth-credentials.json';
+$oauth_creds = './oauth-credentials.json';
 $client->setAuthConfigFile($oauth_creds);
 $client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/yt/google-api-php-client/oauth2callback.php');
 $client->addScope(
