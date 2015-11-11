@@ -17,23 +17,31 @@ $client->addScope(
 if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
   $client->setAccessToken($_SESSION['access_token']);
   $youtube = new Google_Service_YouTubeAnalytics($client);
-  $id = "channel==wDs0VWf5TWKxDD2RQHwgGg";
+  $youtubeData = new Google_Service_YouTube($client);
+  
+
+
+
+
+  $part = "id";
+  $opt = array(
+                'mine' => true
+              );
+  $response = $youtubeData->channels->listChannels($part, $opt);
+  $id = "channel==" . $response->getitems()[0]["id"]; //gets the id
   $start_date = "2013-03-15";
   $end_date = "2015-11-06";
   $metrics = "likes,views";
   $optParams = array(); 
   
   $response = $youtube->reports->query( $id, $start_date, $end_date, $metrics, $optParams );
-  echo json_encode($response);
+  //echo json_encode($response);
   
   foreach( $response->getrows() as $row){
       echo sprintf(" <p>This data is weird : %s  %d  %s %d </p>", $response->getColumnHeaders()[0]['name'], $row[0], $response->getColumnHeaders()[1]['name'], $row[1]);
     }
     
-  $response = $youtube->reports->query( $id, $start_date, $end_date, $metrics, $optParams );
-  echo json_encode($response);
-  
-    
+ 
     
     
   
