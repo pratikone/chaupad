@@ -49,7 +49,7 @@ class Youtube extends CI_Controller{
 		echo "Nigga";
 	
 		$client = new Google_Client();
-		$oauth_creds = APPPATH.'third_party/oauth-credentials.json';
+		$oauth_creds = APPPATH.'third_party/google/vendor/oauth-credentials.json';
 		$client->setAuthConfigFile($oauth_creds);
 		$client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/login');
 		$client->addScope(
