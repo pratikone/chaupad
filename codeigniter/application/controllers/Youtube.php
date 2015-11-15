@@ -38,8 +38,18 @@ class Youtube extends CI_Controller{
 		}
 		else
 		{	
-			$this->login();
+			
+			$data['authUrl'] = 'http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/login';
+			
+			//$this->login();
 		}
+		
+		$data['base'] = 'http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter';
+		
+		$data['logout'] = $data['base'] . '/index.php/youtube/logout';
+		
+		
+		$this->load->view('youtube/viewlogin', $data);
 		
 		
 
@@ -83,7 +93,8 @@ class Youtube extends CI_Controller{
 		}
 		session_write_close(); 
 		echo "Logged out nigga";
-		exit();
+		$this->load->helper('url');
+		redirect('http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/analytics', 'location', 301);
 		
 		
 	}   
