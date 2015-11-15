@@ -4,6 +4,7 @@ require_once APPPATH.'third_party/google/vendor/autoload.php';
 
 class Youtube extends CI_Controller{
 
+	
 	public function __construct(){
 			parent::__construct();
 		
@@ -35,6 +36,7 @@ class Youtube extends CI_Controller{
 		
 		if (isset($_SESSION['access_token'])) {
 			echo "I have the token NIGGA";
+			$this->youtubeApiCall();
 		}
 		else
 		{	
@@ -45,7 +47,6 @@ class Youtube extends CI_Controller{
 		}
 		
 		$data['base'] = 'http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter';
-		
 		$data['logout'] = $data['base'] . '/index.php/youtube/logout';
 		
 		
@@ -80,6 +81,8 @@ class Youtube extends CI_Controller{
 		  $data['redirect_uri'] = 'http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/analytics';
 		  
 	   }
+	   
+	   $_SESSION['client'] = $client;
 	   $this->load->view('youtube/oauth', $data );
 	   	   
 	}  
@@ -87,17 +90,47 @@ class Youtube extends CI_Controller{
 	public function logout(){
 		if(isset($_SESSION['access_token'])){
 			unset($_SESSION['access_token']);
+			$client = $_SESSION['client'];
+			$client->revokeToken(); //remove this line for direct unhindered access after reception of first token
+			
+			unset($_SESSION['client']);
 		}
 		else{
 			echo "nothing to destroy";
 		}
 		session_write_close(); 
+		//session_destroy();
 		echo "Logged out nigga";
 		$this->load->helper('url');
 		redirect('http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/analytics', 'location', 301);
-		
-		
+			
 	}   
+	
+	private function youtubeApiCall(){
+		$client = $_SESSION['client'];
+		$client->setAccessToken($_SESSION['access_token']);
+		$youtube = new Google_Service_YouTubeAnalytics($client);
+		$youtubeData = new Google_Service_YouTube($client);
+		
+		$part = "id";
+   	    $opt = array(
+		  			'mine' => true
+			  	  );
+	  $response = $youtubeData->channels->listChannels($part, $opt);
+	  $id = "channel==" . $response->getitems()[0]["id"]; //gets the id
+	  $start_date = "2013-03-15";
+	  $end_date = "2015-11-06";
+	  $metrics = "likes,views";
+	  $optParams = array(); 
+	  
+	  $response = $youtube->reports->query( $id, $start_date, $end_date, $metrics, $optParams );
+	  //echo json_encode($response);
+	  
+	  foreach( $response->getrows() as $row){
+		  echo sprintf(" <p>This data is weird : %s  %d  %s %d </p>", $response->getColumnHeaders()[0]['name'], $row[0], $response->getColumnHeaders()[1]['name'], $row[1]);
+		}
+    	
+	}
 
 
 }
