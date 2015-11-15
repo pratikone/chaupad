@@ -4,6 +4,16 @@ require_once APPPATH.'third_party/google/vendor/autoload.php';
 
 class Youtube extends CI_Controller{
 
+	public function __construct(){
+			parent::__construct();
+		
+			if (session_status() == PHP_SESSION_NONE) {
+				session_start();  //defining here as a fix to avoid session clearing during redirection
+			}
+    }
+
+
+
 	public function view($page = 'home'){
 		$loc = APPPATH.'/views/pages/'.$page.'.php';
 		if( !file_exists( $loc )){
@@ -21,16 +31,17 @@ class Youtube extends CI_Controller{
 	
 	public function analytics(){
 		
-		session_start();
+		
+		
 		if (isset($_SESSION['access_token'])) {
 			echo "I have the token NIGGA";
 		}
 		else
-		{		
+		{	
 			$this->login();
 		}
 		
-		//$this->load->view('google_authentication', $data);
+		
 
 	}
 	
@@ -52,26 +63,28 @@ class Youtube extends CI_Controller{
 		if (! isset($_GET['code'])) {
 		   $auth_url = $client->createAuthUrl();
 		   $data['redirect_uri'] = $auth_url;
-		   //$this->load->helper( $auth_url  ,'location', 301);
-		   //header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
+		   
 	   } else {
 		  $client->authenticate($_GET['code']);
 		  $_SESSION['access_token'] = $client->getAccessToken();
-		  error_log("at login LEVEL access token ". $_SESSION['access_token']);
-		  $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/analytics';
-		  $data['redirect_uri'] = $redirect_uri;
+		  $data['redirect_uri'] = 'http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/analytics';
 		  
-		  
-		  //$this->load->helper( $redirect_uri  ,'location', 301);
-		  //header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
 	   }
 	   $this->load->view('youtube/oauth', $data );
 	   	   
 	}  
 	
 	public function logout(){
-		unset($_SESSION['access_token']);
+		if(isset($_SESSION['access_token'])){
+			unset($_SESSION['access_token']);
+		}
+		else{
+			echo "nothing to destroy";
+		}
+		session_write_close(); 
 		echo "Logged out nigga";
+		exit();
+		
 		
 	}   
 
