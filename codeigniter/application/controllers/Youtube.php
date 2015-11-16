@@ -132,12 +132,16 @@ class Youtube extends CI_Controller{
 					];
 	  
 	  $response = $youtube->reports->query( $id, $start_date, $end_date, $metrics, $optParams );
-	  echo json_encode($response);
+	  //echo json_encode($response);
 	  
-	  foreach( $response->getrows() as $row){
-		  
-		  echo sprintf(" <p>This data is weird : %s  %d  %s %d </p>", $response->getColumnHeaders()[0]['name'], $row[1], $response->getColumnHeaders()[1]['name'], $row[2]);
-		}
+	  $this->load->model('youtube_channel');
+	  $this->youtube_channel->processResponse( $response );
+	  $likha_denge = $this->youtube_channel->viewVideoData();
+	  
+	  foreach($likha_denge as $lakeer  ){
+		  echo "<p>   $lakeer   </p>";
+	  }
+	  
     	
 	}
 
