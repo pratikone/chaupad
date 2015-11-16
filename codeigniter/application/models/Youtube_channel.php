@@ -13,7 +13,7 @@ class Youtube_channel extends CI_Model {
         
         
         public function addVideo( $videoData ){
-			array_push( $this->videoList, $videoData );
+			$this->videoList[$videoData->id] = $videoData; //key value array
 			
 		}
 		
@@ -31,6 +31,19 @@ class Youtube_channel extends CI_Model {
 			}
 		}
 		
+		//to be always called after processResponse as objects are not created here
+		public function processVideoIds( $response ){
+			foreach( $response->getitems() as $item){ //adding values to each video entry
+		  		$video = $this->videoList[ $item["id"] ]; //finding video by id in key value array
+		  		$video->title = $item["snippet"]["title"];
+		  		$video->description = $item["snippet"]["description"];
+		  		$video->thumbnail_small = $item["snippet"]["thumbnails"]["default"]["url"];
+		  		$video->thumbnail_medium = $item["snippet"]["thumbnails"]["medium"]["url"];
+		  		$video->thumbnail_high = $item["snippet"]["thumbnails"]["high"]["url"];
+			}
+		}		
+		
+		
 		public function viewVideoData(){
 			$response = [];
 			foreach( $this->videoList as $video ){
@@ -39,6 +52,20 @@ class Youtube_channel extends CI_Model {
 			
 			return $response;
 		}
+        
+        public function getVideoIds(){  //returns video  id in form of comma separated stringd
+			$str = "";
+			
+			foreach( $this->videoList as $video ){
+				$str .= $video->id.",";
+			}
+			
+			$str = rtrim( $str, ',' ); //right trim
+			
+			return $str; //to be consumed by api to find video data from Youtube Data API
+		}
+        
+        
         
         public function get_video_object(){  //for loading youtube_video class for use inside this class
 			 $CI =& get_instance();

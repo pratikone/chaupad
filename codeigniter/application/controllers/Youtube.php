@@ -36,7 +36,7 @@ class Youtube extends CI_Controller{
 		
 		if (isset($_SESSION['access_token'])) {
 			echo "I have the token NIGGA";
-			$this->youtubeApiCall();
+			$data['likha_denge'] = $this->youtubeApiCall();
 		}
 		else
 		{	
@@ -49,9 +49,11 @@ class Youtube extends CI_Controller{
 		$data['base'] = 'http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter';
 		$data['logout'] = $data['base'] . '/index.php/youtube/logout';
 		
-		
+		$this->load->view('templates/youtube_header');
 		$this->load->view('youtube/viewlogin', $data);
-		
+		if( isset($data['likha_denge']) )
+			$this->load->view('youtube/videoList', $data );
+		$this->load->view('templates/youtube_footer');
 		
 
 	}
@@ -136,11 +138,28 @@ class Youtube extends CI_Controller{
 	  
 	  $this->load->model('youtube_channel');
 	  $this->youtube_channel->processResponse( $response );
-	  $likha_denge = $this->youtube_channel->viewVideoData();
+
+	  // Youtube Data API
+	  $videoIDList = $this->youtube_channel->getVideoIds();
 	  
+	  $part = "snippet";
+	  $opt = array(
+					'id' => $videoIDList
+				  );
+	  $response = $youtubeData->videos->listVideos($part, $opt);
+	  $this->youtube_channel->processVideoIds( $response );
+	  
+	  
+	  
+	  $likha_denge = $this->youtube_channel->viewVideoData();
+	  return $likha_denge;
+	  
+/*
 	  foreach($likha_denge as $lakeer  ){
 		  echo "<p>   $lakeer   </p>";
 	  }
+	
+*/  
 	  
     	
 	}

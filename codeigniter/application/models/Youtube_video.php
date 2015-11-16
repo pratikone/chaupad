@@ -6,8 +6,8 @@ class Youtube_video extends CI_Model {
 		public  $title;
 		public  $description;
 		public  $thumbnail_small;
-		public  $thumbnail_mid;
-		public  $thumbnail_big;
+		public  $thumbnail_medium;
+		public  $thumbnail_high;
 		
 		//stats
 		public $likes, $views;
@@ -19,8 +19,17 @@ class Youtube_video extends CI_Model {
         }
         
         public function viewData(){
-			$str = " video id=$this->id title=$this->title description=$this->description likes=$this->likes views=$this->views thumbnail_small=$this->thumbnail_small thumbnail_mid=$this->thumbnail_mid thumbnail_big=$this->thumbnail_big ";
-			return $str;
+			$arr = [
+					'id'=>$this->id,
+					'title'=>$this->title,
+					'description'=>$this->description,
+					'likes'=>$this->likes,
+					'views'=>$this->views,
+					'thumbnail_small'=>$this->thumbnail_small,
+					'thumbnail_medium'=>$this->thumbnail_medium,
+					'thumbnail_high'=>$this->thumbnail_high
+				   ];
+			return $arr;
 			
 		}
         
