@@ -112,22 +112,31 @@ class Youtube extends CI_Controller{
 		$youtube = new Google_Service_YouTubeAnalytics($client);
 		$youtubeData = new Google_Service_YouTube($client);
 		
-		$part = "id";
-   	    $opt = array(
-		  			'mine' => true
-			  	  );
-	  $response = $youtubeData->channels->listChannels($part, $opt);
-	  $id = "channel==" . $response->getitems()[0]["id"]; //gets the id
-	  $start_date = "2013-03-15";
-	  $end_date = "2015-11-06";
+		/*
+			$part = "id";
+			$opt = array(
+						'mine' => true
+					  );
+		    $response = $youtubeData->channels->listChannels($part, $opt);
+			echo $response->getitems()[0]["id"];
+		  //$id = "channel==" . $response->getitems()[0]["id"]; //gets the id, i can use MINE instead
+	  */
+	  $id = "channel==MINE";
+	  $start_date = "2009-03-15";
+	  $end_date = "2015-11-16";
 	  $metrics = "likes,views";
-	  $optParams = array(); 
+	  $optParams = [
+							"dimensions" => "video",  //get video wise likes and views
+							"sort" => "-views",       //descending order
+							"max-results" => 200      // max results returned, should be sufficient
+					];
 	  
 	  $response = $youtube->reports->query( $id, $start_date, $end_date, $metrics, $optParams );
-	  //echo json_encode($response);
+	  echo json_encode($response);
 	  
 	  foreach( $response->getrows() as $row){
-		  echo sprintf(" <p>This data is weird : %s  %d  %s %d </p>", $response->getColumnHeaders()[0]['name'], $row[0], $response->getColumnHeaders()[1]['name'], $row[1]);
+		  
+		  echo sprintf(" <p>This data is weird : %s  %d  %s %d </p>", $response->getColumnHeaders()[0]['name'], $row[1], $response->getColumnHeaders()[1]['name'], $row[2]);
 		}
     	
 	}
