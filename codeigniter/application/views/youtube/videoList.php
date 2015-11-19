@@ -16,6 +16,7 @@ foreach($likha_denge as $lakeer  ){ ?>
 	<p> Description : <?php echo $lakeer['description'];   ?> </p>
 	<p> Likes : <?php echo $lakeer['likes'];   ?> </p>
 	<p> Views : <?php echo $lakeer['views'];   ?> </p>
+	<p> Shares : <?php echo $lakeer['shares']; ?> </p>
 </p>
 <?php
 }

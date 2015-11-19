@@ -126,7 +126,7 @@ class Youtube extends CI_Controller{
 	  $id = "channel==MINE";
 	  $start_date = "2009-03-15";
 	  $end_date = "2015-11-16";
-	  $metrics = "likes,views";
+	  $metrics = "likes,views,shares";
 	  $optParams = [
 							"dimensions" => "video",  //get video wise likes and views
 							"sort" => "-views",       //descending order
@@ -137,7 +137,7 @@ class Youtube extends CI_Controller{
 	  //echo json_encode($response);
 	  
 	  $this->load->model('youtube_channel');
-	  $this->youtube_channel->processResponse( $response );
+	  $this->youtube_channel->processAnalyticsResponse( $response );
 
 	  // Youtube Data API
 	  $videoIDList = $this->youtube_channel->getVideoIds();

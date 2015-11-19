@@ -10,7 +10,7 @@ class Youtube_video extends CI_Model {
 		public  $thumbnail_high;
 		
 		//stats
-		public $likes, $views;
+		public $likes, $views, $shares;
 		
         public function __construct()
         {
@@ -25,6 +25,7 @@ class Youtube_video extends CI_Model {
 					'description'=>$this->description,
 					'likes'=>$this->likes,
 					'views'=>$this->views,
+					'shares'=>$this->shares,
 					'thumbnail_small'=>$this->thumbnail_small,
 					'thumbnail_medium'=>$this->thumbnail_medium,
 					'thumbnail_high'=>$this->thumbnail_high
