@@ -153,15 +153,27 @@ class Youtube extends CI_Controller{
 	  
 	  $likha_denge = $this->youtube_channel->viewVideoData();
 	  return $likha_denge;
-	  
-/*
-	  foreach($likha_denge as $lakeer  ){
-		  echo "<p>   $lakeer   </p>";
-	  }
-	
-*/  
-	  
-    	
+	}
+
+
+
+	public function ajaxTest($value='')
+	{
+		$str = [
+
+				"name"=>"superman",
+				"city"=>"metropolis",
+				"age"=>200
+			];
+
+		$data["json"] = json_encode($str);
+		echo json_encode($data);
+	}
+
+
+	public function Test($value='')
+	{
+		$this->load->view('youtube/test');
 	}
 
 
