@@ -6,17 +6,16 @@ function videoDataFormat () {
 					    })
 					    .done (function(data) {
     					     var videoData = $.parseJSON(data["json"]);
-    					     loop(videoData);
+    					     loopVideoCards(videoData);
 					     
 					      })
-					    .fail   (function()     { alert("Error")   ; })
+					    .fail   (function()     { alert("Error in getting video data")   ; })
 					    ;
 }
 
 
-function loop ( json_data ) {
+function loopVideoCards ( json_data ) {
 	json_data.forEach(function(data){
-		 console.log(data.title);
 		$("#videoCards").append('\
 			<p>\
 			 <div class="col-md-4 col-sm-12">\
@@ -49,4 +48,27 @@ function loop ( json_data ) {
                 </p>'
 			);
 	});
+}
+
+
+function channelDataFormat () {
+				var jqxhr =
+					    $.ajax({
+					        url: 'getChannelDataAJAX',
+					        dataType: 'json'
+					    })
+					    .done (function(data) {
+    					     var channelData = $.parseJSON(data["json"]);
+    					     populateChannelData(channelData);
+					     
+					      })
+					    .fail   (function()     { alert("Error in getting channel data")   ; })
+					    ;
+}
+
+function populateChannelData (channelData) {
+	$("#channelLikes").html(channelData.likes);
+	$("#channelViews").html(channelData.views);
+	$("#channelShares").html(channelData.shares);
+	$("#channelComments").html(channelData.comments);
 }

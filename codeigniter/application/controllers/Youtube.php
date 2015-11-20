@@ -41,7 +41,7 @@ class Youtube extends CI_Controller{
    				 $_SESSION['access_token'] = $client->access_token; //refreshing token
   			}
 			echo "I have the token NIGGA";
-			$data['likha_denge'] = $this->youtubeApiCall();
+			$data['likha_denge'] = $this->youtubeApiCall( false );
 		}
 		else
 		{	
@@ -118,51 +118,49 @@ class Youtube extends CI_Controller{
 			
 	}   
 	
-	private function youtubeApiCall(){
-		$client = $_SESSION['client'];
-		$client->setAccessToken($_SESSION['access_token']);
-		$youtube = new Google_Service_YouTubeAnalytics($client);
-		$youtubeData = new Google_Service_YouTube($client);
+	private function youtubeApiCall( $isChannel ){
+		  $client = $_SESSION['client'];
+		  $client->setAccessToken($_SESSION['access_token']);
+		  $youtube = new Google_Service_YouTubeAnalytics($client);
+		  $youtubeData = new Google_Service_YouTube($client);
 		
-		/*
-			$part = "id";
-			$opt = array(
-						'mine' => true
-					  );
-		    $response = $youtubeData->channels->listChannels($part, $opt);
-			echo $response->getitems()[0]["id"];
-		  //$id = "channel==" . $response->getitems()[0]["id"]; //gets the id, i can use MINE instead
-	  */
-	  $id = "channel==MINE";
-	  $start_date = "2009-03-15";
-	  $end_date = "2015-11-16";
-	  $metrics = "likes,views,shares,comments";
-	  $optParams = [
-							"dimensions" => "video",  //get video wise likes and views
-							"sort" => "-views",       //descending order
-							"max-results" => 200      // max results returned, should be sufficient
-					];
-	  
-	  $response = $youtube->reports->query( $id, $start_date, $end_date, $metrics, $optParams );
-	  //echo json_encode($response);
-	  
-	  $this->load->model('youtube_channel');
-	  $this->youtube_channel->processAnalyticsResponse( $response );
+		  $id = "channel==MINE";
+		  $start_date = "2005-03-15";
+		  $end_date = date('Y-m-d');
+		  $metrics = "likes,views,shares,comments";
+		  $optParams = [
+								"dimensions" => "video",  //get video wise likes and views
+								"sort" => "-views",       //descending order
+								"max-results" => 200      // max results returned, should be sufficient
+						];
+		  
+		  
+		  $this->load->model('youtube_channel');
 
-	  // Youtube Data API
-	  $videoIDList = $this->youtube_channel->getVideoIds();
-	  
-	  $part = "snippet";
-	  $opt = array(
-					'id' => $videoIDList
-				  );
-	  $response = $youtubeData->videos->listVideos($part, $opt);
-	  $this->youtube_channel->processVideoIds( $response );
-	  
-	  
-	  
-	  $likha_denge = $this->youtube_channel->viewVideoData();
-	  return $likha_denge;
+		  if( $isChannel == false ){
+		  	$response = $youtube->reports->query( $id, $start_date, $end_date, $metrics, $optParams );	
+		  	$this->youtube_channel->processAnalyticsResponse( $response );
+
+		    // Youtube Data API
+		    $videoIDList = $this->youtube_channel->getVideoIds();
+		  
+		    $part = "snippet";
+		    $opt = array(
+			  			'id' => $videoIDList
+			  		  );
+		    $response = $youtubeData->videos->listVideos($part, $opt);
+		    $this->youtube_channel->processVideoIds( $response );
+		    $likha_denge = $this->youtube_channel->viewVideoData();
+		    return $likha_denge;
+		  }
+		  else{
+		  	$channel_response = $youtube->reports->query( $id, $start_date, $end_date, $metrics, [] ); //blank array for channel response	
+		  	$this->youtube_channel->processChannelResponse( $channel_response );
+		  	$likha_denge = $this->youtube_channel->viewChannelData();
+		    return $likha_denge;
+		  }
+		  
+		  
 	}
 
 
@@ -175,12 +173,17 @@ class Youtube extends CI_Controller{
 
 	public function getVideoDataAJAX($value='')
 	{
-		$response = $this->youtubeApiCall(); //will fetch all video data of logged in user
+		$response = $this->youtubeApiCall(false); //will fetch all video data of logged in user
 		$data['json'] = json_encode($response);  
 		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
-
 	}
 
+	public function getChannelDataAJAX($value='')
+	{
+		$response = $this->youtubeApiCall(true); //will fetch all video data of logged in user
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+	}
 
 
 
@@ -199,7 +202,7 @@ class Youtube extends CI_Controller{
 	}
 
 
-	public function Test($value='')
+	public function test($value='')
 	{
 		$this->load->view('youtube/test');
 	}

@@ -3,6 +3,9 @@
 class Youtube_channel extends CI_Model {
 
 		public $videoList = [];
+
+		//stats
+		public $channel_likes, $channel_views, $channel_shares, $channel_comments;
 		
         public function __construct()
         {
@@ -43,6 +46,28 @@ class Youtube_channel extends CI_Model {
 			}
 		}		
 		
+		//this api does not support multiple channels under the same username. Should be fixed later as low priority
+		public function processChannelResponse( $response ){
+			foreach( $response->getrows() as $row){
+		  		//echo sprintf(" <p>This data is weird : %s  %d  %s %d </p>", $response->getColumnHeaders()[0]['name'], $row[1], $response->getColumnHeaders()[1]['name'], $row[2]);
+		  		$this->channel_likes = $row[0];	//video id can be used for youtube.com?v=id
+		  		$this->channel_views = $row[1];
+		  		$this->channel_shares = $row[2];
+		  		$this->channel_comments = $row[3];
+			}
+		}
+
+		public function viewChannelData(){
+			$arr = [
+					'likes'=>$this->channel_likes,
+					'views'=>$this->channel_views,
+					'shares'=>$this->channel_shares,
+					'comments'=>$this->channel_comments,
+				   ];
+			return $arr;
+		}
+		        
+
 		
 		public function viewVideoData(){
 			$response = [];

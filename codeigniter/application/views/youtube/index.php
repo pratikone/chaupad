@@ -251,7 +251,7 @@
                                     <div class="card-body">
                                         <i class="icon fa fa-thumbs-up fa-4x"></i>
                                         <div class="content">
-                                            <div class="title">50</div>
+                                            <div class="title" id="channelLikes">50</div>
                                             <div class="sub-title">Likes</div>
                                         </div>
                                         <div class="clear-both"></div>
@@ -265,7 +265,7 @@
                                     <div class="card-body">
                                         <i class="icon fa fa-comments fa-4x"></i>
                                         <div class="content">
-                                            <div class="title">23</div>
+                                            <div class="title" id="channelComments">23</div>
                                             <div class="sub-title">Comments</div>
                                         </div>
                                         <div class="clear-both"></div>
@@ -279,7 +279,7 @@
                                     <div class="card-body">
                                         <i class="icon fa fa-users fa-4x"></i>
                                         <div class="content">
-                                            <div class="title">280</div>
+                                            <div class="title" id="channelViews">280</div>
                                             <div class="sub-title">Views</div>
                                         </div>
                                         <div class="clear-both"></div>
@@ -293,7 +293,7 @@
                                     <div class="card-body">
                                         <i class="icon fa fa-share-alt fa-4x"></i>
                                         <div class="content">
-                                            <div class="title">16</div>
+                                            <div class="title" id="channelShares">16</div>
                                             <div class="sub-title">Shares</div>
                                         </div>
                                         <div class="clear-both"></div>
@@ -391,6 +391,7 @@
 
 
             <script type="text/javascript">
+            channelDataFormat();
             videoDataFormat();
             </script>
 </body>
