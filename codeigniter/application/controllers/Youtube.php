@@ -35,6 +35,11 @@ class Youtube extends CI_Controller{
 		
 		
 		if (isset($_SESSION['access_token'])) {
+			$client = $_SESSION['client'];
+			if ($client->isAccessTokenExpired()) {
+   				 $client->refreshToken($_SESSION['refresh_token']);
+   				 $_SESSION['access_token'] = $client->access_token; //refreshing token
+  			}
 			echo "I have the token NIGGA";
 			$data['likha_denge'] = $this->youtubeApiCall();
 		}
@@ -64,6 +69,7 @@ class Youtube extends CI_Controller{
 		$client = new Google_Client();
 		$oauth_creds = APPPATH.'third_party/google/vendor/oauth-credentials.json';
 		$client->setAuthConfigFile($oauth_creds);
+		$client->setAccessType('offline');
 		$client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/login');
 		$client->addScope(
 		  [
@@ -79,8 +85,12 @@ class Youtube extends CI_Controller{
 		   
 	   } else {
 		  $client->authenticate($_GET['code']);
-		  $_SESSION['access_token'] = $client->getAccessToken();
+		  $access_token = $client->getAccessToken();
+		  $tokens_decoded = json_decode($access_token);
+    	  $refreshToken = $tokens_decoded->refresh_token;
 		  $data['redirect_uri'] = 'http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/analytics';
+		  $_SESSION['access_token'] = $access_token;
+		  $_SESSION['refresh_token'] = $refreshToken;
 		  
 	   }
 	   
