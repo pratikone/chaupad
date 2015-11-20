@@ -156,11 +156,18 @@ class Youtube extends CI_Controller{
 	}
 
 
+	public function dashboard($value='')
+	{
+		$this->load->view('youtube/index');
+	}
+
+
+
 	public function getVideoDataAJAX($value='')
 	{
-		$response = $this->youtubeApiCall();
-		$data['json'] = json_encode($response);
-		echo json_encode($data);
+		$response = $this->youtubeApiCall(); //will fetch all video data of logged in user
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
 
 	}
 
