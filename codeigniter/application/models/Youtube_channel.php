@@ -20,12 +20,12 @@ class Youtube_channel extends CI_Model {
 		public function processAnalyticsResponse( $response ){
 			foreach( $response->getrows() as $row){
 		  		//echo sprintf(" <p>This data is weird : %s  %d  %s %d </p>", $response->getColumnHeaders()[0]['name'], $row[1], $response->getColumnHeaders()[1]['name'], $row[2]);
-		  	
 		  		$video = $this->get_video_object();
-		  		$video->id = $row[0];
+		  		$video->id = $row[0];	//video id can be used for youtube.com?v=id
 		  		$video->likes = $row[1];
 		  		$video->views = $row[2];
 		  		$video->shares = $row[3];
+		  		$video->comments = $row[4];
 		  		
 		  		$this->addVideo( $video );
 			}
