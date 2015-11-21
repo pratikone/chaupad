@@ -312,7 +312,7 @@
                                         </div>
                                         <div class="card-body half-padding">
                                             <h4 class="float-left no-margin font-weight-300">Profits</h4>
-                                            <h2 class="float-right no-margin font-weight-300">$3200</h2>
+                                            <h3 class="float-right no-margin font-weight-300" id="line-chart-legend">$3200</h3>
                                             <div class="clear-both"></div>
                                         </div>
                                     </div>

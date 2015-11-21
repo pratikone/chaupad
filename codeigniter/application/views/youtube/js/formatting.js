@@ -123,13 +123,13 @@ function populateChart (months, likes, shares, views) {
       pointHitDetectionRadius: 20,
       datasetStroke: true,
       datasetStrokeWidth: 4,
-      datasetFill: true,
+      datasetFill: false,
       legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\">\
       <% for (var i=0; i<datasets.length; i++){%>\
-      <li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span>\
+      <li style=\" display:inline;\"><span style=\"background-color:<%=datasets[i].strokeColor%>\">\
       <%if(datasets[i].label){%>\
       	<%=datasets[i].label%><%}%>\
-      	</li><%}%></ul>"
+      	</span></li><%}%></ul>"
     };
     data = {
       labels: months,
@@ -168,4 +168,8 @@ function populateChart (months, likes, shares, views) {
       ]
     };
     myLineChart = new Chart(ctx).Line(data, options);
+    //then you just need to generate the legend
+  var legend = myLineChart.generateLegend();
+  $('#line-chart-legend').html(legend);
+
   }
