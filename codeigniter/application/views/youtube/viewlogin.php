@@ -1,4 +1,4 @@
-<div class="heading">PHP Google OAuth 2.0 Login</div>
+<div class="heading">Youtube analytics login</div>
 <div class="box">
   <div>
 	<!-- Show Login if the OAuth Request URL is set -->
