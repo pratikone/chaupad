@@ -14,22 +14,6 @@ class Youtube extends CI_Controller{
     }
 
 
-
-	public function view($page = 'home'){
-		$loc = APPPATH.'/views/pages/'.$page.'.php';
-		if( !file_exists( $loc )){
-			echo $loc;	
-			show_404();
-		}
-
-		$data['title'] = ucfirst($page); //Capitalize it bitch
-
-		$this->load->view('templates/header', $data );
-		$this->load->view('pages/'.$page, $data);
-		$this->load->view('templates/footer', $data);
-
-	}
-	
 	public function analytics( $page=' ' ){
 		if (session_status() == PHP_SESSION_NONE)
 				session_start();
@@ -48,13 +32,13 @@ class Youtube extends CI_Controller{
 			else
 			{	
 				
-				$data['authUrl'] = 'http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/login';
+				$data['authUrl'] = base_url() . 'index.php/youtube/login';
 				
 				//$this->login();
 			}
 			
-			$data['base'] = 'http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter';
-			$data['logout'] = $data['base'] . '/index.php/youtube/logout';
+			
+			$data['logout'] = base_url() . '/index.php/youtube/logout';
 			
 			$this->load->view('templates/youtube_header');
 			$this->load->view('youtube/viewlogin', $data);
@@ -65,7 +49,6 @@ class Youtube extends CI_Controller{
 		else{
 
 			//dashboard flow
-
 			if (isset($_SESSION['access_token'])) {
 				$client = $_SESSION['client'];
 				if ($client->isAccessTokenExpired()) {
@@ -73,18 +56,18 @@ class Youtube extends CI_Controller{
 	   				 $_SESSION['access_token'] = $client->getAccessToken(); //refreshing token
 	  			}
 				//$data['likha_denge'] = $this->youtubeApiCall( false );
-				redirect('http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/dashboard', 'location', 301);
+				
+				redirect( base_url() . 'index.php/youtube/dashboard', 'location', 301);
 			}
 			else
 			{	
 				
-				$data['authUrl'] = 'http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/login';
-				
+				$data['authUrl'] = base_url() . 'index.php/youtube/login';
+
 				//$this->login();
 			}
 			
-			$data['base'] = 'http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter';
-			$data['logout'] = $data['base'] . '/index.php/youtube/logout';
+			$data['logout'] = base_url() . 'index.php/youtube/logout';
 			
 			$this->load->view('templates/youtube_header');
 			$this->load->view('youtube/viewlogin', $data);
@@ -106,7 +89,7 @@ class Youtube extends CI_Controller{
 		$oauth_creds = APPPATH.'third_party/google/vendor/oauth-credentials.json';
 		$client->setAuthConfigFile($oauth_creds);
 		$client->setAccessType('offline');
-		$client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/login');
+		$client->setRedirectUri( base_url() . 'index.php/youtube/login');
 		$client->addScope(
 		  [
 		   Google_Service_YouTube::YOUTUBE,
@@ -124,7 +107,7 @@ class Youtube extends CI_Controller{
 		  $access_token = $client->getAccessToken();
 		  $tokens_decoded = json_decode($access_token);
     	  $refresh_token = $tokens_decoded->refresh_token;
-		  $data['redirect_uri'] = 'http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/analytics';
+		  $data['redirect_uri'] =  base_url() . 'index.php/youtube/analytics';
 		  $_SESSION['access_token'] = $access_token;
 		  $_SESSION['refresh_token'] = $refresh_token;
 		  
@@ -150,7 +133,7 @@ class Youtube extends CI_Controller{
 		//session_destroy();
 		echo "Logged out nigga";
 		$this->load->helper('url');
-		redirect('http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/analytics', 'location', 301);
+		redirect( base_url() . '/index.php/youtube/analytics', 'location', 301);
 			
 	}   
 	

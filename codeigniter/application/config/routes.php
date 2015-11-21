@@ -52,7 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //$route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
-$route['default_controller'] = 'pages/view';
+$route['default_controller'] = 'youtube/analytics';
 //$route['youtube/analytics/(:any)'] = 'youtube/$1';   //url after index.php
 //$route['(:any)'] = 'pages/view/$1';
 //$route['youtube/(:any)'] = 'youtube/analytics';

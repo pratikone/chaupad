@@ -8,17 +8,17 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
     <!-- CSS Libs -->
-    <link rel="stylesheet" type="text/css" href="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/bower_components/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/bower_components/fontawesome/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/bower_components/animate.css/animate.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/bower_components/iCheck/skins/flat/_all.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/bower_components/DataTables/media/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/bower_components/select2/dist/css/select2.min.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/vendor/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/bower_components/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/bower_components/animate.css/animate.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/bower_components/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/bower_components/iCheck/skins/flat/_all.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/bower_components/DataTables/media/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/bower_components/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/vendor/css/dataTables.bootstrap.css">
     <!-- CSS App -->
-    <link rel="stylesheet" type="text/css" href="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/css/style.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/css/themes.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/css/style.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/css/themes.css">
 </head>
 
 <body class="flat-blue">
@@ -88,7 +88,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Emily Hart <span class="caret"></span></a>
                             <ul class="dropdown-menu animated fadeInDown">
                                 <li class="profile-img">
-                                    <img src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/img/profile/picjumbo.com_HNCK4153_resize.jpg" class="profile-img">
+                                    <img src="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/img/profile/picjumbo.com_HNCK4153_resize.jpg" class="profile-img">
                                 </li>
                                 <li>
                                     <div class="profile-info">
@@ -96,7 +96,7 @@
                                         <p>emily_hart@email.com</p>
                                         <div class="btn-group margin-bottom-2x" role="group">
                                             <button type="button" class="btn btn-default"><i class="fa fa-user"></i> Profile</button>
-                                            <a href="http://localhost/yt/codeigniter/index.php/youtube/logout" class="btn btn-default" role="button"><i class="fa fa-sign-out"></i> Logout</a>
+                                            <a href="<?php echo base_url()?>index.php/youtube/logout" class="btn btn-default" role="button"><i class="fa fa-sign-out"></i> Logout</a>
                                         </div>
                                     </div>
                                 </li>
@@ -371,22 +371,22 @@
         <div>
 
             <!-- Javascript Libs -->
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/bower_components/jquery/dist/jquery.min.js"></script>
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/bower_components/chartjs/Chart.min.js"></script>
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/bower_components/iCheck/icheck.min.js"></script>
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/bower_components/matchHeight/jquery.matchHeight-min.js"></script>
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/bower_components/select2/dist/js/select2.full.min.js"></script>
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/vendor/js/dataTables.bootstrap.js"></script>
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/vendor/js/ace/ace.js"></script>
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/vendor/js/ace/mode-html.js"></script>
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/vendor/js/ace/theme-github.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/bower_components/jquery/dist/jquery.min.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/bower_components/chartjs/Chart.min.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/bower_components/iCheck/icheck.min.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/bower_components/matchHeight/jquery.matchHeight-min.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/bower_components/select2/dist/js/select2.full.min.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/vendor/js/dataTables.bootstrap.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/vendor/js/ace/ace.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/vendor/js/ace/mode-html.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/vendor/js/ace/theme-github.js"></script>
             <!-- Javascript -->
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/js/app.js"></script>
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/views/youtube/js/index.js"></script>
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/views/youtube/js/formatting.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>application/libraries/flat-admin-bootstrap-templates/js/app.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>application/views/youtube/js/index.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>application/views/youtube/js/formatting.js"></script>
 
 
 

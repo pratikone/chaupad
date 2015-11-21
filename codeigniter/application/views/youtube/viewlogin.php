@@ -3,8 +3,8 @@
   <div>
 	<!-- Show Login if the OAuth Request URL is set -->
     <?php if (isset($authUrl)): ?>
-	  <img src='<?php echo "$base/public/img/user.png"  ?>' width="100px" size="100px" /><br/>
-      <a class='login' href='<?php echo $authUrl; ?>'><img class='login' src='<?php echo "$base/public/img/sign-in-with-google.png" ?>' width="250px" size="54px" /></a>
+	  <img src="<?php echo base_url()?>public/img/user.png" width="100px" size="100px" /><br/>
+      <a class='login' href='<?php echo $authUrl; ?>'><img class='login' src="<?php echo base_url()?>public/img/sign-in-with-google.png" width="250px" size="54px" /></a>
 	<!-- Show User Profile otherwise-->
     
     <?php else: ?>

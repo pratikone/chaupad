@@ -2,7 +2,7 @@
 	<head>
 		
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-		<script type="text/javascript" src="http://localhost/yt/codeigniter/application/views/youtube/js/formatting.js"></script>
+		<script type="text/javascript" src="<?php echo base_url()?>application/views/youtube/js/formatting.js"></script>
 	</head>
 	<body>
 		
