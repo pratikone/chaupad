@@ -100,6 +100,27 @@ function populateChartData (data) {
     	shares.push(value[2]);
 
 	});
+	
+	/*
+	//cumulative data
+	for (var sum = 0, i = 0; i < likes.length; i++) {
+		likes[i] += sum;
+		sum = likes[i];
+	};
+	
+	for (var sum = 0, i = 0; i < views.length; i++) {
+		views[i] += sum;
+		sum = views[i];
+	};
+
+	for (var sum = 0, i = 0; i < shares.length; i++) {
+		shares[i] += sum;
+		sum = shares[i];
+	};
+	*/
+
+
+
 	populateChart( months, likes, shares, views );
 
 }
@@ -118,12 +139,12 @@ function populateChart (months, likes, shares, views) {
       bezierCurve: false,
       bezierCurveTension: 0.4,
       pointDot: false,
-      pointDotRadius: 0,
+      pointDotRadius: 1,
       pointDotStrokeWidth: 2,
       pointHitDetectionRadius: 20,
       datasetStroke: true,
       datasetStrokeWidth: 4,
-      datasetFill: false,
+      datasetFill: true,
       legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\">\
       <% for (var i=0; i<datasets.length; i++){%>\
       <li style=\" display:inline;\"><span style=\"background-color:<%=datasets[i].strokeColor%>\">\
