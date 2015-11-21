@@ -94,7 +94,9 @@ class Youtube extends CI_Controller{
 		  [
 		   Google_Service_YouTube::YOUTUBE,
 		   Google_Service_YouTube::YOUTUBE_READONLY,
-		   Google_Service_YouTubeAnalytics::YT_ANALYTICS_READONLY
+		   Google_Service_YouTubeAnalytics::YT_ANALYTICS_READONLY,
+		   Google_Service_Oauth2::USERINFO_EMAIL,
+		   Google_Service_Oauth2::USERINFO_PROFILE
 		  ]
 		);
 		
@@ -142,14 +144,15 @@ class Youtube extends CI_Controller{
 		  $client->setAccessToken($_SESSION['access_token']);
 		  $youtube = new Google_Service_YouTubeAnalytics($client);
 		  $youtubeData = new Google_Service_YouTube($client);
+		  $OAuth2Data = new Google_Service_Oauth2($client); //used for fetching logged in user info
 		
 		  //using callbacks
 		  $this->load->model('youtube_channel');
-		  return $apiCall($youtube, $youtubeData); //return appropriate function
+		  return $apiCall($youtube, $youtubeData, $OAuth2Data); //return appropriate function
 		  
 	}
 
-	public function youtubeChannelApiCall($youtube, $youtubeData)
+	public function youtubeChannelApiCall($youtube, $youtubeData, $OAuth2Data)
 	{
 		  $id = "channel==MINE";
 		  $start_date = "2005-03-15";
@@ -163,7 +166,7 @@ class Youtube extends CI_Controller{
 	  	
 	}
 
-	public function youtubeChannelMonthlyApiCall($youtube, $youtubeData)
+	public function youtubeChannelMonthlyApiCall($youtube, $youtubeData, $OAuth2Data)
 	{
 		  $id = "channel==MINE";
 		  $start_year = date('Y', strtotime("-1 year", time())); 
@@ -193,7 +196,7 @@ class Youtube extends CI_Controller{
 
 
 
-	public function youtubeVideosApiCall($youtube, $youtubeData)
+	public function youtubeVideosApiCall($youtube, $youtubeData, $OAuth2Data)
 	{
 		  $id = "channel==MINE";
 		  $start_date = "2005-03-15";
@@ -220,6 +223,18 @@ class Youtube extends CI_Controller{
 	    $likha_denge = $this->youtube_channel->viewVideoData();
 	    return $likha_denge;	
 	}
+
+public function googleOAuth2ProfileApiCall($youtube, $youtubeData, $OAuth2Data)
+	{
+
+	    $response = $OAuth2Data->userinfo->get();
+	    $this->youtube_channel->processGoogleProfileResponse( $response );
+	    $likha_denge =   $this->youtube_channel->viewGoogleProfileData();
+	    return $likha_denge;	
+	}
+
+
+
 
 
 
@@ -250,9 +265,16 @@ class Youtube extends CI_Controller{
 
 		$data['json'] = json_encode($response);  
 		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
-	
 	}
 
+
+	public function getGoogleProfileDataAJAX($value='')
+	{
+		$response = $this->youtubeApiCall([$this, "googleOAuth2ProfileApiCall"]); //will fetch all video data of logged in user
+
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+	}
 
 
 

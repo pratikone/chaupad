@@ -193,4 +193,29 @@ function populateChart (months, likes, shares, views) {
   var legend = myLineChart.generateLegend();
   $('#line-chart-legend').html(legend);
 
-  }
+}
+
+
+function googleProfileDataFormat () {
+        var jqxhr =
+              $.ajax({
+                  url: 'getGoogleProfileDataAJAX',
+                  dataType: 'json'
+              })
+              .done (function(data) {
+                   var profileData = $.parseJSON(data["json"]);
+                   populateGoogleProfileData(profileData);
+               
+                })
+              .fail   (function()     { alert("Error in getting channel data")   ; })
+              ;
+}
+
+function populateGoogleProfileData (data) {
+  $("#google-profile-name").html(data.name + '<span class="caret"></span>');
+  $("div.profile-info").find("h4").html(data.name);
+  $("div.profile-info").find("p").html(data.email);
+  $("#google-profile-link").attr({"href" : data.profile_link});
+  $("img.profile-img").attr({"src" : data.picture});
+
+}

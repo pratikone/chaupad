@@ -4,6 +4,7 @@ class Youtube_channel extends CI_Model {
 
 		public $videoList = [];
 		public $monthlyChannelList = [];
+		public $email, $name, $picture, $profile_link;
 
 		//stats
 		public $channel_likes, $channel_views, $channel_shares, $channel_comments;
@@ -72,6 +73,14 @@ class Youtube_channel extends CI_Model {
 			
 		}
 
+		public function processGoogleProfileResponse( $response ){
+			$this->email = $response->email;
+			$this->name = $response->name;
+			$this->profile_link = $response->link;
+			$this->picture = $response->picture;	
+		}
+
+
 		public function viewChannelData(){
 			$arr = [
 					'likes'=>$this->channel_likes,
@@ -83,6 +92,16 @@ class Youtube_channel extends CI_Model {
 		}
 		        
 
+		public function viewGoogleProfileData(){
+			$arr = [
+					'email'=>$this->email,
+					'name'=>$this->name,
+					'profile_link'=>$this->profile_link,
+					'picture'=>$this->picture,
+				   ];
+			return $arr;
+		}
+		
 		
 		public function viewVideoData(){
 			$response = [];
