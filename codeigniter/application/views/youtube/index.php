@@ -385,7 +385,7 @@
             <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/vendor/js/ace/theme-github.js"></script>
             <!-- Javascript -->
             <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/js/app.js"></script>
-            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/libraries/flat-admin-bootstrap-templates/js/index.js"></script>
+            <script type="text/javascript" src="http://localhost/yt/codeigniter/application/views/youtube/js/index.js"></script>
             <script type="text/javascript" src="http://localhost/yt/codeigniter/application/views/youtube/js/formatting.js"></script>
 
 
@@ -393,6 +393,7 @@
             <script type="text/javascript">
             channelDataFormat();
             videoDataFormat();
+            chartDataFormat();
             </script>
 </body>
 

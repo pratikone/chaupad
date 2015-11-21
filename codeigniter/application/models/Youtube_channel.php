@@ -3,6 +3,7 @@
 class Youtube_channel extends CI_Model {
 
 		public $videoList = [];
+		public $monthlyChannelList = [];
 
 		//stats
 		public $channel_likes, $channel_views, $channel_shares, $channel_comments;
@@ -55,6 +56,20 @@ class Youtube_channel extends CI_Model {
 		  		$this->channel_shares = $row[2];
 		  		$this->channel_comments = $row[3];
 			}
+		}
+
+
+		public function processChannelMonthlyResponse( $response ){
+			//print_r($response);
+			foreach( $response->getrows() as $row){
+		  		//echo sprintf(" <p>This data is weird : %s  %d  %s %d </p>", $response->getColumnHeaders()[0]['name'], $row[1], $response->getColumnHeaders()[1]['name'], $row[2]);
+		  		$this->monthlyChannelList[ $row[0] ] = [
+		  												$row[1],
+		  												$row[2],
+		  												$row[3]
+		  											 ]; //likes,shares,views
+			}
+			
 		}
 
 		public function viewChannelData(){
