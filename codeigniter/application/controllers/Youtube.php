@@ -43,7 +43,7 @@ class Youtube extends CI_Controller{
 	   				 $_SESSION['access_token'] = $client->getAccessToken(); //refreshing token
 	  			}
 				echo "I have the token NIGGA";
-				$data['likha_denge'] = $this->youtubeApiCall( false );
+				$data['likha_denge'] = $this->youtubeApiCall( [$this, "youtubeVideosApiCall"] );
 			}
 			else
 			{	
@@ -73,7 +73,6 @@ class Youtube extends CI_Controller{
 	   				 $_SESSION['access_token'] = $client->getAccessToken(); //refreshing token
 	  			}
 				//$data['likha_denge'] = $this->youtubeApiCall( false );
-				$this->load->helper('url');
 				redirect('http://' . $_SERVER['HTTP_HOST'] . '/yt/codeigniter/index.php/youtube/dashboard', 'location', 301);
 			}
 			else
