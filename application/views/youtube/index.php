@@ -385,8 +385,8 @@
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/vendor/js/ace/theme-github.js"></script>
             <!-- Javascript -->
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/js/app.js"></script>
-            <script type="text/javascript" src="<?php echo base_url()?>application/views/youtube/js/index.js"></script>
-            <script type="text/javascript" src="<?php echo base_url()?>application/views/youtube/js/formatting.js"></script>
+            <script type="text/javascript" src="views/youtube/js/index.js"></script>
+            <script type="text/javascript" src="views/youtube/js/formatting.js"></script>
 
 
 
