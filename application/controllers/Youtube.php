@@ -123,6 +123,7 @@ class Youtube extends CI_Controller{
 	public function logout(){
 		if(isset($_SESSION['access_token'])){
 			unset($_SESSION['access_token']);
+			unset($_SESSION['refresh_token']);
 			$client = $_SESSION['client'];
 			$client->revokeToken(); //remove this line for direct unhindered access after reception of first token
 			
