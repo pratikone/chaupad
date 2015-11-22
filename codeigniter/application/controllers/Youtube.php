@@ -86,7 +86,7 @@ class Youtube extends CI_Controller{
 		echo "Nigga";
 	
 		$client = new Google_Client();
-		$oauth_creds = APPPATH.'third_party/google/vendor/oauth-credentials.json';
+		$oauth_creds = APPPATH.'third_party/google/oauth-credentials.json';
 		$client->setAuthConfigFile($oauth_creds);
 		$client->setAccessType('offline');
 		$client->setRedirectUri( base_url() . 'index.php/youtube/login');
