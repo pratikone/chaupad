@@ -38,7 +38,7 @@ class Youtube extends CI_Controller{
 			}
 			
 			
-			$data['logout'] = base_url() . 'index.php/youtube/logout';
+			$data['logout'] = base_url();// . 'index.php/youtube/logout';
 			
 			$this->load->view('templates/youtube_header');
 			$this->load->view('youtube/viewlogin', $data);
@@ -67,7 +67,7 @@ class Youtube extends CI_Controller{
 				//$this->login();
 			}
 			
-			$data['logout'] = base_url() . 'index.php/youtube/logout';
+			$data['logout'] = base_url();// . 'index.php/youtube/logout';
 			
 			$this->load->view('templates/youtube_header');
 			$this->load->view('youtube/viewlogin', $data);
@@ -135,7 +135,7 @@ class Youtube extends CI_Controller{
 		//session_destroy();
 		echo "Logged out nigga";
 		$this->load->helper('url');
-		redirect( base_url() . 'index.php/youtube/analytics', 'location', 301);
+		redirect( base_url(), 'location', 301);
 			
 	}   
 	
