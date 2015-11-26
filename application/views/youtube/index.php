@@ -209,7 +209,7 @@
                                             <canvas id="jumbotron-line-chart" class="chart no-padding"></canvas>
                                         </div>
                                         <div class="card-body half-padding">
-                                            <h4 class="float-left no-margin font-weight-300">Profits</h4>
+                                            <h4 class="float-left no-margin font-weight-300">Legend</h4>
                                             <h3 class="float-right no-margin font-weight-300" id="line-chart-legend">$3200</h3>
                                             <div class="clear-both"></div>
                                         </div>
@@ -226,7 +226,7 @@
                                             <canvas id="jumbotron-bar-chart" class="chart no-padding"></canvas>
                                         </div>
                                         <div class="card-body half-padding">
-                                            <h4 class="float-left no-margin font-weight-300">Orders</h4>
+                                            <h4 class="float-left no-margin font-weight-300">Dummy data</h4>
                                             <div class="clear-both"></div>
                                         </div>
                                     </div>
@@ -237,7 +237,7 @@
                                             <canvas id="jumbotron-line-2-chart" class="chart no-padding"></canvas>
                                         </div>
                                         <div class="card-body half-padding">
-                                            <h4 class="float-left no-margin font-weight-300">Pages view</h4>
+                                            <h4 class="float-left no-margin font-weight-300">Dummy data</h4>
                                             <div class="clear-both"></div>
                                         </div>
                                     </div>
@@ -285,14 +285,17 @@
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/js/app.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/js/index.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/js/formatting.js"></script>
+            <script type="text/javascript" src="<?php echo base_url()?>public/js/waiting.js"></script>
 
 
 
             <script type="text/javascript">
+            
             googleProfileDataFormat();
             channelDataFormat();
             videoDataFormat();
             chartDataFormat();
+
 
             </script>
 </body>

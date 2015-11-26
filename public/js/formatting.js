@@ -2,14 +2,21 @@ function videoDataFormat () {
 				var jqxhr =
 					    $.ajax({
 					        url: 'getVideoDataAJAX',
-					        dataType: 'json'
+					        dataType: 'json',
+                  beforeSend: function(){
+                                          waitingDialog.show('Fetching video data');
+                                        },
+                  complete: function function_name (argument) {
+                                          waitingDialog.hide();
+                                        }
 					    })
 					    .done (function(data) {
     					     var videoData = $.parseJSON(data["json"]);
     					     loopVideoCards(videoData);
 					     
 					      })
-					    .fail   (function()     { console.error("Error in getting video data")   ; })
+					    .fail   (function()     { console.error("Error in getting video data");
+               })
 					    ;
 }
 
@@ -55,7 +62,13 @@ function channelDataFormat () {
 				var jqxhr =
 					    $.ajax({
 					        url: 'getChannelDataAJAX',
-					        dataType: 'json'
+					        dataType: 'json',
+                  beforeSend: function(){
+                                          waitingDialog.show('Fetching channel data');
+                                        },
+                  complete: function function_name (argument) {
+                                          waitingDialog.hide();
+                                        }
 					    })
 					    .done (function(data) {
     					     var channelData = $.parseJSON(data["json"]);
@@ -77,7 +90,13 @@ function chartDataFormat () {
 				var jqxhr =
 					    $.ajax({
 					        url: 'getChannelMonthlyDataAJAX',
-					        dataType: 'json'
+					        dataType: 'json',
+                  beforeSend: function(){
+                                          waitingDialog.show('Fetching monthly channel data');
+                                        },
+                  complete: function function_name (argument) {
+                                          waitingDialog.hide();
+                                        }
 					    })
 					    .done (function(data) {
     					     var channelData = $.parseJSON(data["json"]);
@@ -200,7 +219,13 @@ function googleProfileDataFormat () {
         var jqxhr =
               $.ajax({
                   url: 'getGoogleProfileDataAJAX',
-                  dataType: 'json'
+                  dataType: 'json',
+                  beforeSend: function(){
+                                          waitingDialog.show('Fetching google profile data');
+                                        },
+                  complete: function function_name (argument) {
+                                          waitingDialog.hide();
+                                        }
               })
               .done (function(data) {
                    var profileData = $.parseJSON(data["json"]);
