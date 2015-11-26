@@ -70,7 +70,8 @@ class Youtube extends CI_Controller{
 			$data['logout'] = base_url();// . 'index.php/youtube/logout';
 			
 			$this->load->view('templates/youtube_header');
-			$this->load->view('youtube/viewlogin', $data);
+			//$this->load->view('youtube/viewlogin', $data);
+			$this->load->view('youtube/viewNewlogin', $data);
 			if( isset($data['likha_denge']) )
 				$this->load->view('youtube/videoList', $data );
 			$this->load->view('templates/youtube_footer');
@@ -296,6 +297,7 @@ public function googleOAuth2ProfileApiCall($youtube, $youtubeData, $OAuth2Data)
 	public function test($value='')
 	{
 		$this->load->view('youtube/test');
+
 	}
 
 

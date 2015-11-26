@@ -9,7 +9,7 @@ function videoDataFormat () {
     					     loopVideoCards(videoData);
 					     
 					      })
-					    .fail   (function()     { alert("Error in getting video data")   ; })
+					    .fail   (function()     { console.error("Error in getting video data")   ; })
 					    ;
 }
 
@@ -62,7 +62,7 @@ function channelDataFormat () {
     					     populateChannelData(channelData);
 					     
 					      })
-					    .fail   (function()     { alert("Error in getting channel data")   ; })
+					    .fail   (function()     { console.error("Error in getting channel data")   ; })
 					    ;
 }
 
@@ -84,7 +84,7 @@ function chartDataFormat () {
     					     populateChartData(channelData);
 					     
 					      })
-					    .fail   (function()     { alert("Error in getting channel data")   ; })
+					    .fail   (function()     { console.error("Error in getting channel chart data")   ; })
 					    ;
 }
 
@@ -207,7 +207,7 @@ function googleProfileDataFormat () {
                    populateGoogleProfileData(profileData);
                
                 })
-              .fail   (function()     { alert("Error in getting channel data")   ; })
+              .fail   (function()     { console.error("Error in getting profile data")   ; })
               ;
 }
 
