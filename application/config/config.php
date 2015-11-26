@@ -23,8 +23,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/yt/';
-//$config['base_url'] = 'https://chaupad.herokuapp.com/';
+if(getenv("runtime") == "HEROKU")
+	$config['base_url'] = 'https://chaupad.herokuapp.com/';
+else
+	$config['base_url'] = 'http://localhost/yt/';
+
 
 /*
 |--------------------------------------------------------------------------
