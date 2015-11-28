@@ -100,7 +100,8 @@ class Facebook extends CI_Controller{
 		  exit;
 		}
 
-		echo 'Logged in as ' . $userNode->getName();
+		echo 'Logged in as ' . $userNode->getId();
+		print_r( $response->getDecodedBody());
 	}
 
 }
