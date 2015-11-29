@@ -68,7 +68,6 @@ class Facebook extends CI_Controller{
 					$longLivedAccessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
 					$client->setDefaultAccessToken($longLivedAccessToken);
 					$_SESSION['client'] = $client;
-
 				  echo "token found";
 
 				  $this->testapi();
@@ -77,7 +76,7 @@ class Facebook extends CI_Controller{
 		}
 		else{ //not logged in yet
 			$helper = $client->getRedirectLoginHelper();
-			$permissions = ['email', 'user_likes']; // optional
+			$permissions = ['email', 'user_likes', 'manage_pages', 'publish_pages', 'read_insights']; // optional
 			$loginUrl = $helper->getLoginUrl( base_url() . 'index.php/facebook/testfb/callback', $permissions);
 			echo '<a href="' . $loginUrl . '">Log in with Facebook!</a>';
 		}
@@ -88,8 +87,9 @@ class Facebook extends CI_Controller{
 	{
 		$client = $_SESSION['client'];
 		try {
-		  $response = $client->get('/me');
-		  $userNode = $response->getGraphUser();
+		  //$response = $client->get('/me');
+			$response = $client->get('/me/accounts');
+		  //$userNode = $response->getGraphUser();
 		} catch(Facebook\Exceptions\FacebookResponseException $e) {
 		  // When Graph returns an error
 		  echo 'Graph returned an error: ' . $e->getMessage();
@@ -100,8 +100,31 @@ class Facebook extends CI_Controller{
 		  exit;
 		}
 
-		echo 'Logged in as ' . $userNode->getId();
-		print_r( $response->getDecodedBody());
+		//echo 'Logged in as ' . $userNode->getId();
+		$formatted = $response->getDecodedBody();
+		echo json_encode($formatted);
+		echo "<HR>";
+		$page_id = $formatted['data'][0]['id'];
+		echo "id=".$page_id;
+		$page_access_token = $formatted['data'][0]['access_token']; //to be done for every page
+		echo "";
+
+
+	      try {
+	                    $attachment = array(
+	                                'access_token' => $page_access_token,
+	                                //'message'=> 'hello world posting like admin!',
+	                                'page_id'=> $page_id
+	                        );
+
+	                     $result = $client->get('/'.$page_id.'/insights/page_positive_feedback_by_type', $page_access_token);
+	                    //$result = $facebook->api('/me/feed','POST', $attachment);
+
+	                    echo json_encode($result->getDecodedBody());
+
+	                } catch(Exception $e) {
+	                    echo $e;
+	                }
 	}
 
 }
