@@ -161,27 +161,33 @@ class Facebook extends CI_Controller{
 		$formatted = $response->getDecodedBody();
 		echo json_encode($formatted);
 		echo "<HR>";
-		$page_id = $formatted['data'][0]['id'];
-		echo "id=".$page_id;
-		$page_access_token = $formatted['data'][0]['access_token']; //to be done for every page
-		echo "";
+		// $page_id = $formatted['data'][0]['id'];
+		// echo "id=".$page_id;
+		// $page_access_token = $formatted['data'][0]['access_token']; //to be done for every page
+		// echo "";
+		foreach(  $formatted['data'] as $page  ){
+			$this->getPageData( $page['id'], $page['access_token'] );
+		}
 
 
-	      try {
-	                    $attachment = array(
-	                                'access_token' => $page_access_token,
-	                                //'message'=> 'hello world posting like admin!',
-	                                'page_id'=> $page_id
-	                        );
 
-	                     $result = $client->get('/'.$page_id.'/insights/page_positive_feedback_by_type', $page_access_token);
-	                     //$result = $facebook->api('/me/feed','POST', $attachment);
+	}
 
-	                    echo json_encode($result->getDecodedBody());
+	public function getPageData($page_id=0, $page_access_token)
+	{
+      try {
+      	$client = $_SESSION['client'];
+     	echo "<HR>";
+      	echo $page_id;
+      	echo "<HR>";
+		 $result = $client->get('/'.$page_id.'/insights/page_fans', $page_access_token);
+		 //$result = $facebook->api('/me/feed','POST', $attachment);
 
-	                } catch(Exception $e) {
-	                    echo $e;
-	                }
+		echo json_encode($result->getDecodedBody());
+
+		} catch(Exception $e) {
+		echo $e;
+		}
 	}
 
 
