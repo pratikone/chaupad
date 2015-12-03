@@ -56,7 +56,7 @@
 
           <div class="modal-footer">
               <div class="col-md-12">
-              <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Facebook integration coming soon...</button>
+              <a class="btn btn-primary" aria-hidden="true" href='<?php echo $authUrl; ?>'>Facebook integration coming soon...</a>
     		    </div>	
           </div>
 
