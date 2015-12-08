@@ -140,50 +140,34 @@ class Facebook extends CI_Controller{
 	
 
 
-	public function oldDashboard($value='')
+	public function facebookApiCall(callable $apiCall, $page_id="")
 	{
 		$client = $_SESSION['client'];
 		try {
-		  //$response = $client->get('/me');
 			$response = $client->get('/me/accounts');
-		  //$userNode = $response->getGraphUser();
 		} catch(Facebook\Exceptions\FacebookResponseException $e) {
 		  // When Graph returns an error
-		  echo 'Graph returned an error: ' . $e->getMessage();
-		  exit;
+		  return 'Graph returned an error: ' . $e->getMessage();
 		} catch(Facebook\Exceptions\FacebookSDKException $e) {
 		  // When validation fails or other local issues
-		  echo 'Facebook SDK returned an error: ' . $e->getMessage();
-		  exit;
+		  return 'Facebook SDK returned an error: ' . $e->getMessage();
 		}
 
-		//echo 'Logged in as ' . $userNode->getId();
 		$formatted = $response->getDecodedBody();
-		echo json_encode($formatted);
-		echo "<HR>";
-		// $page_id = $formatted['data'][0]['id'];
-		// echo "id=".$page_id;
-		// $page_access_token = $formatted['data'][0]['access_token']; //to be done for every page
-		// echo "";
-		foreach(  $formatted['data'] as $page  ){
-			$this->getPageData( $page['id'], $page['access_token'] );
-		}
+		
+		$this->load->model('facebook_pages');
+		$this->facebook_pages->processPageIds($formatted);
 
 
 
-	}
+	}   
 
-	public function getPageData($page_id=0, $page_access_token)
+	public function facebookPageLikesApiCall($page_id=0, $page_access_token)
 	{
       try {
       	$client = $_SESSION['client'];
-     	echo "<HR>";
-      	echo $page_id;
-      	echo "<HR>";
-		 $result = $client->get('/'.$page_id.'/insights/page_fans', $page_access_token);
-		 //$result = $facebook->api('/me/feed','POST', $attachment);
-
-		echo json_encode($result->getDecodedBody());
+		$result = $client->get('/'.$page_id.'/insights/page_fans', $page_access_token);
+		return $result->getDecodedBody();
 
 		} catch(Exception $e) {
 		echo $e;
