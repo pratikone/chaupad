@@ -28,7 +28,8 @@ class Facebook extends CI_Controller{
   			*/
 			//$data['likha_denge'] = $this->youtubeApiCall( false );
 			
-			redirect( base_url() . 'index.php/facebook/oldDashboard', 'location', 301);
+			// redirect( base_url() . 'index.php/facebook/oldDashboard', 'location', 301);
+			//$this->facebookApiCall([$this, "facebookPageLikesApiCall"]);
 			echo "token in da house";
 		}
 		else
@@ -158,13 +159,18 @@ class Facebook extends CI_Controller{
 		$this->load->model('facebook_pages');
 		$this->facebook_pages->processPageIds($formatted);
 
+		if( $page_id == "")
+			return $this->facebook_pages->pageIdandToken;
 
-
+		return $apiCall( $page_id, $this->facebook_pages->pageIdandToken[ $page_id ][1] );
 	}   
 
-	public function facebookPageLikesApiCall($page_id=0, $page_access_token)
+	public function facebookPageLikesApiCall($page_id, $page_access_token)
 	{
       try {
+      	if($page_id == "")
+      		return "No valid page id provided";
+
       	$client = $_SESSION['client'];
 		$result = $client->get('/'.$page_id.'/insights/page_fans', $page_access_token);
 		return $result->getDecodedBody();
@@ -173,6 +179,16 @@ class Facebook extends CI_Controller{
 		echo $e;
 		}
 	}
+
+
+
+	public function getFacebookPagesLikesAJAX($page_id="")
+	{
+		$response = $this->facebookApiCall([$this, "facebookPageLikesApiCall"], $page_id); 
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+	}
+
 
 
 }

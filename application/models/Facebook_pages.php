@@ -1,6 +1,6 @@
 <?php
 
-class Facebook_page extends CI_Model {
+class Facebook_pages extends CI_Model {
 
         
         public $pageIdandToken = [];
@@ -15,7 +15,7 @@ class Facebook_page extends CI_Model {
 
         public function processPageIds( $pagesData )
         {
-            foreach(  $formatted['data'] as $page  ){
+            foreach(  $pagesData['data'] as $page  ){
                     $this->pageIdandToken[ $page['id'] ] = [
                                                             $page['id'],
                                                             $page['access_token']
