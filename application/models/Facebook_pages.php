@@ -19,6 +19,7 @@ class Facebook_pages extends CI_Model {
                     $fb_page = $this->get_fb_page_object();
                     $fb_page->page_id = $page['id'];
                     $fb_page->page_access_token = $page['access_token'];
+                    $fb_page->page_name = $page['name'];
 
                     $this->pageIdandToken[ $page['id'] ] = $fb_page;
             }

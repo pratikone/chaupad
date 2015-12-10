@@ -77,10 +77,6 @@ class Youtube extends CI_Controller{
 			$this->load->view('templates/youtube_footer');
 		}
 
-
-
-
-
 	}
 	
 	public function login(){

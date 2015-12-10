@@ -4,7 +4,7 @@ class Facebook_single_page extends CI_Model {
 
         
         public $postList = [];
-        public $page_id, $page_access_token;
+        public $page_name,$page_id, $page_access_token;
         
         public function __construct()
         {

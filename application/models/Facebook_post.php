@@ -3,7 +3,9 @@
 class Facebook_post extends CI_Model {
 
         
-        public $postList = [];
+        public $id;
+        public $message;
+        
         
         
         public function __construct()

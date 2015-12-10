@@ -20,17 +20,21 @@ class Facebook extends CI_Controller{
 		//dashboard flow
 		if (isset($_SESSION['access_token'])) {
 			$client = $_SESSION['client'];
-			/*
+			/*  TODO : token refresh logic
 			if ($client->isAccessTokenExpired()) {
    				 $client->refreshToken($_SESSION['refresh_token']);
    				 $_SESSION['access_token'] = $client->getAccessToken(); //refreshing token
   			}
   			*/
-			//$data['likha_denge'] = $this->youtubeApiCall( false );
-			
-			// redirect( base_url() . 'index.php/facebook/oldDashboard', 'location', 301);
-			//$this->facebookApiCall([$this, "facebookPageLikesApiCall"]);
-			echo "token in da house";
+			$response = $this->facebookApiCall( [$this, "ajaxTest"] );
+			foreach(  $response as $fb_page  ){
+                    $likha_denge[ $fb_page->page_id ] = $fb_page->page_name;
+            }
+            $data['likha_denge'] = $likha_denge;
+
+
+			//redirect( base_url() . 'index.php/facebook/dashboard', 'location', 301);
+			$this->dashboard($data);
 		}
 		else
 		{	
@@ -38,16 +42,14 @@ class Facebook extends CI_Controller{
 			$data['authUrl'] = base_url() . 'index.php/facebook/login';
 
 			//$this->login();
+			$data['logout'] = base_url();// . 'index.php/youtube/logout';
+			
+			$this->load->view('templates/youtube_header');
+			//$this->load->view('youtube/viewlogin', $data);
+			$this->load->view('youtube/viewNewlogin', $data);
+			$this->load->view('templates/youtube_footer');
 		}
 		
-		$data['logout'] = base_url();// . 'index.php/youtube/logout';
-		
-		$this->load->view('templates/youtube_header');
-		//$this->load->view('youtube/viewlogin', $data);
-		$this->load->view('youtube/viewNewlogin', $data);
-		if( isset($data['likha_denge']) )
-			$this->load->view('youtube/videoList', $data );
-		$this->load->view('templates/youtube_footer');
 	}    
 
 
@@ -103,6 +105,10 @@ class Facebook extends CI_Controller{
 	   	   
 	}  
 
+public function dashboard($value='')
+	{
+		$this->load->view('facebook/index', $value);
+	}
 
 
 	public function ajaxTest($value='')
@@ -115,7 +121,7 @@ class Facebook extends CI_Controller{
 			];
 
 		$data["json"] = json_encode($str);
-		echo json_encode($data);
+		//echo json_encode($data);
 	}
 
 	
@@ -196,6 +202,63 @@ class Facebook extends CI_Controller{
 		}
 	}
 
+	//impressions for last 30 days
+	public function facebookPageImpressionsApiCall($page_id, $page_access_token)
+	{
+      try {
+      	if($page_id == "")
+      		return "No valid page id provided";
+
+      	$client = $_SESSION['client'];
+      	$last_month = strtotime("-1 month"); 
+		$today=  strtotime("today");
+		$result = $client->get('/'.$page_id.'/insights/page_impressions/day?since=' . $last_month . '&until=' . $today, $page_access_token);
+		return $result->getDecodedBody();
+
+		} catch(Exception $e) {
+			return 'Facebook SDK returned an error: ' . $e->getMessage();
+		}
+	}
+
+	//page clicks or consumption for last 30 days
+	public function facebookPageClicksApiCall($page_id, $page_access_token)
+	{
+      try {
+      	if($page_id == "")
+      		return "No valid page id provided";
+
+      	$client = $_SESSION['client'];
+      	$last_month = strtotime("-1 month"); 
+		$today=  strtotime("today");
+		$result = $client->get('/'.$page_id.'/insights/page_consumptions/day?since=' . $last_month . '&until=' . $today, $page_access_token);
+		return $result->getDecodedBody();
+
+		} catch(Exception $e) {
+			return 'Facebook SDK returned an error: ' . $e->getMessage();
+		}
+	}
+
+	//page views for last 30 days
+	public function facebookPageViewsApiCall($page_id, $page_access_token)
+	{
+      try {
+      	if($page_id == "")
+      		return "No valid page id provided";
+
+      	$client = $_SESSION['client'];
+      	$last_month = strtotime("-1 month"); 
+		$today=  strtotime("today");
+		$result = $client->get('/'.$page_id.'/insights/page_views/day?since=' . $last_month . '&until=' . $today, $page_access_token);
+		return $result->getDecodedBody();
+
+		} catch(Exception $e) {
+			return 'Facebook SDK returned an error: ' . $e->getMessage();
+		}
+	}
+
+
+
+
 
 	public function getFacebookPagesLikesAJAX($page_id="")
 	{
@@ -212,7 +275,30 @@ class Facebook extends CI_Controller{
 		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
 	}
 
+	public function getFacebookPageImpressionsAJAX($page_id="")
+	{
+		$response = $this->facebookApiCall([$this, "facebookPageImpressionsApiCall"], $page_id); 
+		// echo json_encode($response);
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+	}
+	
+	public function getFacebookPageClicksAJAX($page_id="")
+	{
+		$response = $this->facebookApiCall([$this, "facebookPageClicksApiCall"], $page_id); 
+		// echo json_encode($response);
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+	}
 
+
+	public function getFacebookPageViewsAJAX($page_id="")
+	{
+		$response = $this->facebookApiCall([$this, "facebookPageViewsApiCall"], $page_id); 
+		// echo json_encode($response);
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+	}
 
 }
 ?>
