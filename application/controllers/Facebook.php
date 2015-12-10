@@ -56,7 +56,7 @@ class Facebook extends CI_Controller{
 		$client = new Facebook\Facebook([
 			'app_id' => '558049591013252',
 			'app_secret' => '6678bbf4ef0bfad674601faee955a507',
-			'default_graph_version' => 'v2.2',
+			'default_graph_version' => 'v2.5',
 			]);
 	
 		if (! isset($_GET['code'])) {
@@ -162,7 +162,7 @@ class Facebook extends CI_Controller{
 		if( $page_id == "")
 			return $this->facebook_pages->pageIdandToken;
 
-		return $apiCall( $page_id, $this->facebook_pages->pageIdandToken[ $page_id ][1] );
+		return $apiCall( $page_id, $this->facebook_pages->pageIdandToken[ $page_id ]->page_access_token );
 	}   
 
 	public function facebookPageLikesApiCall($page_id, $page_access_token)
@@ -176,15 +176,38 @@ class Facebook extends CI_Controller{
 		return $result->getDecodedBody();
 
 		} catch(Exception $e) {
-		echo $e;
+			return 'Facebook SDK returned an error: ' . $e->getMessage();
 		}
 	}
 
+
+	public function facebookPagePostsApiCall($page_id, $page_access_token)
+	{
+      try {
+      	if($page_id == "")
+      		return "No valid page id provided";
+
+      	$client = $_SESSION['client'];
+		$result = $client->get('/'.$page_id.'/posts?limit=25', $page_access_token);
+		return $result->getDecodedBody();
+
+		} catch(Exception $e) {
+			return 'Facebook SDK returned an error: ' . $e->getMessage();
+		}
+	}
 
 
 	public function getFacebookPagesLikesAJAX($page_id="")
 	{
 		$response = $this->facebookApiCall([$this, "facebookPageLikesApiCall"], $page_id); 
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+	}
+
+	public function getFacebookPagesPostsAJAX($page_id="")
+	{
+		$response = $this->facebookApiCall([$this, "facebookPagePostsApiCall"], $page_id); 
+		// echo json_encode($response);
 		$data['json'] = json_encode($response);  
 		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
 	}
