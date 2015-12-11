@@ -76,20 +76,22 @@
                             </button>
                         </div>
                         <ul class="nav navbar-nav">
-                            <li class="active">
+                            <li>
                                 <a href="<?php echo base_url()?>">
                                     <span class="icon fa fa-youtube-play"></span><span class="title">Youtube</span>
                                 </a>
                             </li>
-                            <li class="panel panel-default dropdown">
+                            <li class="panel panel-default dropdown active">
                                 <a data-toggle="collapse" href="#dropdown-element">
                                     <span class="icon fa fa-facebook"></span><span class="title">Facebook</span>
                                 </a>
                                 <div id="dropdown-element" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <ul class="nav navbar-nav">
+                                        <?php  $first = false;  ?>
                                             <?php foreach(  $likha_denge as $page_id=>$page_name  ){ ?>
-                                            <li><a href="<?php echo $page_id; ?>"> <?php  echo $page_name; ?> </a>
+                                            <li <?php if ($first == false) { ?> class="active" <?php $first=true;  } ?> >
+                                            <a href="<?php echo $page_id; ?>"> <?php  echo $page_name; ?> </a>
                                             </li>
                                             <?php } ?>
                                         </ul>
