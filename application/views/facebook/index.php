@@ -87,11 +87,12 @@
                                 </a>
                                 <div id="dropdown-element" class="panel-collapse collapse">
                                     <div class="panel-body">
-                                        <ul class="nav navbar-nav">
+                                        <ul class="nav navbar-nav" id="facebook_pages_list">
                                         <?php  $first = false;  ?>
                                             <?php foreach(  $likha_denge as $page_id=>$page_name  ){ ?>
                                             <li <?php if ($first == false) { ?> class="active" <?php $first=true;  } ?> >
-                                            <a href="<?php echo $page_id; ?>"> <?php  echo $page_name; ?> </a>
+                                            <a href="" id="<?php echo $page_id; ?>"> <?php  echo $page_name; ?>
+                                             </a>
                                             </li>
                                             <?php } ?>
                                         </ul>
@@ -258,6 +259,13 @@
             <script type="text/javascript">
             
  
+            $("#facebook_pages_list li a").click(
+                         function(e) {
+                           e.preventDefault();
+                           alert($(this).attr("id")); //do something with this
+                           
+                         }
+             );
 
 
             </script>
