@@ -360,9 +360,9 @@ public function dashboard($value='')
 	public function getFacebookPageViewsAJAX($page_id="")
 	{
 		$response = $this->facebookApiCall([$this, "facebookPageViewsApiCall"], $page_id); 
-		echo json_encode($response);
-		// $data['json'] = json_encode($response);  
-		// echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+		//echo json_encode($response);
+		 $data['json'] = json_encode($response);  
+		 echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
 	}
 
 	public function getFacebookPageVideoViewsAJAX($page_id="")

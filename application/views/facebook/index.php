@@ -118,6 +118,7 @@
                                         <div class="content">
                                             <div class="title" id="channelLikes">50</div>
                                             <div class="sub-title">Likes</div>
+                                            <span class="pull-right">Lifetime</span>
                                         </div>
                                         <div class="clear-both"></div>
                                     </div>
@@ -132,6 +133,7 @@
                                         <div class="content">
                                             <div class="title" id="channelComments">23</div>
                                             <div class="sub-title">Page reach</div>
+                                            <span class="pull-right">Last 30 days</span>
                                         </div>
                                         <div class="clear-both"></div>
                                     </div>
@@ -146,6 +148,7 @@
                                         <div class="content">
                                             <div class="title" id="channelViews">280</div>
                                             <div class="sub-title">Views</div>
+                                            <span class="pull-right">Last 30 days</span>
                                         </div>
                                         <div class="clear-both"></div>
                                     </div>
@@ -160,6 +163,7 @@
                                         <div class="content">
                                             <div class="title" id="channelShares">16</div>
                                             <div class="sub-title">Content clicks</div>
+                                            <span class="pull-right">Last 30 days</span>
                                         </div>
                                         <div class="clear-both"></div>
                                     </div>

@@ -1,4 +1,3 @@
-var fb_page_id = 0;
 function videoDataFormat () {
 				var jqxhr =
 					    $.ajax({
@@ -245,10 +244,11 @@ function populateGoogleProfileData (data) {
   $("img.profile-img").attr({"src" : data.picture});
 
 }
-
+//------------------------------------------------------------------------------------------------
 function FbPageLoad (page_id) {
   
     FbPageDataFormat(page_id);
+    FbChartDataFormat(page_id);
 
 }
 
@@ -261,12 +261,11 @@ function FbPageDataFormat (page_id) {
                   beforeSend: function(){
                                           waitingDialog.show('Fetching facebook page data');
                                         },
-                  complete: function function_name (argument) {
+                  complete: function () {
                                           waitingDialog.hide();
                                         }
               })
               .done (function(data) {
-                   console.log(data);
                    var pageData = $.parseJSON(data["json"]);
                    populateFbPageData(pageData);
                
@@ -280,4 +279,89 @@ function populateFbPageData (pageData) {
   $("#channelViews").html(pageData.total_views);
   $("#channelShares").html(pageData.total_clicks);
   $("#channelComments").html(pageData.total_impressions);
+}
+
+
+
+function FbChartDataFormat (page_id) {
+        var jqxhr =
+              $.ajax({
+                  url: 'getFacebookPageViewsAJAX/' + page_id,
+                  dataType: 'json',
+                  beforeSend: function(){
+                                          waitingDialog.show('Fetching page views daily data');
+                                        },
+                  complete: function () {
+                                          waitingDialog.hide();
+                                        }
+              })
+              .done (function(data) {
+                   var pageData = $.parseJSON(data["json"]);
+                   populateFBChartData(pageData["data"][0]["values"]);
+               
+                })
+              .fail   (function()     { console.error("Error in getting page views daily data")   ; })
+              ;
+}
+
+function populateFBChartData (data) {
+  days = [];
+  views = [];
+  $.each(data, function(key, valueSet){
+      days.push(valueSet["end_time"].split("T")[0]);
+      views.push(valueSet["value"]);
+
+  });
+  
+  populateFacebookChart( days, views );
+
+}
+
+function populateFacebookChart (days,views) {
+    var ctx, data, myLineChart, options;
+    Chart.defaults.global.responsive = true;
+    ctx = $('#jumbotron-line-chart').get(0).getContext('2d');
+    options = {
+      showScale: true,
+      scaleShowGridLines: false,
+      scaleGridLineColor: "rgba(0,0,0,.05)",
+      scaleGridLineWidth: 0,
+      scaleShowHorizontalLines: false,
+      scaleShowVerticalLines: false,
+      bezierCurve: false,
+      bezierCurveTension: 0.4,
+      pointDot: false,
+      pointDotRadius: 1,
+      pointDotStrokeWidth: 2,
+      pointHitDetectionRadius: 20,
+      datasetStroke: true,
+      datasetStrokeWidth: 4,
+      datasetFill: true,
+      legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\">\
+      <% for (var i=0; i<datasets.length; i++){%>\
+      <li style=\" display:inline;\"><span style=\"background-color:<%=datasets[i].strokeColor%>\">\
+      <%if(datasets[i].label){%>\
+        <%=datasets[i].label%><%}%>\
+        </span></li><%}%></ul>"
+    };
+    data = {
+      labels: days,
+      datasets: [
+        {
+          label: "Page Views",
+          fillColor: "rgba(34, 167, 240,0.2)",
+          strokeColor: "#22A7F0",
+          pointColor: "#22A7F0",
+          pointStrokeColor: "#fff",
+          pointHighlightFill: "#fff",
+          pointHighlightStroke: "#22A7F0",
+          data: views
+        }
+      ]
+    };
+    fbLineChart = new Chart(ctx).Line(data, options);
+    //then you just need to generate the legend
+  var legend = fbLineChart.generateLegend();
+  $('#line-chart-legend').html(legend);
+
 }
