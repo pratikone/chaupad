@@ -131,7 +131,7 @@
                                         <i class="icon fa fa-comments fa-4x"></i>
                                         <div class="content">
                                             <div class="title" id="channelComments">23</div>
-                                            <div class="sub-title">Comments</div>
+                                            <div class="sub-title">Page reach</div>
                                         </div>
                                         <div class="clear-both"></div>
                                     </div>
@@ -159,7 +159,7 @@
                                         <i class="icon fa fa-share-alt fa-4x"></i>
                                         <div class="content">
                                             <div class="title" id="channelShares">16</div>
-                                            <div class="sub-title">Shares</div>
+                                            <div class="sub-title">Content clicks</div>
                                         </div>
                                         <div class="clear-both"></div>
                                     </div>
@@ -262,7 +262,8 @@
             $("#facebook_pages_list li a").click(
                          function(e) {
                            e.preventDefault();
-                           alert($(this).attr("id")); //do something with this
+                           page_id = $(this).attr("id"); //do something with this
+                           FbPageLoad(page_id);
                            
                          }
              );

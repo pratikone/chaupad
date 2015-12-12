@@ -1,3 +1,4 @@
+var fb_page_id = 0;
 function videoDataFormat () {
 				var jqxhr =
 					    $.ajax({
@@ -243,4 +244,40 @@ function populateGoogleProfileData (data) {
   $("#google-profile-link").attr({"href" : data.profile_link});
   $("img.profile-img").attr({"src" : data.picture});
 
+}
+
+function FbPageLoad (page_id) {
+  
+    FbPageDataFormat(page_id);
+
+}
+
+
+function FbPageDataFormat (page_id) {
+        var jqxhr =
+              $.ajax({
+                  url: 'facebookPageDataAggregatorAJAX/' + page_id,
+                  dataType: 'json',
+                  beforeSend: function(){
+                                          waitingDialog.show('Fetching facebook page data');
+                                        },
+                  complete: function function_name (argument) {
+                                          waitingDialog.hide();
+                                        }
+              })
+              .done (function(data) {
+                   console.log(data);
+                   var pageData = $.parseJSON(data["json"]);
+                   populateFbPageData(pageData);
+               
+                })
+              .fail   (function()     { console.error("Error in getting fb page data")   ; })
+              ;
+}
+
+function populateFbPageData (pageData) {
+  $("#channelLikes").html(pageData.lifetime_likes);
+  $("#channelViews").html(pageData.total_views);
+  $("#channelShares").html(pageData.total_clicks);
+  $("#channelComments").html(pageData.total_impressions);
 }
