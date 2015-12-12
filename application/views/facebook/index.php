@@ -88,9 +88,8 @@
                                 <div id="dropdown-element" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <ul class="nav navbar-nav" id="facebook_pages_list">
-                                        <?php  $first = false;  ?>
                                             <?php foreach(  $likha_denge as $page_id=>$page_name  ){ ?>
-                                            <li <?php if ($first == false) { ?> class="active" <?php $first=true;  } ?> >
+                                            <li>
                                             <a href="" id="<?php echo $page_id; ?>"> <?php  echo $page_name; ?>
                                              </a>
                                             </li>
@@ -261,11 +260,18 @@
 
 
             <script type="text/javascript">
-            
- 
+            var parent=null; //making parent global to refer it later to remove class=active
+            $(document).ready(function() {
+                $('#facebook_pages_list li:first a').trigger('click');
+                    });
+
             $("#facebook_pages_list li a").click(
                          function(e) {
                            e.preventDefault();
+                           if(parent != null)
+                                parent.removeAttr("class");
+                           parent = $(this).parent();
+                           parent.attr("class", "active"); //making the nav bar entry as active
                            page_id = $(this).attr("id"); //do something with this
                            FbPageLoad(page_id);
                            
