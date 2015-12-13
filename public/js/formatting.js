@@ -249,6 +249,7 @@ function FbPageLoad (page_id) {
   
     FbPageDataFormat(page_id);
     FbChartDataFormat(page_id);
+    FbPageReachChartDataFormat(page_id);
 
 }
 
@@ -365,3 +366,70 @@ function populateFacebookChart (days,views) {
   $('#line-chart-legend').html(legend);
 
 }
+
+function FbPageReachChartDataFormat (page_id) {
+        var jqxhr =
+              $.ajax({
+                  url: 'getFacebookPageImpressionsAggregatorAJAX/' + page_id,
+                  dataType: 'json',
+                  beforeSend: function(){
+                                          waitingDialog.show('Fetching page reach data');
+                                        },
+                  complete: function () {
+                                          waitingDialog.hide();
+                                        }
+              })
+              .done (function(data) {
+                   var pageData = $.parseJSON(data["json"]);
+                   populateFbPageReachChartData(pageData);
+               
+                })
+              .fail   (function()     { console.error("Error in getting page reach data")   ; })
+              ;
+}
+
+function populateFbPageReachChartData (pageData) {
+  populateFacebookPageReachChart( pageData );
+}
+
+function populateFacebookPageReachChart (pageData) {
+    var ctx, data, myPolarAreaChart, option_bars;
+    Chart.defaults.global.responsive = true;
+    ctx = $('#my-polar-area-chart').get(0).getContext('2d');
+    option_bars = {
+      scaleShowLabelBackdrop: true,
+      scaleBackdropColor: "rgba(255,255,255,0.75)",
+      scaleBeginAtZero: true,
+      scaleBackdropPaddingY: 2,
+      scaleBackdropPaddingX: 2,
+      scaleShowLine: true,
+      segmentShowStroke: true,
+      segmentStrokeColor: "#fff",
+      segmentStrokeWidth: 2,
+      animationSteps: 100,
+      animationEasing: "easeOutBounce",
+      animateRotate: true,
+      animateScale: false,
+      legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
+    };
+    data = [
+      {
+        value: pageData.page_impressions_viral,
+        color: "#FA2A00",
+        highlight: "#FA2A00",
+        label: "Viral"
+      }, {
+        value: pageData.page_impressions_organic,
+        color: "#1ABC9C",
+        highlight: "#1ABC9C",
+        label: "Organic"
+      }, {
+        value: pageData.page_impressions_paid,
+        color: "#FABE28",
+        highlight: "#FABE28",
+        label: "Paid"
+      }
+    ];
+    myPolarAreaChart = new Chart(ctx).PolarArea(data, option_bars);
+  }
+

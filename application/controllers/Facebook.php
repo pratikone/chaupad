@@ -274,7 +274,7 @@ public function dashboard($value='')
 		}
 	}
 
-	//page reach viral for last 30 days
+	//page reach viral for last 28 days
 	public function facebookPageImpressionsViralApiCall($page_id, $page_access_token)
 	{
       try {
@@ -282,9 +282,9 @@ public function dashboard($value='')
       		return "No valid page id provided";
 
       	$client = $_SESSION['client'];
-      	$last_month = strtotime("-1 month"); 
+      	$last_day = strtotime("-1 day"); 
 		$today=  strtotime("today");
-		$result = $client->get('/'.$page_id.'/insights/page_impressions_viral/day?since=' . $last_month . '&until=' . $today, $page_access_token);
+		$result = $client->get('/'.$page_id.'/insights/page_impressions_viral/days_28?since=' . $last_day . '&until=' . $today, $page_access_token);
 		return $result->getDecodedBody();
 
 		} catch(Exception $e) {
@@ -293,12 +293,50 @@ public function dashboard($value='')
 	}
 
 
+	//page reach organic for last 28 days
+	public function facebookPageImpressionsOrganicApiCall($page_id, $page_access_token)
+	{
+      try {
+      	if($page_id == "")
+      		return "No valid page id provided";
+
+      	$client = $_SESSION['client'];
+      	$last_day = strtotime("-1 day"); 
+		$today=  strtotime("today");
+		$result = $client->get('/'.$page_id.'/insights/page_impressions_organic/days_28?since=' . $last_day . '&until=' . $today, $page_access_token);
+		return $result->getDecodedBody();
+
+		} catch(Exception $e) {
+			return 'Facebook SDK returned an error: ' . $e->getMessage();
+		}
+	}
+
+
+	//page reach paid for last 28 days
+	public function facebookPageImpressionsPaidApiCall($page_id, $page_access_token)
+	{
+      try {
+      	if($page_id == "")
+      		return "No valid page id provided";
+
+      	$client = $_SESSION['client'];
+      	$last_day = strtotime("-1 day"); 
+		$today=  strtotime("today");
+		$result = $client->get('/'.$page_id.'/insights/page_impressions_paid/days_28?since=' . $last_day . '&until=' . $today, $page_access_token);
+		return $result->getDecodedBody();
+
+		} catch(Exception $e) {
+			return 'Facebook SDK returned an error: ' . $e->getMessage();
+		}
+	}
+
+
+
 	//aggregator
 	public function facebookPageDataAggregatorAJAX($page_id)
 	{
       try {
 
-      	$client = $_SESSION['client'];
       	//likes
      	$response = $this->facebookApiCall([$this, "facebookPageLikesApiCall"], $page_id); 
      	$lifetime_likes = $response["data"][0]["values"][2]["value"]; //3rd value is the latest one
@@ -338,6 +376,26 @@ public function dashboard($value='')
 		}
 	}
 
+
+	public function getFacebookPageImpressionsAggregatorAJAX($page_id="")
+	{
+		$response = $this->facebookApiCall([$this, "facebookPageImpressionsViralApiCall"], $page_id); 
+		$viral = $response["data"][0]["values"][0]["value"];
+
+		$response = $this->facebookApiCall([$this, "facebookPageImpressionsOrganicApiCall"], $page_id); 
+		$organic = $response["data"][0]["values"][0]["value"];
+
+		$response = $this->facebookApiCall([$this, "facebookPageImpressionsPaidApiCall"], $page_id); 
+		$paid = $response["data"][0]["values"][0]["value"];		
+
+	    $likha_denge = [ "page_impressions_viral" => $viral,
+     					"page_impressions_organic" => $organic,
+     					"page_impressions_paid" => $paid
+     					];
+	    $data['json'] = json_encode($likha_denge);    					
+     	echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+
+	}
 
 
 
@@ -393,13 +451,28 @@ public function dashboard($value='')
 
 	public function getFacebookPageImpressionsViralAJAX($page_id="")
 	{
-		$response = $this->facebookApiCall([$this, "facebookPageVideoViewsApiCall"], $page_id); 
-		// echo json_encode($response);
-		$data['json'] = json_encode($response);  
-		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+		$response = $this->facebookApiCall([$this, "facebookPageImpressionsViralApiCall"], $page_id); 
+		 echo json_encode($response);
+		//$data['json'] = json_encode($response);  
+		//echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
 	}
 
 
+	public function getFacebookPageImpressionsOrganicAJAX($page_id="")
+	{
+		$response = $this->facebookApiCall([$this, "facebookPageImpressionsOrganicApiCall"], $page_id); 
+		 echo json_encode($response);
+		//$data['json'] = json_encode($response);  
+		//echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+	}
+
+	public function getFacebookPageImpressionsPaidAJAX($page_id="")
+	{
+		$response = $this->facebookApiCall([$this, "facebookPageImpressionsPaidApiCall"], $page_id); 
+		 echo json_encode($response);
+		//$data['json'] = json_encode($response);  
+		//echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+	}
 
 
 }

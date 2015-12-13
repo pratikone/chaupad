@@ -188,26 +188,15 @@
                             </div>
                         </div>
 
-                                                <div class="col-sm-6 col-xs-12">
+                        <div class="col-sm-6 col-xs-12">
                             <div class="row">
-                                <div class="col-md-6 col-sm-12">
+                                <div class="col-xs-12 ">
                                     <div class="card primary">
                                         <div class="card-jumbotron no-padding">
-                                            <canvas id="jumbotron-bar-chart" class="chart no-padding"></canvas>
+                                            <canvas id="my-polar-area-chart" class="chart no-padding"></canvas>
                                         </div>
                                         <div class="card-body half-padding">
-                                            <h4 class="float-left no-margin font-weight-300">Dummy data</h4>
-                                            <div class="clear-both"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="card primary">
-                                        <div class="card-jumbotron no-padding">
-                                            <canvas id="jumbotron-line-2-chart" class="chart no-padding"></canvas>
-                                        </div>
-                                        <div class="card-body half-padding">
-                                            <h4 class="float-left no-margin font-weight-300">Dummy data</h4>
+                                            <h4 class="float-left no-margin font-weight-300">Page Reach</h4>
                                             <div class="clear-both"></div>
                                         </div>
                                     </div>
@@ -253,7 +242,6 @@
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/vendor/js/ace/theme-github.js"></script>
             <!-- Javascript -->
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/js/app.js"></script>
-            <script type="text/javascript" src="<?php echo base_url()?>public/js/index.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/js/formatting.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/js/waiting.js"></script>
 
@@ -277,7 +265,6 @@
                            
                          }
              );
-
 
             </script>
 </body>
