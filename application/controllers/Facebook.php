@@ -18,14 +18,16 @@ class Facebook extends CI_Controller{
 		if (session_status() == PHP_SESSION_NONE)
 				session_start();
 		//dashboard flow
-		if (isset($_SESSION['access_token'])) {
-			$client = $_SESSION['client'];
+		if (isset($_SESSION['fb_access_token'])) {
+			$client = $_SESSION['fb_client'];
 			/*  TODO : token refresh logic
 			if ($client->isAccessTokenExpired()) {
    				 $client->refreshToken($_SESSION['refresh_token']);
    				 $_SESSION['access_token'] = $client->getAccessToken(); //refreshing token
   			}
   			*/
+  			//necessary code, do not remove
+  			//necessary to get page info
 			$response = $this->facebookApiCall( [$this, "ajaxTest"] );
 			foreach(  $response as $fb_page  ){
                     $likha_denge[ $fb_page->page_id ] = $fb_page->page_name;
@@ -95,8 +97,8 @@ class Facebook extends CI_Controller{
 					$longLivedAccessToken = $oAuth2Client->getLongLivedAccessToken($access_token);
 					$client->setDefaultAccessToken($longLivedAccessToken);
 					$data['redirect_uri'] =  base_url() . 'index.php/facebook/analytics';
-					$_SESSION['access_token'] = (string) $longLivedAccessToken;
-					$_SESSION['client'] = $client;
+					$_SESSION['fb_access_token'] = (string) $longLivedAccessToken;
+					$_SESSION['fb_client'] = $client;
 				  echo "token found";
 				}
 	   }
@@ -126,13 +128,13 @@ public function dashboard($value='')
 
 	
 	public function logout(){
-		if(isset($_SESSION['access_token'])){
-			unset($_SESSION['access_token']);
+		if(isset($_SESSION['fb_access_token'])){
+			unset($_SESSION['fb_access_token']);
 			//unset($_SESSION['refresh_token']);
 			//$client = $_SESSION['client'];
 			//$client->revokeToken(); //remove this line for direct unhindered access after reception of first token
 			
-			unset($_SESSION['client']);
+			unset($_SESSION['fb_client']);
 		}
 		else{
 			echo "nothing to destroy";
@@ -149,7 +151,7 @@ public function dashboard($value='')
 
 	public function facebookApiCall(callable $apiCall, $page_id="")
 	{
-		$client = $_SESSION['client'];
+		$client = $_SESSION['fb_client'];
 		try {
 			$response = $client->get('/me/accounts');
 		} catch(Facebook\Exceptions\FacebookResponseException $e) {
@@ -177,7 +179,7 @@ public function dashboard($value='')
       	if($page_id == "")
       		return "No valid page id provided";
 
-      	$client = $_SESSION['client'];
+      	$client = $_SESSION['fb_client'];
 		$result = $client->get('/'.$page_id.'/insights/page_fans', $page_access_token);
 		return $result->getDecodedBody();
 
@@ -193,7 +195,7 @@ public function dashboard($value='')
       	if($page_id == "")
       		return "No valid page id provided";
 
-      	$client = $_SESSION['client'];
+      	$client = $_SESSION['fb_client'];
 		$result = $client->get('/'.$page_id.'/posts?limit=25', $page_access_token);
 		return $result->getDecodedBody();
 
@@ -209,7 +211,7 @@ public function dashboard($value='')
       	if($page_id == "")
       		return "No valid page id provided";
 
-      	$client = $_SESSION['client'];
+      	$client = $_SESSION['fb_client'];
       	$last_month = strtotime("-1 month"); 
 		$today=  strtotime("today");
 		$result = $client->get('/'.$page_id.'/insights/page_posts_impressions/day?since=' . $last_month . '&until=' . $today, $page_access_token);
@@ -227,7 +229,7 @@ public function dashboard($value='')
       	if($page_id == "")
       		return "No valid page id provided";
 
-      	$client = $_SESSION['client'];
+      	$client = $_SESSION['fb_client'];
       	$last_month = strtotime("-1 month"); 
 		$today=  strtotime("today");
 		$result = $client->get('/'.$page_id.'/insights/page_consumptions/day?since=' . $last_month . '&until=' . $today, $page_access_token);
@@ -245,7 +247,7 @@ public function dashboard($value='')
       	if($page_id == "")
       		return "No valid page id provided";
 
-      	$client = $_SESSION['client'];
+      	$client = $_SESSION['fb_client'];
       	$last_month = strtotime("-1 month"); 
 		$today=  strtotime("today");
 		$result = $client->get('/'.$page_id.'/insights/page_views/day?since=' . $last_month . '&until=' . $today, $page_access_token);
@@ -263,7 +265,7 @@ public function dashboard($value='')
       	if($page_id == "")
       		return "No valid page id provided";
 
-      	$client = $_SESSION['client'];
+      	$client = $_SESSION['fb_client'];
       	$last_month = strtotime("-1 month"); 
 		$today=  strtotime("today");
 		$result = $client->get('/'.$page_id.'/insights/page_video_views/day?since=' . $last_month . '&until=' . $today, $page_access_token);
@@ -281,7 +283,7 @@ public function dashboard($value='')
       	if($page_id == "")
       		return "No valid page id provided";
 
-      	$client = $_SESSION['client'];
+      	$client = $_SESSION['fb_client'];
       	$last_day = strtotime("-1 day"); 
 		$today=  strtotime("today");
 		$result = $client->get('/'.$page_id.'/insights/page_impressions_viral/days_28?since=' . $last_day . '&until=' . $today, $page_access_token);
@@ -300,7 +302,7 @@ public function dashboard($value='')
       	if($page_id == "")
       		return "No valid page id provided";
 
-      	$client = $_SESSION['client'];
+      	$client = $_SESSION['fb_client'];
       	$last_day = strtotime("-1 day"); 
 		$today=  strtotime("today");
 		$result = $client->get('/'.$page_id.'/insights/page_impressions_organic/days_28?since=' . $last_day . '&until=' . $today, $page_access_token);
@@ -319,7 +321,7 @@ public function dashboard($value='')
       	if($page_id == "")
       		return "No valid page id provided";
 
-      	$client = $_SESSION['client'];
+      	$client = $_SESSION['fb_client'];
       	$last_day = strtotime("-1 day"); 
 		$today=  strtotime("today");
 		$result = $client->get('/'.$page_id.'/insights/page_impressions_paid/days_28?since=' . $last_day . '&until=' . $today, $page_access_token);
