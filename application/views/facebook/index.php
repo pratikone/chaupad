@@ -209,7 +209,23 @@
 
                             <div class="col-sm-12 col-xs-12" id="videoCards">
                                 <div class="row">
-                                                                   
+                                    <div class="card card-success">
+                                        <div class="card-header">
+                                            <div class="card-title">
+                                                <div class="title"><i class="fa fa-comments-o"></i>Posts</div>
+                                            </div>
+                                            <div class="clear-both"></div>
+                                        </div>
+                                        <div class="card-body no-padding">
+                                            <ul class="message-list" id="fb_posts_list">
+                                                <a href="#" id="message-load-more">
+                                                    <li class="text-center load-more">
+                                                        <i class="fa fa-refresh"></i> load more..
+                                                    </li>
+                                                </a>
+                                            </ul>
+                                        </div>
+                                    </div>          
                                     
                                     </div>
                                 </div>

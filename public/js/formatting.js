@@ -250,6 +250,7 @@ function FbPageLoad (page_id) {
     FbPageDataFormat(page_id);
     FbChartDataFormat(page_id);
     FbPageReachChartDataFormat(page_id);
+    FbPagePostsDataFormat(page_id);
 
 }
 
@@ -433,3 +434,60 @@ function populateFacebookPageReachChart (pageData) {
     myPolarAreaChart = new Chart(ctx).PolarArea(data, option_bars);
   }
 
+function FbPagePostsDataFormat (page_id) {
+        var jqxhr =
+              $.ajax({
+                  url: 'getFacebookPagesPostsAJAX/' + page_id,
+                  dataType: 'json',
+                  beforeSend: function(){
+                                          waitingDialog.show('Fetching page posts');
+                                        },
+                  complete: function () {
+                                          waitingDialog.hide();
+                                        }
+              })
+              .done (function(data) {
+                   var pageData = $.parseJSON(data["json"]);
+                   populateFbPagePostData(pageData["data"]);
+               
+                })
+              .fail   (function()     { console.error("Error in getting page posts")   ; })
+              ;
+}
+
+
+
+function populateFbPagePostData (pageData) {
+    days = [];
+  views = [];
+  $.each(pageData, function(key, valueSet){
+    if(valueSet["message"] == null)
+      message = valueSet["story"];
+    else
+      message = valueSet["message"];
+    date = valueSet["created_time"].split("T")[0];
+    time = valueSet["created_time"].split("T")[1].split("+")[0];
+    time_of_post = date + " " + time;
+    id = valueSet["id"];
+
+    //creating the html content
+    content = contentBodyforPagePost( message, time_of_post, id );
+    $("#fb_posts_list").append(content);
+
+  });
+}
+
+function contentBodyforPagePost (message, time_of_post, id) {
+    content ='<a href="' + id + '"> \
+              <li> \
+                  <img src="../img/profile/profile-1.jpg" class="profile-img pull-left"> \
+                  <div class="message-block"> \
+                      <div><span class="username">Tui2Tone</span> <span class="message-datetime">' + time_of_post + '</span> \
+                      </div> \
+                      <div class="message">' + message + '</div> \
+                  </div> \
+              </li> \
+          </a>';
+
+    return content;
+}
