@@ -448,8 +448,8 @@ function FbPagePostsDataFormat (page_id) {
               })
               .done (function(data) {
                    var pageData = $.parseJSON(data["json"]);
+                   $("#message-load-more").attr({"href" : pageData["paging"]["next"]}); //for load more url
                    populateFbPagePostData(pageData["data"]);
-               
                 })
               .fail   (function()     { console.error("Error in getting page posts")   ; })
               ;
@@ -461,7 +461,12 @@ function populateFbPagePostData (pageData) {
     days = [];
   views = [];
   $.each(pageData, function(key, valueSet){
-    if(valueSet["message"] == null)
+    createPagePost(valueSet);
+  });
+}
+
+function createPagePost (valueSet) {
+  if(valueSet["message"] == null)
       message = valueSet["story"];
     else
       message = valueSet["message"];
@@ -473,9 +478,8 @@ function populateFbPagePostData (pageData) {
     //creating the html content
     content = contentBodyforPagePost( message, time_of_post, id );
     $("#fb_posts_list").append(content);
-
-  });
 }
+
 
 function contentBodyforPagePost (message, time_of_post, id) {
     content ='<a href="' + id + '" data-toggle="modal" data-target="#modalDefault"> \
@@ -491,3 +495,25 @@ function contentBodyforPagePost (message, time_of_post, id) {
 
     return content;
 }
+
+function pagePostsLoadMore (next_url) {
+        var jqxhr =
+              $.ajax({
+                  url: next_url,
+                  dataType: 'json',
+                  beforeSend: function(){
+                                          waitingDialog.show('Loading more page posts');
+                                        },
+                  complete: function () {
+                                          waitingDialog.hide();
+                                        }
+              })
+              .done (function(data) {
+                   $("#message-load-more").attr({"href" : data["paging"]["next"]}); //for load more url
+                   pageData = data["data"];
+                   populateFbPagePostData(pageData);
+               
+                })
+              .fail   (function()     { console.error("Error in getting page posts")   ; })
+              ;
+}  

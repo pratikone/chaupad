@@ -149,7 +149,7 @@ public function dashboard($value='')
 	
 
 
-	public function facebookApiCall(callable $apiCall, $page_id="")
+	public function facebookApiCall(callable $apiCall, $page_id="", $opt=[])
 	{
 		$client = $_SESSION['fb_client'];
 		try {
@@ -170,7 +170,7 @@ public function dashboard($value='')
 		if( $page_id == "")
 			return $this->facebook_pages->pageIdandToken;
 
-		return $apiCall( $page_id, $this->facebook_pages->pageIdandToken[ $page_id ]->page_access_token );
+		return $apiCall( $page_id, $this->facebook_pages->pageIdandToken[ $page_id ]->page_access_token, $opt );
 	}   
 
 	public function facebookPageLikesApiCall($page_id, $page_access_token)
@@ -189,14 +189,14 @@ public function dashboard($value='')
 	}
 
 
-	public function facebookPagePostsApiCall($page_id, $page_access_token)
+	public function facebookPagePostsApiCall($page_id, $page_access_token, $opt=[])
 	{
       try {
       	if($page_id == "")
       		return "No valid page id provided";
 
       	$client = $_SESSION['fb_client'];
-		$result = $client->get('/'.$page_id.'/posts?limit=25', $page_access_token);
+		$result = $client->get('/'.$page_id.'/posts?limit=3', $page_access_token);
 		return $result->getDecodedBody();
 
 		} catch(Exception $e) {
@@ -204,8 +204,9 @@ public function dashboard($value='')
 		}
 	}
 
+
 	//impressions for last 30 days
-	public function facebookPageImpressionsApiCall($page_id, $page_access_token)
+	public function facebookPageImpressionsApiCall($page_id, $page_access_token, $opt=[])
 	{
       try {
       	if($page_id == "")
@@ -223,7 +224,7 @@ public function dashboard($value='')
 	}
 
 	//page clicks or consumption for last 30 days
-	public function facebookPageClicksApiCall($page_id, $page_access_token)
+	public function facebookPageClicksApiCall($page_id, $page_access_token, $opt=[])
 	{
       try {
       	if($page_id == "")
@@ -241,7 +242,7 @@ public function dashboard($value='')
 	}
 
 	//page views for last 30 days
-	public function facebookPageViewsApiCall($page_id, $page_access_token)
+	public function facebookPageViewsApiCall($page_id, $page_access_token, $opt=[])
 	{
       try {
       	if($page_id == "")
@@ -259,7 +260,7 @@ public function dashboard($value='')
 	}
 
 	//page views for last 30 days
-	public function facebookPageVideoViewsApiCall($page_id, $page_access_token)
+	public function facebookPageVideoViewsApiCall($page_id, $page_access_token, $opt=[])
 	{
       try {
       	if($page_id == "")
@@ -277,7 +278,7 @@ public function dashboard($value='')
 	}
 
 	//page reach viral for last 28 days
-	public function facebookPageImpressionsViralApiCall($page_id, $page_access_token)
+	public function facebookPageImpressionsViralApiCall($page_id, $page_access_token, $opt=[])
 	{
       try {
       	if($page_id == "")
@@ -296,7 +297,7 @@ public function dashboard($value='')
 
 
 	//page reach organic for last 28 days
-	public function facebookPageImpressionsOrganicApiCall($page_id, $page_access_token)
+	public function facebookPageImpressionsOrganicApiCall($page_id, $page_access_token, $opt=[])
 	{
       try {
       	if($page_id == "")
@@ -315,7 +316,7 @@ public function dashboard($value='')
 
 
 	//page reach paid for last 28 days
-	public function facebookPageImpressionsPaidApiCall($page_id, $page_access_token)
+	public function facebookPageImpressionsPaidApiCall($page_id, $page_access_token, $opt=[])
 	{
       try {
       	if($page_id == "")
@@ -413,7 +414,8 @@ public function dashboard($value='')
 	public function getFacebookPagesPostsAJAX($page_id="")
 	{
 		$response = $this->facebookApiCall([$this, "facebookPagePostsApiCall"], $page_id); 
-		 // echo json_encode($response);
+
+		//echo json_encode($response);
 		$data['json'] = json_encode($response);  
 		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
 	}
@@ -454,26 +456,26 @@ public function dashboard($value='')
 	public function getFacebookPageImpressionsViralAJAX($page_id="")
 	{
 		$response = $this->facebookApiCall([$this, "facebookPageImpressionsViralApiCall"], $page_id); 
-		 echo json_encode($response);
-		//$data['json'] = json_encode($response);  
-		//echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+		 // echo json_encode($response);
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
 	}
 
 
 	public function getFacebookPageImpressionsOrganicAJAX($page_id="")
 	{
 		$response = $this->facebookApiCall([$this, "facebookPageImpressionsOrganicApiCall"], $page_id); 
-		 echo json_encode($response);
-		//$data['json'] = json_encode($response);  
-		//echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+		 // echo json_encode($response);
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
 	}
 
 	public function getFacebookPageImpressionsPaidAJAX($page_id="")
 	{
 		$response = $this->facebookApiCall([$this, "facebookPageImpressionsPaidApiCall"], $page_id); 
-		 echo json_encode($response);
-		//$data['json'] = json_encode($response);  
-		//echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+		 // echo json_encode($response);
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
 	}
 
 

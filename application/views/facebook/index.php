@@ -301,6 +301,16 @@
                          }
              );
 
+            $("#message-load-more").click(
+                         function(e) {
+                           e.preventDefault();
+                           next_url = $(this).attr("href"); //load more facebook posts
+                           pagePostsLoadMore(next_url);
+                           
+                         }
+             );
+
+
             </script>
 </body>
 
