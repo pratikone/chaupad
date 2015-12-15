@@ -478,7 +478,7 @@ function populateFbPagePostData (pageData) {
 }
 
 function contentBodyforPagePost (message, time_of_post, id) {
-    content ='<a href="' + id + '"> \
+    content ='<a href="' + id + '" data-toggle="modal" data-target="#modalDefault"> \
               <li> \
                   <img src="../img/profile/profile-1.jpg" class="profile-img pull-left"> \
                   <div class="message-block"> \
