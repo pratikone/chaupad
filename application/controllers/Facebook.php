@@ -173,7 +173,7 @@ public function dashboard($value='')
 		return $apiCall( $page_id, $this->facebook_pages->pageIdandToken[ $page_id ]->page_access_token, $opt );
 	}   
 
-	public function facebookPageLikesApiCall($page_id, $page_access_token)
+	public function facebookPageLikesApiCall($page_id, $page_access_token, $opt=[])
 	{
       try {
       	if($page_id == "")
@@ -285,7 +285,7 @@ public function dashboard($value='')
       		return "No valid page id provided";
 
       	$client = $_SESSION['fb_client'];
-      	$last_day = strtotime("-1 day"); 
+      	$last_day = strtotime("-7 day"); 
 		$today=  strtotime("today");
 		$result = $client->get('/'.$page_id.'/insights/page_impressions_viral/days_28?since=' . $last_day . '&until=' . $today, $page_access_token);
 		return $result->getDecodedBody();
@@ -304,7 +304,7 @@ public function dashboard($value='')
       		return "No valid page id provided";
 
       	$client = $_SESSION['fb_client'];
-      	$last_day = strtotime("-1 day"); 
+      	$last_day = strtotime("-7 day"); 
 		$today=  strtotime("today");
 		$result = $client->get('/'.$page_id.'/insights/page_impressions_organic/days_28?since=' . $last_day . '&until=' . $today, $page_access_token);
 		return $result->getDecodedBody();
@@ -323,7 +323,7 @@ public function dashboard($value='')
       		return "No valid page id provided";
 
       	$client = $_SESSION['fb_client'];
-      	$last_day = strtotime("-1 day"); 
+      	$last_day = strtotime("-7 day"); 
 		$today=  strtotime("today");
 		$result = $client->get('/'.$page_id.'/insights/page_impressions_paid/days_28?since=' . $last_day . '&until=' . $today, $page_access_token);
 		return $result->getDecodedBody();
@@ -333,6 +333,21 @@ public function dashboard($value='')
 		}
 	}
 
+    public function facebookPostImpressionsByStoryTypeApiCall($page_id, $page_access_token, $opt=[])
+    {
+      try {
+        if($page_id == "")
+            return "No valid page id provided";
+
+        $client = $_SESSION['fb_client'];
+        $post_id = $opt[0];
+        $result = $client->get('/'.$post_id.'/insights/post_impressions_by_story_type', $page_access_token);
+        return $result->getDecodedBody();
+
+        } catch(Exception $e) {
+            return 'Facebook SDK returned an error: ' . $e->getMessage();
+        }
+    }
 
 
 	//aggregator
@@ -380,16 +395,19 @@ public function dashboard($value='')
 	}
 
 
+
+
 	public function getFacebookPageImpressionsAggregatorAJAX($page_id="")
 	{
+        //5th index number will refer to the latest day's value which could be today or yesterday
 		$response = $this->facebookApiCall([$this, "facebookPageImpressionsViralApiCall"], $page_id); 
-		$viral = $response["data"][0]["values"][0]["value"];
+		$viral = $response["data"][0]["values"][5]["value"];
 
 		$response = $this->facebookApiCall([$this, "facebookPageImpressionsOrganicApiCall"], $page_id); 
-		$organic = $response["data"][0]["values"][0]["value"];
+		$organic = $response["data"][0]["values"][5]["value"];
 
 		$response = $this->facebookApiCall([$this, "facebookPageImpressionsPaidApiCall"], $page_id); 
-		$paid = $response["data"][0]["values"][0]["value"];		
+		$paid = $response["data"][0]["values"][5]["value"];		
 
 	    $likha_denge = [ "page_impressions_viral" => $viral,
      					"page_impressions_organic" => $organic,
@@ -477,6 +495,21 @@ public function dashboard($value='')
 		$data['json'] = json_encode($response);  
 		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
 	}
+
+    public function getFacebookPostImpressionsByStoryTypeAJAX($post_id="")
+    {
+        if($post_id == ""){
+            echo "No valid post id provided";
+            return;
+        }
+        $response = $this->facebookApiCall([$this, "facebookPostImpressionsByStoryTypeApiCall"], explode("_", $post_id)[0], [$post_id]); 
+         // echo json_encode($response);
+        $data['json'] = json_encode($response);  
+        echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+    }
+
+
+
 
 
 }

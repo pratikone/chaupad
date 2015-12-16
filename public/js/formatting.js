@@ -1,3 +1,5 @@
+var modalPolarAreaChart = null;
+
 function videoDataFormat () {
 				var jqxhr =
 					    $.ajax({
@@ -247,10 +249,12 @@ function populateGoogleProfileData (data) {
 //------------------------------------------------------------------------------------------------
 function FbPageLoad (page_id) {
   
+
     FbPageDataFormat(page_id);
     FbChartDataFormat(page_id);
     FbPageReachChartDataFormat(page_id);
     FbPagePostsDataFormat(page_id);
+
 
 }
 
@@ -482,9 +486,8 @@ function createPagePost (valueSet) {
 
 
 function contentBodyforPagePost (message, time_of_post, id) {
-    content ='<a href="' + id + '" data-toggle="modal" data-target="#modalDefault"> \
+    content ='<a href="' + id + '" data-toggle="modal" data-target="#fbPostModal"> \
               <li> \
-                  <img src="../img/profile/profile-1.jpg" class="profile-img pull-left"> \
                   <div class="message-block"> \
                       <div><span class="username">Tui2Tone</span> <span class="message-datetime">' + time_of_post + '</span> \
                       </div> \
@@ -517,3 +520,92 @@ function pagePostsLoadMore (next_url) {
               .fail   (function()     { console.error("Error in getting page posts")   ; })
               ;
 }  
+
+function FbPostsChartDataFormat (post_id) {
+        var jqxhr =
+              $.ajax({
+                  url: 'getFacebookPostImpressionsByStoryTypeAJAX/' + post_id,
+                  dataType: 'json',
+                  /*
+                  beforeSend: function(){
+                                          waitingDialog.show('Fetching page posts');
+                                        },
+                  complete: function () {
+                                          waitingDialog.hide();
+                                        }
+                  */
+              })
+              .done (function(data) {
+                   var postData = $.parseJSON(data["json"]);
+                   populateFbPostChartData(postData.data[0].values[0].value);
+                })
+              .fail   (function()     { console.error("Error in getting post data")   ; })
+              ;
+}
+
+function populateFbPostChartData (postData) {
+  
+  if(postData.length == 0)
+    comment = fan = link = other = 0;
+  else{
+    populateFacebookPostModalChart(postData);
+    comment = postData.comment;
+    fan = postData.fan;
+    link = postData.link;
+    other = postData.other;
+  }
+  
+
+  setTimeout(populateFacebookPostModalChart, 5000, comment, fan, link, other); //chart has a bug so sleeping till canvas is ready
+  // populateFacebookPostModalChart(comment, fan, link, other);
+}
+
+
+function populateFacebookPostModalChart (comment, fan, link, other) {
+
+    $("#fbModalText").text("Post impressions"); //change from Loading to the title
+
+    var ctx, data, option_bars;
+    Chart.defaults.global.responsive = true;
+    ctx = $('#modal-polar-area-chart').get(0).getContext('2d');
+    option_bars = {
+      scaleShowLabelBackdrop: true,
+      scaleBackdropColor: "rgba(255,255,255,0.75)",
+      scaleBeginAtZero: true,
+      scaleBackdropPaddingY: 2,
+      scaleBackdropPaddingX: 2,
+      scaleShowLine: true,
+      segmentShowStroke: true,
+      segmentStrokeColor: "#fff",
+      segmentStrokeWidth: 2,
+      animationSteps: 100,
+      animationEasing: "easeOutBounce",
+      animateRotate: true,
+      animateScale: false,
+      legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
+    };
+    data = [
+      {
+        value: comment,
+        color: "#FA2A00",
+        highlight: "#FA2A00",
+        label: "Comment"
+      }, {
+        value: fan,
+        color: "#1ABC9C",
+        highlight: "#1ABC9C",
+        label: "Fan"
+      }, {
+        value: link,
+        color: "#FABE28",
+        highlight: "#FABE28",
+        label: "Link"
+      }, {
+        value: other,
+        color: "##9FEAAE",
+        highlight: "#40D65D",
+        label: "Other"
+      }
+    ];
+    modalPolarAreaChart = new Chart(ctx).PolarArea(data, option_bars);
+  }

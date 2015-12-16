@@ -231,20 +231,28 @@
                                 </div>
                             </div>
 
-                                                        <!-- Modal -->
-                            <div class="modal fade" id="modalDefault" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <!-- Modal -->
+                            <div class="modal fade" id="fbPostModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                            <h4 class="modal-title" id="fbModalLabel">Modal title</h4>
                                         </div>
                                         <div class="modal-body">
-                                            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option
+                                            <div class="card primary">
+                                                <div class="card-jumbotron no-padding">
+                                                    <canvas id="modal-polar-area-chart" class="chart no-padding"></canvas>
+                                                </div>
+                                                <div class="card-body half-padding">
+                                                    <h4 class="float-left no-margin font-weight-300" id="fbModalText">Loading...</h4>
+                                                    <div class="clear-both"></div>
+                                                </div>
+                                            </div>
+                                </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
                                         </div>
                                     </div>
                                 </div>
@@ -296,6 +304,11 @@
                            parent = $(this).parent();
                            parent.attr("class", "active"); //making the nav bar entry as active
                            page_id = $(this).attr("id"); //do something with this
+                           $( "#fb_posts_list a" ).each(function( index ) {
+                                if( $(this).attr("id")  != "message-load-more" ){ //if not load more , then remove fb post
+                                    $(this).remove();
+                                }
+                            });
                            FbPageLoad(page_id);
                            
                          }
@@ -306,10 +319,21 @@
                            e.preventDefault();
                            next_url = $(this).attr("href"); //load more facebook posts
                            pagePostsLoadMore(next_url);
-                           
                          }
              );
 
+
+            $('#fbPostModal').on('show.bs.modal', function (e) {
+                var invoker = $(e.relatedTarget);
+                message = invoker.children().find(".message").text(); //fb post text
+                $("#fbModalText").text("Loading");
+                $(this).find("#fbModalLabel").text(message); //set modal text
+                post_id = invoker.attr("href");
+                FbPostsChartDataFormat(post_id);
+                // populateFacebookPostModalChartFirstTime(post_id);
+                //setTimeout(populateFacebookPostModalChartFirstTime, 2000, post_id)
+
+            });
 
             </script>
 </body>
