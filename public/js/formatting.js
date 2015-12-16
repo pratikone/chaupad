@@ -609,3 +609,33 @@ function populateFacebookPostModalChart (comment, fan, link, other) {
     ];
     modalPolarAreaChart = new Chart(ctx).PolarArea(data, option_bars);
   }
+
+
+function FbPostStoryDataFormat (post_id) {
+        var jqxhr =
+              $.ajax({
+                  url: 'getFacebookPostStoryByActionTypeAJAX/' + post_id,
+                  dataType: 'json',
+                  /*
+                  beforeSend: function(){
+                                          waitingDialog.show('Fetching page posts');
+                                        },
+                  complete: function () {
+                                          waitingDialog.hide();
+                                        }
+                  */
+              })
+              .done (function(data) {
+                   var postData = $.parseJSON(data["json"]);
+                   populateFbPostStoryData(postData.data[0].values[0].value);
+                })
+              .fail   (function()     { console.error("Error in getting post data")   ; })
+              ;
+}
+
+function populateFbPostStoryData (pageData) {
+  $("#postLikes").text(pageData.like);
+  $("#postComments").text(pageData.comment);
+  $("#postShares").text(pageData.share);
+}
+

@@ -349,6 +349,23 @@ public function dashboard($value='')
         }
     }
 
+    public function facebookPostStoryByActionTypeApiCall($page_id, $page_access_token, $opt=[])
+    {
+      try {
+        if($page_id == "")
+            return "No valid page id provided";
+
+        $client = $_SESSION['fb_client'];
+        $post_id = $opt[0];
+        $result = $client->get('/'.$post_id.'/insights/post_stories_by_action_type', $page_access_token);
+        return $result->getDecodedBody();
+
+        } catch(Exception $e) {
+            return 'Facebook SDK returned an error: ' . $e->getMessage();
+        }
+    }
+
+
 
 	//aggregator
 	public function facebookPageDataAggregatorAJAX($page_id)
@@ -419,7 +436,7 @@ public function dashboard($value='')
 	}
 
 
-
+//-----------------------------__ A  ____ J _____ A______X ----------------------------------------------
 
 	public function getFacebookPagesLikesAJAX($page_id="")
 	{
@@ -503,6 +520,18 @@ public function dashboard($value='')
             return;
         }
         $response = $this->facebookApiCall([$this, "facebookPostImpressionsByStoryTypeApiCall"], explode("_", $post_id)[0], [$post_id]); 
+         // echo json_encode($response);
+        $data['json'] = json_encode($response);  
+        echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+    }
+
+    public function getFacebookPostStoryByActionTypeAJAX($post_id="")
+    {
+        if($post_id == ""){
+            echo "No valid post id provided";
+            return;
+        }
+        $response = $this->facebookApiCall([$this, "facebookPostStoryByActionTypeApiCall"], explode("_", $post_id)[0], [$post_id]); 
          // echo json_encode($response);
         $data['json'] = json_encode($response);  
         echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways

@@ -116,7 +116,7 @@
                                         <i class="icon fa fa-thumbs-up fa-4x"></i>
                                         <div class="content">
                                             <div class="title" id="channelLikes">50</div>
-                                            <div class="sub-title">Likes</div>
+                                            <div class="sub-title">Page Likes</div>
                                             <span class="pull-right">Lifetime</span>
                                         </div>
                                         <div class="clear-both"></div>
@@ -131,7 +131,7 @@
                                         <i class="icon fa fa-comments fa-4x"></i>
                                         <div class="content">
                                             <div class="title" id="channelComments">23</div>
-                                            <div class="sub-title">Page reach</div>
+                                            <div class="sub-title">Page Impressions(reach)</div>
                                             <span class="pull-right">Last 30 days</span>
                                         </div>
                                         <div class="clear-both"></div>
@@ -146,7 +146,7 @@
                                         <i class="icon fa fa-users fa-4x"></i>
                                         <div class="content">
                                             <div class="title" id="channelViews">280</div>
-                                            <div class="sub-title">Views</div>
+                                            <div class="sub-title">Page Views</div>
                                             <span class="pull-right">Last 30 days</span>
                                         </div>
                                         <div class="clear-both"></div>
@@ -245,8 +245,25 @@
                                                     <canvas id="modal-polar-area-chart" class="chart no-padding"></canvas>
                                                 </div>
                                                 <div class="card-body half-padding">
-                                                    <h4 class="float-left no-margin font-weight-300" id="fbModalText">Loading...</h4>
+                                                    <h4 class="float-left font-weight-300" id="fbModalText">Loading...</h4>
                                                     <div class="clear-both"></div>
+                                                     <div class="col-md-12 col-sm-12">
+                                                            <div class="caption">
+                                                            <div class="alert alert-warning" role="alert">*Facebook shows values below a certain threshold as 0.</div>
+                                                            
+                                                                    <ul class="list-group">
+                                                                        <li class="list-group-item list-group-item-success">
+                                                                            <span class="badge"  id="postLikes">0</span> Likes
+                                                                        </li>
+                                                                        <li class="list-group-item list-group-item-info">
+                                                                            <span class="badge" id="postComments">0</span> Comments
+                                                                        </li>
+                                                                        <li class="list-group-item list-group-item-danger">
+                                                                            <span class="badge" id="postShares">0</span> Shares
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                        </div>
                                                 </div>
                                             </div>
                                 </div>
@@ -327,11 +344,11 @@
                 var invoker = $(e.relatedTarget);
                 message = invoker.children().find(".message").text(); //fb post text
                 $("#fbModalText").text("Loading");
+                populateFbPostStoryData({ like:0, comment:0, share:0 });
                 $(this).find("#fbModalLabel").text(message); //set modal text
                 post_id = invoker.attr("href");
+                FbPostStoryDataFormat(post_id);
                 FbPostsChartDataFormat(post_id);
-                // populateFacebookPostModalChartFirstTime(post_id);
-                //setTimeout(populateFacebookPostModalChartFirstTime, 2000, post_id)
 
             });
 
