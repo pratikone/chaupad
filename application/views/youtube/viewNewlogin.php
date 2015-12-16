@@ -26,22 +26,6 @@
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
               <h1 class="text-center">Analytics dashboard</h1>
           </div>
-          <!--
-          <div class="modal-body">
-              <form class="form col-md-12 center-block">
-                <div class="form-group">
-                  <input type="text" class="form-control input-lg" placeholder="Email">
-                </div>
-                <div class="form-group">
-                  <input type="password" class="form-control input-lg" placeholder="Password">
-                </div>
-                <div class="form-group">
-                  <button class="btn btn-primary btn-lg btn-block">Sign In</button>
-                  <span class="pull-right"><a href="#">Register</a></span><span><a href="#">Need help?</a></span>
-                </div>
-              </form>
-          </div>
-          -->
           <div class="modal-body">
             <!-- Show Login if the OAuth Request URL is set -->
             <form class="form col-md-12 center-block">
@@ -56,7 +40,7 @@
 
           <div class="modal-footer">
               <div class="col-md-12">
-              <a class="btn btn-primary" aria-hidden="true" href='<?php echo $authUrl; ?>'>Facebook integration coming soon...</a>
+              <a class="btn btn-primary" aria-hidden="true" href='<?php echo $fb_authUrl; ?>'>Facebook integration coming soon...</a>
     		    </div>	
           </div>
 

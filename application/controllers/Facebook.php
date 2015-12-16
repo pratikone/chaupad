@@ -15,8 +15,6 @@ class Facebook extends CI_Controller{
 
 
 	public function analytics( $page=' ' ){
-		if (session_status() == PHP_SESSION_NONE)
-				session_start();
 		//dashboard flow
 		if (isset($_SESSION['fb_access_token'])) {
 			$client = $_SESSION['fb_client'];
@@ -41,13 +39,12 @@ class Facebook extends CI_Controller{
 		else
 		{	
 			
-			$data['authUrl'] = base_url() . 'index.php/facebook/login';
+			$data['fb_authUrl'] = base_url() . 'index.php/facebook/login';
 
 			//$this->login();
-			$data['logout'] = base_url();// . 'index.php/youtube/logout';
+			$data['fb_logout'] = base_url();// . 'index.php/youtube/logout';
 			
 			$this->load->view('templates/youtube_header');
-			//$this->load->view('youtube/viewlogin', $data);
 			$this->load->view('youtube/viewNewlogin', $data);
 			$this->load->view('templates/youtube_footer');
 		}
@@ -76,7 +73,7 @@ class Facebook extends CI_Controller{
 
 			$helper = $client->getRedirectLoginHelper();
 			try {
-			  $access_token = $helper->getAccessToken();
+			  $fb_access_token = $helper->getAccessToken();
 			} catch(Facebook\Exceptions\FacebookResponseException $e) {
 			  // When Graph returns an error
 			  echo 'Graph returned an error: ' . $e->getMessage();
@@ -86,7 +83,7 @@ class Facebook extends CI_Controller{
 			  echo 'Facebook SDK returned an error: ' . $e->getMessage();
 			  exit;
 			}
-			if (isset($access_token)) {
+			if (isset($fb_access_token)) {
 				  // Logged in!
 				  // Now you can redirect to another page and use the
 				  // access token from $_SESSION['facebook_access_token']
@@ -94,7 +91,7 @@ class Facebook extends CI_Controller{
 					$oAuth2Client = $client->getOAuth2Client();
 
 					// Exchanges a short-lived access token for a long-lived one
-					$longLivedAccessToken = $oAuth2Client->getLongLivedAccessToken($access_token);
+					$longLivedAccessToken = $oAuth2Client->getLongLivedAccessToken($fb_access_token);
 					$client->setDefaultAccessToken($longLivedAccessToken);
 					$data['redirect_uri'] =  base_url() . 'index.php/facebook/analytics';
 					$_SESSION['fb_access_token'] = (string) $longLivedAccessToken;
@@ -143,7 +140,7 @@ public function dashboard($value='')
 		//session_destroy();
 		echo "Logged out nigga";
 		$this->load->helper('url');
-		redirect( base_url() . 'index.php/facebook/analytics', 'location', 301);
+		redirect( base_url() . 'index.php/youtube/logout', 'location', 301);
 			
 	}   
 	
@@ -151,9 +148,10 @@ public function dashboard($value='')
 
 	public function facebookApiCall(callable $apiCall, $page_id="", $opt=[])
 	{
-		$client = $_SESSION['fb_client'];
+        $client = $_SESSION['fb_client'];
 		try {
 			$response = $client->get('/me/accounts');
+
 		} catch(Facebook\Exceptions\FacebookResponseException $e) {
 		  // When Graph returns an error
 		  return 'Graph returned an error: ' . $e->getMessage();

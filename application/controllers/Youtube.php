@@ -118,7 +118,11 @@ class Youtube extends CI_Controller{
 	}  
 	
 	public function logout(){
-		if(isset($_SESSION['access_token'])){
+		
+		if(isset($_SESSION['fb_access_token'])){
+			redirect( base_url() . 'index.php/facebook/logout', 'location', 301);
+		}
+		else if(isset($_SESSION['access_token'])){
 			unset($_SESSION['access_token']);
 			unset($_SESSION['refresh_token']);
 			$client = $_SESSION['client'];

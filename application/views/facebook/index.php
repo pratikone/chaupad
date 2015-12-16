@@ -54,7 +54,7 @@
                                         <p>emily_hart@email.com</p>
                                         <div class="btn-group margin-bottom-2x" role="group">
                                         <a target="_blank" id = "google-profile-link" href="" class="btn btn-default" role="button"><i class="fa fa-user"></i> Profile</a>
-                                            <a href="<?php echo base_url()?>index.php/youtube/logout" class="btn btn-default" role="button"><i class="fa fa-sign-out"></i> Logout</a>
+                                            <a href="<?php echo base_url()?>index.php/facebook/logout" class="btn btn-default" role="button"><i class="fa fa-sign-out"></i> Logout</a>
                                         </div>
                                     </div>
                                 </li>

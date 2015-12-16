@@ -128,7 +128,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="">
+                                <a href="<?php echo base_url()?>index.php/facebook">
                                     <span class="icon fa fa-facebook"></span><span class="title">Facebook</span>
                                 </a>
                             </li>                            
