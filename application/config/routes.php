@@ -55,4 +55,5 @@ $route['translate_uri_dashes'] = FALSE;
 $route['default_controller'] = 'youtube/analytics';
 //$route['youtube/analytics/(:any)'] = 'youtube/$1';   //url after index.php
 //$route['(:any)'] = 'pages/view/$1';
+$route['youtube'] = 'youtube/analytics';
 $route['facebook'] = 'facebook/analytics';

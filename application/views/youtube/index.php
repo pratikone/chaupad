@@ -41,53 +41,6 @@
                         <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
                             <i class="fa fa-times icon"></i>
                         </button>
-                        <!-- Notifications  bubble not needed
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-comments-o"></i></a>
-                            <ul class="dropdown-menu animated fadeInDown">
-                                <li class="title">
-                                    Notification <span class="badge pull-right">0</span>
-                                </li>
-                                <li class="message">
-                                    No new notification
-                                </li>
-                            </ul>
-                        </li>
-                        -->
-                        <!-- Notifications not needed
-                        <li class="dropdown danger">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-star-half-o"></i> 4</a>
-                            <ul class="dropdown-menu danger  animated fadeInDown">
-                                <li class="title">
-                                    Notification <span class="badge pull-right">4</span>
-                                </li>
-                                <li>
-                                    <ul class="list-group notifications">
-                                        <a href="#">
-                                            <li class="list-group-item">
-                                                <span class="badge">1</span> <i class="fa fa-exclamation-circle icon"></i> new registration
-                                            </li>
-                                        </a>
-                                        <a href="#">
-                                            <li class="list-group-item">
-                                                <span class="badge success">1</span> <i class="fa fa-check icon"></i> new orders
-                                            </li>
-                                        </a>
-                                        <a href="#">
-                                            <li class="list-group-item">
-                                                <span class="badge danger">2</span> <i class="fa fa-comments icon"></i> customers messages
-                                            </li>
-                                        </a>
-                                        <a href="#">
-                                            <li class="list-group-item message">
-                                                view all
-                                            </li>
-                                        </a>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        -->
                         <li class="dropdown profile">
                             <a href="#" class="dropdown-toggle" id="google-profile-name" data-toggle="dropdown" role="button" aria-expanded="false">Loading... <span class="caret"></span></a>
                             <ul class="dropdown-menu animated fadeInDown">
@@ -128,7 +81,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="<?php echo base_url()?>index.php/facebook">
+                                <a href="<?php echo base_url()?>index.php/youtube/facebook">
                                     <span class="icon fa fa-facebook"></span><span class="title">Facebook</span>
                                 </a>
                             </li>                            
@@ -283,7 +236,6 @@
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/vendor/js/ace/theme-github.js"></script>
             <!-- Javascript -->
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/js/app.js"></script>
-            <script type="text/javascript" src="<?php echo base_url()?>public/js/index.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/js/formatting.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/js/waiting.js"></script>
 

@@ -77,7 +77,7 @@
                         </div>
                         <ul class="nav navbar-nav">
                             <li>
-                                <a href="<?php echo base_url()?>">
+                                <a href="<?php echo base_url()?>index.php/facebook/youtube">
                                     <span class="icon fa fa-youtube-play"></span><span class="title">Youtube</span>
                                 </a>
                             </li>

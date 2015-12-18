@@ -1,6 +1,7 @@
 <?php
 
 require_once APPPATH.'third_party/google/vendor/autoload.php';
+require_once 'Facebook.php';
 
 class Youtube extends CI_Controller{
 
@@ -57,25 +58,26 @@ class Youtube extends CI_Controller{
 	  			}
 				//$data['likha_denge'] = $this->youtubeApiCall( false );
 				
-				redirect( base_url() . 'index.php/youtube/dashboard', 'location', 301);
+				// redirect( base_url() . 'index.php/youtube/dashboard', 'location', 301);
+				$this->dashboard();
 			}
 			else
 			{	
 				
 				$data['authUrl'] = base_url() . 'index.php/youtube/login';
-
-				//$this->login();
+				$this->load->view('templates/youtube_header');
+				$data['logout'] = base_url();// . 'index.php/youtube/logout';
+				//$this->load->view('youtube/viewlogin', $data);
+				$this->load->view('youtube/viewNewlogin', $data);
+				if( isset($data['likha_denge']) )
+					$this->load->view('youtube/videoList', $data );
+				$this->load->view('templates/youtube_footer');
 			}
-			
-			$data['logout'] = base_url();// . 'index.php/youtube/logout';
-			
-			$this->load->view('templates/youtube_header');
-			//$this->load->view('youtube/viewlogin', $data);
-			$this->load->view('youtube/viewNewlogin', $data);
-			if( isset($data['likha_denge']) )
-				$this->load->view('youtube/videoList', $data );
-			$this->load->view('templates/youtube_footer');
+
 		}
+			
+			
+
 
 	}
 	
@@ -242,9 +244,13 @@ public function googleOAuth2ProfileApiCall($youtube, $youtubeData, $OAuth2Data)
 
 	public function dashboard($value='')
 	{
-		$this->load->view('youtube/index');
+		$this->load->view('youtube/index', $value);
 	}
 
+	public function facebook($value='')
+    {
+        redirect( base_url() . 'index.php/facebook/analytics', 'location', 301);
+    }
 
 
 	public function getVideoDataAJAX($value='')

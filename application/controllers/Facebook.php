@@ -1,6 +1,7 @@
 <?php
 
 require_once APPPATH.'third_party/facebook/vendor/autoload.php';
+require_once 'Youtube.php';
 
 class Facebook extends CI_Controller{
 
@@ -109,6 +110,11 @@ public function dashboard($value='')
 		$this->load->view('facebook/index', $value);
 	}
 
+    public function youtube($value='')
+    {
+        redirect( base_url() . 'index.php/youtube/analytics', 'location', 301);
+    }
+
 
 	public function ajaxTest($value='')
 	{
@@ -127,10 +133,6 @@ public function dashboard($value='')
 	public function logout(){
 		if(isset($_SESSION['fb_access_token'])){
 			unset($_SESSION['fb_access_token']);
-			//unset($_SESSION['refresh_token']);
-			//$client = $_SESSION['client'];
-			//$client->revokeToken(); //remove this line for direct unhindered access after reception of first token
-			
 			unset($_SESSION['fb_client']);
 		}
 		else{
@@ -165,8 +167,9 @@ public function dashboard($value='')
 		$this->load->model('facebook_pages');
 		$this->facebook_pages->processPageIds($formatted);
 
-		if( $page_id == "")
+		if( $page_id == ""){
 			return $this->facebook_pages->pageIdandToken;
+        }
 
 		return $apiCall( $page_id, $this->facebook_pages->pageIdandToken[ $page_id ]->page_access_token, $opt );
 	}   
