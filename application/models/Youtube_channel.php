@@ -5,9 +5,10 @@ class Youtube_channel extends CI_Model {
 		public $videoList = [];
 		public $monthlyChannelList = [];
 		public $email, $name, $picture, $profile_link;
-
+		public $subscribersData = [];
 		//stats
 		public $channel_likes, $channel_views, $channel_shares, $channel_comments;
+
 		
         public function __construct()
         {
@@ -59,6 +60,17 @@ class Youtube_channel extends CI_Model {
 			}
 		}
 
+		//this api does not support multiple channels under the same username. Should be fixed later as low priority
+		public function processChannelSubscribersResponse( $response ){
+			foreach( $response->getrows() as $row){
+		  		//echo sprintf(" <p>This data is weird : %s  %d  %s %d </p>", $response->getColumnHeaders()[0]['name'], $row[1], $response->getColumnHeaders()[1]['name'], $row[2]);
+		  		$this->subscribersData[$row[0]] = [		   // Y-m-d time
+		  										$row[1],  //subscribers gained
+		  										$row[2]	  //subscribers lost
+		  											];
+			}
+		}
+
 
 		public function processChannelMonthlyResponse( $response ){
 			//print_r($response);
@@ -90,6 +102,11 @@ class Youtube_channel extends CI_Model {
 				   ];
 			return $arr;
 		}
+
+		public function viewChannelSubscribersData(){
+			return $subscribersData;
+		}
+        
 		        
 
 		public function viewGoogleProfileData(){

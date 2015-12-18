@@ -170,6 +170,25 @@ class Youtube extends CI_Controller{
 	  	
 	}
 
+
+	public function youtubeChannelSubscribersApiCall($youtube, $youtubeData, $OAuth2Data)
+	{
+		  $id = "channel==MINE";
+		  $start_year = date('Y', strtotime("-1 year", time()));
+		  $end_date = date('Y-m-d');
+		  $metrics = "subscribersGained,subscribersLost";
+		  $optParams = [];
+		  $channel_response = $youtube->reports->query( $id, $start_date, $end_date, $metrics, $optParams ); //blank array for channel response	
+	  	  $this->youtube_channel->processChannelSubscribersResponse( $channel_response );
+	  	  $likha_denge = $this->youtube_channel->viewChannelSubscribersData();
+	      return $likha_denge;
+	  	
+	}
+
+
+
+
+
 	public function youtubeChannelMonthlyApiCall($youtube, $youtubeData, $OAuth2Data)
 	{
 		  $id = "channel==MINE";
@@ -284,6 +303,13 @@ public function googleOAuth2ProfileApiCall($youtube, $youtubeData, $OAuth2Data)
 		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
 	}
 
+	public function getGoogleChannelSubscribersDataAJAX($value='')
+	{
+		$response = $this->youtubeApiCall([$this, "youtubeChannelSubscribersApiCall"]); //will fetch all video data of logged in user
+
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+	}
 
 
 	public function ajaxTest($value='')
