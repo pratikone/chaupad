@@ -378,7 +378,7 @@ function FbPageReachChartDataFormat (page_id) {
                   url: 'getFacebookPageImpressionsAggregatorAJAX/' + page_id,
                   dataType: 'json',
                   beforeSend: function(){
-                                          waitingDialog.show('Fetching page reach data');
+                                          waitingDialog.show('Fetching page impressions data');
                                         },
                   complete: function () {
                                           waitingDialog.hide();
@@ -386,18 +386,18 @@ function FbPageReachChartDataFormat (page_id) {
               })
               .done (function(data) {
                    var pageData = $.parseJSON(data["json"]);
-                   populateFbPageReachChartData(pageData);
+                   populateFbPageImpressionChartData(pageData);
                
                 })
-              .fail   (function()     { console.error("Error in getting page reach data")   ; })
+              .fail   (function()     { console.error("Error in getting page impressions data")   ; })
               ;
 }
 
-function populateFbPageReachChartData (pageData) {
-  populateFacebookPageReachChart( pageData );
+function populateFbPageImpressionChartData (pageData) {
+  populateFacebookPageImpressionChart( pageData );
 }
 
-function populateFacebookPageReachChart (pageData) {
+function populateFacebookPageImpressionChart (pageData) {
     var ctx, data, myPolarAreaChart, option_bars;
     Chart.defaults.global.responsive = true;
     ctx = $('#my-polar-area-chart').get(0).getContext('2d');
@@ -462,11 +462,15 @@ function FbPagePostsDataFormat (page_id) {
 
 
 function populateFbPagePostData (pageData) {
-    days = [];
+  waitingDialog.show('Displaying page posts');
+  
+  days = [];
   views = [];
   $.each(pageData, function(key, valueSet){
     createPagePost(valueSet);
   });
+
+  waitingDialog.hide();
 }
 
 function createPagePost (valueSet) {
