@@ -245,7 +245,7 @@ function populateChart (months, likes, shares, views) {
 function googleProfileDataFormat () {
         var jqxhr =
               $.ajax({
-                  url: 'getGoogleProfileDataAJAX',
+                  url: '../youtube/getGoogleProfileDataAJAX',   //making it compatible for youtube and fb both
                   dataType: 'json',
                   beforeSend: function(){
                                           waitingDialog.show('Fetching google profile data');
@@ -382,7 +382,7 @@ function populateSubscribersChart (months, subscribersGained, subscribersLost ) 
 //------------------------------------------------------------------------------------------------
 function FbPageLoad (page_id) {
   
-
+    googleProfileDataFormat();
     FbPageDataFormat(page_id);
     FbChartDataFormat(page_id);
     FbPageReachChartDataFormat(page_id);

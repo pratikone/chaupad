@@ -30,8 +30,8 @@
             <!-- Show Login if the OAuth Request URL is set -->
             <form class="form col-md-12 center-block">
             <div class="form-group">
-              <img src="<?php echo base_url()?>public/img/user.png" width="100px" size="100px" />
-                <a class='login' href='<?php echo $authUrl; ?>'><img class='login' src="<?php echo base_url()?>public/img/sign-in-with-google.png" width="250px" size="54px" /></a>
+                 <a class="btn btn-danger <?php if(isset($_SESSION['access_token'])) echo 'disabled'; else echo '';?>" aria-hidden="true" href='<?php echo $authUrl; ?>'>Login with Google</a>
+                 <a class="btn btn-info <?php if(isset($_SESSION['access_token'])) echo ''; else echo 'disabled';?>" aria-hidden="true" href='<?php echo $fb_authUrl; ?>'>Login with Facebook</a>
             </div>
             </form>
           </div>      
@@ -40,7 +40,7 @@
 
           <div class="modal-footer">
               <div class="col-md-12">
-              <a class="btn btn-primary" aria-hidden="true" href='<?php echo $fb_authUrl; ?>'>Facebook integration coming soon...</a>
+              
     		    </div>	
           </div>
 
