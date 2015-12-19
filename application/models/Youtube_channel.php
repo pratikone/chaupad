@@ -60,8 +60,11 @@ class Youtube_channel extends CI_Model {
 			}
 		}
 
-		//this api does not support multiple channels under the same username. Should be fixed later as low priority
+		
 		public function processChannelSubscribersResponse( $response ){
+			if($response->getrows() == null)
+				return;
+
 			foreach( $response->getrows() as $row){
 		  		//echo sprintf(" <p>This data is weird : %s  %d  %s %d </p>", $response->getColumnHeaders()[0]['name'], $row[1], $response->getColumnHeaders()[1]['name'], $row[2]);
 		  		$this->subscribersData[$row[0]] = [		   // Y-m-d time
@@ -104,7 +107,7 @@ class Youtube_channel extends CI_Model {
 		}
 
 		public function viewChannelSubscribersData(){
-			return $subscribersData;
+			return $this->subscribersData;
 		}
         
 		        

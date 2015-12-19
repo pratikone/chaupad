@@ -50,7 +50,7 @@
   $(function() {
     var ctx, data, myBarChart, option_bars;
     Chart.defaults.global.responsive = true;
-    ctx = $('#bar-chart').get(0).getContext('2d');
+    ctx = $('#jumbotron-bar-chart').get(0).getContext('2d');
     option_bars = {
       scaleBeginAtZero: true,
       scaleShowGridLines: true,

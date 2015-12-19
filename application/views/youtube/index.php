@@ -173,24 +173,14 @@
 
                                                 <div class="col-sm-6 col-xs-12">
                             <div class="row">
-                                <div class="col-md-6 col-sm-12">
+                                <div class="col-md-12 col-sm-12">
                                     <div class="card primary">
                                         <div class="card-jumbotron no-padding">
                                             <canvas id="jumbotron-bar-chart" class="chart no-padding"></canvas>
                                         </div>
                                         <div class="card-body half-padding">
-                                            <h4 class="float-left no-margin font-weight-300">Dummy data</h4>
-                                            <div class="clear-both"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="card primary">
-                                        <div class="card-jumbotron no-padding">
-                                            <canvas id="jumbotron-line-2-chart" class="chart no-padding"></canvas>
-                                        </div>
-                                        <div class="card-body half-padding">
-                                            <h4 class="float-left no-margin font-weight-300">Dummy data</h4>
+                                            <h4 class="float-left no-margin font-weight-300">Legend</h4>
+                                            <h3 class="float-right no-margin font-weight-300" id="bar-chart-legend">$3200</h3>
                                             <div class="clear-both"></div>
                                         </div>
                                     </div>
@@ -242,12 +232,7 @@
 
 
             <script type="text/javascript">
-            
-            googleProfileDataFormat();
-            channelDataFormat();
-            videoDataFormat();
-            chartDataFormat();
-
+                YoutubePageLoad();
 
             </script>
 </body>

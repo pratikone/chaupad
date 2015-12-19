@@ -1,4 +1,29 @@
-var modalPolarAreaChart = null;
+//------------------------------------------------------------------------------------------------
+//                                                 ,----,                                 
+//                  ,----..                      ,/   .`|                                 
+//                 /   /   \                   ,`   .'  :               ,---,.     ,---,. 
+//         ,---,  /   .     :          ,--,  ;    ;     /       ,--,  ,'  .'  \  ,'  .' | 
+//        /_ ./| .   /   ;.  \       ,'_ /|.'___,/    ,'      ,'_ /|,---.' .' |,---.'   | 
+//  ,---, |  ' :.   ;   /  ` ;  .--. |  | :|    :     |  .--. |  | :|   |  |: ||   |   .' 
+// /___/ \.  : |;   |  ; \ ; |,'_ /| :  . |;    |.';  ;,'_ /| :  . |:   :  :  /:   :  |-, 
+//  .  \  \ ,' '|   :  | ; | '|  ' | |  . .`----'  |  ||  ' | |  . .:   |    ; :   |  ;/| 
+//   \  ;  `  ,'.   |  ' ' ' :|  | ' |  | |    '   :  ;|  | ' |  | ||   :     \|   :   .' 
+//    \  \    ' '   ;  \; /  |:  | | :  ' ;    |   |  ':  | | :  ' ;|   |   . ||   |  |-, 
+//     '  \   |  \   \  ',  / |  ; ' |  | '    '   :  ||  ; ' |  | ''   :  '; |'   :  ;/| 
+//      \  ;  ;   ;   :    /  :  | : ;  ; |    ;   |.' :  | : ;  ; ||   |  | ; |   |    \ 
+//       :  \  \   \   \ .'   '  :  `--'   \   '---'   '  :  `--'   \   :   /  |   :   .' 
+//        \  ' ;    `---`     :  ,      .-./           :  ,      .-./   | ,'   |   | ,'   
+//         `--`                `--`----'                `--`----'   `----'     `----'     
+//------------------------------------------------------------------------------------------------
+
+function YoutubePageLoad (page_id) {
+  googleProfileDataFormat();
+  channelDataFormat();
+  videoDataFormat();
+  chartDataFormat();
+  subscribersChartDataFormat();
+
+}
 
 function videoDataFormat () {
 				var jqxhr =
@@ -246,6 +271,114 @@ function populateGoogleProfileData (data) {
   $("img.profile-img").attr({"src" : data.picture});
 
 }
+
+
+function subscribersChartDataFormat () {
+        var jqxhr =
+              $.ajax({
+                  url: 'getGoogleChannelSubscribersDataAJAX',
+                  dataType: 'json',
+                  beforeSend: function(){
+                                          waitingDialog.show('Fetching monthly subscribers data');
+                                        },
+                  complete: function(){
+                                          waitingDialog.hide();
+                                        }
+              })
+              .done (function(data) {
+                   var subscribersData = $.parseJSON(data["json"]);
+                   populateSubscribersChartData(subscribersData);
+               
+                })
+              .fail   (function()     { console.error("Error in getting subscribers data")   ; })
+              ;
+}
+
+
+function populateSubscribersChartData (subscribersData) {
+  months = [];
+  subscribersGained = [];
+  subscribersLost = [];
+
+  $.each(subscribersData, function(key, value){
+      months.push(key);
+      subscribersGained.push(value[0]);
+      subscribersLost.push(value[1]);
+  });
+
+  populateSubscribersChart(months, subscribersGained, subscribersLost);
+}
+
+function populateSubscribersChart (months, subscribersGained, subscribersLost ) {
+    var ctx, data, myBarChart, option_bars;
+    Chart.defaults.global.responsive = true;
+    ctx = $('#jumbotron-bar-chart').get(0).getContext('2d');
+    option_bars = {
+      scaleBeginAtZero: true,
+      scaleShowGridLines: true,
+      scaleGridLineColor: "rgba(0,0,0,.05)",
+      scaleGridLineWidth: 1,
+      scaleShowHorizontalLines: true,
+      scaleShowVerticalLines: false,
+      barShowStroke: true,
+      barStrokeWidth: 1,
+      barValueSpacing: 5,
+      barDatasetSpacing: 3,
+      legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\">\
+      <% for (var i=0; i<datasets.length; i++){%>\
+      <li style=\" display:inline;\"><span style=\"background-color:<%=datasets[i].strokeColor%>\">\
+      <%if(datasets[i].label){%>\
+        <%=datasets[i].label%><%}%>\
+        </span></li><%}%></ul>"
+    };
+    data = {
+      labels: months,
+      datasets: [
+        {
+          label: "Subscribers Gained",
+          fillColor: "rgba(26, 188, 156,0.6)",
+          strokeColor: "#1ABC9C",
+          pointColor: "#1ABC9C",
+          pointStrokeColor: "#fff",
+          pointHighlightFill: "#fff",
+          pointHighlightStroke: "#1ABC9C",
+          data: subscribersGained
+        }, {
+          label: "Subscribers Lost",
+          fillColor: "rgba(34, 167, 240,0.6)",
+          strokeColor: "#22A7F0",
+          pointColor: "#22A7F0",
+          pointStrokeColor: "#fff",
+          pointHighlightFill: "#fff",
+          pointHighlightStroke: "#22A7F0",
+          data: subscribersLost
+        }
+      ]
+    };
+    myBarChart = new Chart(ctx).Bar(data, option_bars);
+     //then you just need to generate the legend
+    var legend = myBarChart.generateLegend();
+    $('#bar-chart-legend').html(legend);
+}
+
+
+
+//------------------------------------------------------------------------------------------------
+//                                                           ,----..       ,----..          ,--. 
+//     ,---,.   ,---,         ,----..      ,---,.    ,---,.    /   /   \     /   /   \     ,--/  /| 
+//   ,'  .' |  '  .' \       /   /   \   ,'  .' |  ,'  .'  \  /   .     :   /   .     : ,---,': / ' 
+// ,---.'   | /  ;    '.    |   :     :,---.'   |,---.' .' | .   /   ;.  \ .   /   ;.  \:   : '/ /  
+// |   |   .':  :       \   .   |  ;. /|   |   .'|   |  |: |.   ;   /  ` ;.   ;   /  ` ;|   '   ,   
+// :   :  :  :  |   /\   \  .   ; /--` :   :  |-,:   :  :  /;   |  ; \ ; |;   |  ; \ ; |'   |  /    
+// :   |  |-,|  :  ' ;.   : ;   | ;    :   |  ;/|:   |    ; |   :  | ; | '|   :  | ; | '|   ;  ;    
+// |   :  ;/||  |  ;/  \   \|   : |    |   :   .'|   :     \.   |  ' ' ' :.   |  ' ' ' ::   '   \   
+// |   |   .''  :  | \  \ ,'.   | '___ |   |  |-,|   |   . |'   ;  \; /  |'   ;  \; /  ||   |    '  
+// '   :  '  |  |  '  '--'  '   ; : .'|'   :  ;/|'   :  '; | \   \  ',  /  \   \  ',  / '   : |.  \ 
+// |   |  |  |  :  :        '   | '/  :|   |    \|   |  | ;   ;   :    /    ;   :    /  |   | '_\.' 
+// |   :  \  |  | ,'        |   :    / |   :   .'|   :   /     \   \ .'      \   \ .'   '   : |     
+// |   | ,'  `--''           \   \ .'  |   | ,'  |   | ,'       `---`         `---`     ;   |,'     
+// `----'                     `---`    `----'    `----'                                 '---'   
+// 
 //------------------------------------------------------------------------------------------------
 function FbPageLoad (page_id) {
   
