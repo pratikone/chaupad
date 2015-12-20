@@ -2,6 +2,8 @@
 
 require_once APPPATH.'third_party/google/vendor/autoload.php';
 require_once 'Facebook.php';
+header("Access-Control-Allow-Methods: GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encoding");
 
 class Youtube extends CI_Controller{
 
