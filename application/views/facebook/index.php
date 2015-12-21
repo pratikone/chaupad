@@ -306,51 +306,58 @@
             <script type="text/javascript" src="<?php echo base_url()?>public/js/waiting.js"></script>
 
 
-
+            <p id="base_url" hidden><?php echo base_url()?></div>
             <script type="text/javascript">
-            var parent=null; //making parent global to refer it later to remove class=active
-            $(document).ready(function() {
-                $('#facebook_pages_list li:first a').trigger('click');
-                    });
+            
+                var base_url = $("#base_url").text();
+            
+                var parent=null; //making parent global to refer it later to remove class=active
+                
+                $(document).ready(function() {
+                    $('#facebook_pages_list li:first a').trigger('click');
+                        });
 
-            $("#facebook_pages_list li a").click(
-                         function(e) {
-                           e.preventDefault();
-                           if(parent != null)
-                                parent.removeAttr("class");
-                           parent = $(this).parent();
-                           parent.attr("class", "active"); //making the nav bar entry as active
-                           page_id = $(this).attr("id"); //do something with this
-                           $( "#fb_posts_list a" ).each(function( index ) {
-                                if( $(this).attr("id")  != "message-load-more" ){ //if not load more , then remove fb post
-                                    $(this).remove();
-                                }
-                            });
-                           FbPageLoad(page_id);
-                           
-                         }
-             );
+                $("#facebook_pages_list li a").click(
+                             function(e) {
+                               e.preventDefault();
+                               if(parent != null)
+                                    parent.removeAttr("class");
+                               parent = $(this).parent();
+                               parent.attr("class", "active"); //making the nav bar entry as active
+                               page_id = $(this).attr("id"); //do something with this
+                               $( "#fb_posts_list a" ).each(function( index ) {
+                                    if( $(this).attr("id")  != "message-load-more" ){ //if not load more , then remove fb post
+                                        $(this).remove();
+                                    }
+                                });
+                               FbPageLoad(page_id, base_url);
+                               
+                             }
+                 );
 
-            $("#message-load-more").click(
-                         function(e) {
-                           e.preventDefault();
-                           next_url = $(this).attr("href"); //load more facebook posts
-                           pagePostsLoadMore(next_url);
-                         }
-             );
+                $("#message-load-more").click(
+                             function(e) {
+                               e.preventDefault();
+                               next_url = $(this).attr("href"); //load more facebook posts
+                               pagePostsLoadMore(next_url);
+                             }
+                 );
 
 
-            $('#fbPostModal').on('show.bs.modal', function (e) {
-                var invoker = $(e.relatedTarget);
-                message = invoker.children().find(".message").text(); //fb post text
-                $("#fbModalText").text("Loading");
-                populateFbPostStoryData({ like:0, comment:0, share:0 });
-                $(this).find("#fbModalLabel").text(message); //set modal text
-                post_id = invoker.attr("href");
-                FbPostStoryDataFormat(post_id);
-                FbPostsChartDataFormat(post_id);
+                $('#fbPostModal').on('show.bs.modal', function (e) {
+                    var invoker = $(e.relatedTarget);
+                    //init
+                    message = invoker.children().find(".message").text(); //fb post text
+                    $("#fbModalText").text("Loading");
+                    populateFbPostStoryData({ like:0, comment:0, share:0 });
+                    $(this).find("#fbModalLabel").text(message); //set modal text
 
-            });
+                    //ajax
+                    post_id = invoker.attr("href");
+                    FbPostStoryDataFormat(post_id, base_url);
+                    FbPostsChartDataFormat(post_id, base_url);
+
+                });
 
             </script>
 </body>

@@ -16,19 +16,19 @@
 //         `--`                `--`----'                `--`----'   `----'     `----'     
 //------------------------------------------------------------------------------------------------
 
-function YoutubePageLoad (page_id) {
-  googleProfileDataFormat();
-  channelDataFormat();
-  videoDataFormat();
-  chartDataFormat();
-  subscribersChartDataFormat();
+function YoutubePageLoad (base_url) {
+  googleProfileDataFormat(base_url);
+  channelDataFormat(base_url);
+  videoDataFormat(base_url);
+  chartDataFormat(base_url);
+  subscribersChartDataFormat(base_url);
 
 }
 
-function videoDataFormat () {
+function videoDataFormat (base_url) {
 				var jqxhr =
 					    $.ajax({
-					        url: 'getVideoDataAJAX',
+					        url: base_url + 'index.php/youtube/getVideoDataAJAX',
 					        dataType: 'json',
                   beforeSend: function(){
                                           waitingDialog.show('Fetching video data');
@@ -85,10 +85,10 @@ function loopVideoCards ( json_data ) {
 }
 
 
-function channelDataFormat () {
+function channelDataFormat (base_url) {
 				var jqxhr =
 					    $.ajax({
-					        url: 'getChannelDataAJAX',
+					        url: base_url + 'index.php/youtube/getChannelDataAJAX',
 					        dataType: 'json',
                   beforeSend: function(){
                                           waitingDialog.show('Fetching channel data');
@@ -113,10 +113,10 @@ function populateChannelData (channelData) {
 	$("#channelComments").html(channelData.comments);
 }
 
-function chartDataFormat () {
+function chartDataFormat (base_url) {
 				var jqxhr =
 					    $.ajax({
-					        url: 'getChannelMonthlyDataAJAX',
+					        url: base_url + 'index.php/youtube/getChannelMonthlyDataAJAX',
 					        dataType: 'json',
                   beforeSend: function(){
                                           waitingDialog.show('Fetching monthly channel data');
@@ -242,10 +242,10 @@ function populateChart (months, likes, shares, views) {
 }
 
 
-function googleProfileDataFormat () {
+function googleProfileDataFormat (base_url) {
         var jqxhr =
               $.ajax({
-                  url: '../youtube/getGoogleProfileDataAJAX',   //making it compatible for youtube and fb both
+                  url: base_url + 'index.php/youtube/getGoogleProfileDataAJAX',   //making it compatible for youtube and fb both
                   dataType: 'json',
                   beforeSend: function(){
                                           waitingDialog.show('Fetching google profile data');
@@ -273,10 +273,10 @@ function populateGoogleProfileData (data) {
 }
 
 
-function subscribersChartDataFormat () {
+function subscribersChartDataFormat (base_url) {
         var jqxhr =
               $.ajax({
-                  url: 'getGoogleChannelSubscribersDataAJAX',
+                  url: base_url + 'index.php/youtube/getGoogleChannelSubscribersDataAJAX',
                   dataType: 'json',
                   beforeSend: function(){
                                           waitingDialog.show('Fetching monthly subscribers data');
@@ -380,22 +380,22 @@ function populateSubscribersChart (months, subscribersGained, subscribersLost ) 
 // `----'                     `---`    `----'    `----'                                 '---'   
 // 
 //------------------------------------------------------------------------------------------------
-function FbPageLoad (page_id) {
+function FbPageLoad (page_id, base_url) {
   
-    googleProfileDataFormat();
-    FbPageDataFormat(page_id);
-    FbChartDataFormat(page_id);
-    FbPageReachChartDataFormat(page_id);
-    FbPagePostsDataFormat(page_id);
+    googleProfileDataFormat(base_url);
+    FbPageDataFormat(page_id, base_url);
+    FbChartDataFormat(page_id, base_url);
+    FbPageReachChartDataFormat(page_id, base_url);
+    FbPagePostsDataFormat(page_id, base_url);
 
 
 }
 
 
-function FbPageDataFormat (page_id) {
+function FbPageDataFormat (page_id, base_url) {
         var jqxhr =
               $.ajax({
-                  url: 'facebookPageDataAggregatorAJAX/' + page_id,
+                  url: base_url + 'index.php/facebook/facebookPageDataAggregatorAJAX/' + page_id,
                   dataType: 'json',
                   beforeSend: function(){
                                           waitingDialog.show('Fetching facebook page data');
@@ -422,10 +422,10 @@ function populateFbPageData (pageData) {
 
 
 
-function FbChartDataFormat (page_id) {
+function FbChartDataFormat (page_id, base_url) {
         var jqxhr =
               $.ajax({
-                  url: 'getFacebookPageViewsAJAX/' + page_id,
+                  url: base_url + 'index.php/facebook/getFacebookPageViewsAJAX/' + page_id,
                   dataType: 'json',
                   beforeSend: function(){
                                           waitingDialog.show('Fetching page views daily data');
@@ -505,10 +505,10 @@ function populateFacebookChart (days,views) {
 
 }
 
-function FbPageReachChartDataFormat (page_id) {
+function FbPageReachChartDataFormat (page_id, base_url) {
         var jqxhr =
               $.ajax({
-                  url: 'getFacebookPageImpressionsAggregatorAJAX/' + page_id,
+                  url: base_url + 'index.php/facebook/getFacebookPageImpressionsAggregatorAJAX/' + page_id,
                   dataType: 'json',
                   beforeSend: function(){
                                           waitingDialog.show('Fetching page impressions data');
@@ -571,10 +571,10 @@ function populateFacebookPageImpressionChart (pageData) {
     myPolarAreaChart = new Chart(ctx).PolarArea(data, option_bars);
   }
 
-function FbPagePostsDataFormat (page_id) {
+function FbPagePostsDataFormat (page_id, base_url) {
         var jqxhr =
               $.ajax({
-                  url: 'getFacebookPagesPostsAJAX/' + page_id,
+                  url: base_url + 'index.php/facebook/getFacebookPagesPostsAJAX/' + page_id,
                   dataType: 'json',
                   beforeSend: function(){
                                           waitingDialog.show('Fetching page posts');
@@ -658,10 +658,10 @@ function pagePostsLoadMore (next_url) {
               ;
 }  
 
-function FbPostsChartDataFormat (post_id) {
+function FbPostsChartDataFormat (post_id, base_url) {
         var jqxhr =
               $.ajax({
-                  url: 'getFacebookPostImpressionsByStoryTypeAJAX/' + post_id,
+                  url: base_url + 'index.php/facebook/getFacebookPostImpressionsByStoryTypeAJAX/' + post_id,
                   dataType: 'json',
                   /*
                   beforeSend: function(){
@@ -748,10 +748,10 @@ function populateFacebookPostModalChart (comment, fan, link, other) {
   }
 
 
-function FbPostStoryDataFormat (post_id) {
+function FbPostStoryDataFormat (post_id, base_url) {
         var jqxhr =
               $.ajax({
-                  url: 'getFacebookPostStoryByActionTypeAJAX/' + post_id,
+                  url: base_url + 'index.php/facebook/getFacebookPostStoryByActionTypeAJAX/' + post_id,
                   dataType: 'json',
                   /*
                   beforeSend: function(){

@@ -229,10 +229,11 @@
             <script type="text/javascript" src="<?php echo base_url()?>public/js/formatting.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/js/waiting.js"></script>
 
-
-
+            
+            <p id="base_url" hidden><?php echo base_url()?></div>
             <script type="text/javascript">
-                YoutubePageLoad();
+                var base_url = $("#base_url").text();
+                YoutubePageLoad(base_url);
 
             </script>
 </body>
