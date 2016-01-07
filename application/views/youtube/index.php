@@ -153,27 +153,30 @@
                             </a>
                         </div>
                     </div>
-                    <div class="row  no-margin-bottom">
-                        <div class="col-sm-6 col-xs-12">
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
                             <div class="row">
-                                <div class="col-xs-12">
+                            <!--
+                                <div id="highcharts-man">
+                                    
+                                </div>
+                            -->
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
                                     <div class="card primary">
                                         <div class="card-jumbotron no-padding">
-                                            <canvas id="jumbotron-line-chart" class="chart no-padding"></canvas>
+                                            <div id="jumbotron-line-chart" class="chart no-padding"></div>
                                         </div>
                                         <div class="card-body half-padding">
-                                            <h4 class="float-left no-margin font-weight-300">Legend</h4>
-                                            <h3 class="float-right no-margin font-weight-300" id="line-chart-legend">$3200</h3>
+                                            <h4 class="float-left no-margin font-weight-300">Channel popularity stats</h4>
+                                            <h3 class="float-right no-margin font-weight-300" id="line-chart-legend"></h3>
                                             <div class="clear-both"></div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                                                <div class="col-sm-6 col-xs-12">
-                            <div class="row">
-                                <div class="col-md-12 col-sm-12">
+                                <div class="col-md-6">
                                     <div class="card primary">
                                         <div class="card-jumbotron no-padding">
                                             <canvas id="jumbotron-bar-chart" class="chart no-padding"></canvas>
@@ -190,14 +193,15 @@
                     </div>
                         
 
-
-                            <div class="col-sm-12 col-xs-12" id="videoCards">
-                                <div class="row">
-                                                                   
-                                    
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12" id="videoCards">
+                            <div class="row">
+                                                                       
+                                        
+                             </div>
+                        </div>
+                    </div>
+                </div>
                                 
 
                      
@@ -224,6 +228,10 @@
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/vendor/js/ace/ace.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/vendor/js/ace/mode-html.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/vendor/js/ace/theme-github.js"></script>
+            
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
             <!-- Javascript -->
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/js/app.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/js/formatting.js"></script>
@@ -234,7 +242,6 @@
             <script type="text/javascript">
                 var base_url = $("#base_url").text();
                 YoutubePageLoad(base_url);
-
             </script>
 </body>
 

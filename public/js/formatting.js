@@ -167,11 +167,13 @@ function populateChartData (data) {
 
 
 
-	populateChart( months, likes, shares, views );
+	//populateChart( months, likes, shares, views );
+  populateHighChart( months, likes, shares, views );
 
 }
 
 function populateChart (months, likes, shares, views) {
+
     var ctx, data, myLineChart, options;
     Chart.defaults.global.responsive = true;
     ctx = $('#jumbotron-line-chart').get(0).getContext('2d');
@@ -239,6 +241,54 @@ function populateChart (months, likes, shares, views) {
   var legend = myLineChart.generateLegend();
   $('#line-chart-legend').html(legend);
 
+}
+
+function populateHighChart (months, likes, shares, views) {
+    $('#jumbotron-line-chart').highcharts({
+            chart: {
+                zoomType: 'x'
+            },
+            title: {
+                text: 'Stats for last 12 months'
+            },
+            subtitle: {
+                text: document.ontouchstart === undefined ?
+                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+            },
+            xAxis: {
+                //type: 'datetime',
+                categories: months
+            },
+            yAxis: {
+                title: {
+                    text: 'Exchange rate'
+                }
+            },
+            legend: {
+                enabled: true
+            },
+
+            series: [
+                      {
+                          type: 'line',
+                          name: 'Likes',
+                          color: '#00cc66',
+                          data: likes
+                      },
+                      {
+                          type: 'line',
+                          name: 'Shares',
+                          color:'#FF0000',
+                          data: shares
+                      },
+                      {
+                          type: 'line',
+                          name: 'Views',
+                          color:'#9999ff',
+                          data: views
+                      }
+            ]
+        });
 }
 
 
