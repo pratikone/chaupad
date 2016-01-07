@@ -272,19 +272,19 @@ function populateHighChart (months, likes, shares, views) {
                       {
                           type: 'line',
                           name: 'Likes',
-                          color: '#00cc66',
+                          color: Highcharts.getOptions().colors[0],
                           data: likes
                       },
                       {
                           type: 'line',
                           name: 'Shares',
-                          color:'#FF0000',
+                          color: Highcharts.getOptions().colors[1],
                           data: shares
                       },
                       {
                           type: 'line',
                           name: 'Views',
-                          color:'#9999ff',
+                          color: Highcharts.getOptions().colors[2],
                           data: views
                       }
             ]
