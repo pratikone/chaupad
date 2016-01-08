@@ -282,7 +282,7 @@ function populateHighChart (months, likes, shares, views) {
                           data: shares
                       },
                       {
-                          type: 'line',
+                          type: 'column',
                           name: 'Views',
                           color: Highcharts.getOptions().colors[2],
                           data: views
@@ -356,7 +356,8 @@ function populateSubscribersChartData (subscribersData) {
       subscribersLost.push(value[1]);
   });
 
-  populateSubscribersChart(months, subscribersGained, subscribersLost);
+  // populateSubscribersChart(months, subscribersGained, subscribersLost);
+     populateSubscribersHighChart(months, subscribersGained, subscribersLost);
 }
 
 function populateSubscribersChart (months, subscribersGained, subscribersLost ) {
@@ -411,7 +412,56 @@ function populateSubscribersChart (months, subscribersGained, subscribersLost ) 
     $('#bar-chart-legend').html(legend);
 }
 
+function populateSubscribersHighChart(months, subscribersGained, subscribersLost){
+    $('#jumbotron-bar-chart').highcharts({
+            chart: {
+                zoomType: 'x'
+            },
+            title: {
+                text: 'Subscribers stats for last 12 months'
+            },
+            subtitle: {
+                text: document.ontouchstart === undefined ?
+                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+            },
+            xAxis: {
+                //type: 'datetime',
+                categories: months
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                }
+            },
+            legend: {
+                enabled: true
+            },
 
+            series: [
+                      {
+                          type: 'column',
+                          name: 'New Subscribers',
+                          color: Highcharts.getOptions().colors[0],
+                          data: subscribersGained
+                      },
+                      {
+                          type: 'column',
+                          name: 'Unsubscribers',
+                          color: Highcharts.getOptions().colors[1],
+                          data: subscribersLost
+                      }
+            ]
+        });
+
+
+
+
+
+
+
+
+
+}
 
 //------------------------------------------------------------------------------------------------
 //                                                           ,----..       ,----..          ,--. 
