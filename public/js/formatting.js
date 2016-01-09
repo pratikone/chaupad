@@ -453,14 +453,6 @@ function populateSubscribersHighChart(months, subscribersGained, subscribersLost
             ]
         });
 
-
-
-
-
-
-
-
-
 }
 
 //------------------------------------------------------------------------------------------------
@@ -552,7 +544,8 @@ function populateFBChartData (data) {
 
   });
   
-  populateFacebookChart( days, views );
+  // populateFacebookChart( days, views );
+  populateFacebookHighChart(days, views);
 
 }
 
@@ -604,6 +597,44 @@ function populateFacebookChart (days,views) {
   $('#line-chart-legend').html(legend);
 
 }
+
+function populateFacebookHighChart (days, views) {
+    $('#jumbotron-line-chart').highcharts({
+            chart: {
+                zoomType: 'x'
+            },
+            title: {
+                text: 'Page views stats for last 12 months'
+            },
+            subtitle: {
+                text: document.ontouchstart === undefined ?
+                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+            },
+            xAxis: {
+                //type: 'datetime',
+                categories: days
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                }
+            },
+            legend: {
+                enabled: true
+            },
+
+            series: [
+                      {
+                          type: 'line',
+                          name: 'Views',
+                          color: Highcharts.getOptions().colors[0],
+                          data: views
+                      }
+            ]
+        });
+
+}
+
 
 function FbPageReachChartDataFormat (page_id, base_url) {
         var jqxhr =
@@ -670,6 +701,60 @@ function populateFacebookPageImpressionChart (pageData) {
     ];
     myPolarAreaChart = new Chart(ctx).PolarArea(data, option_bars);
   }
+
+
+function populateFacebookPageImpressionChart (pageData) {
+$('#my-polar-area-chart').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+        title: {
+            text: 'Page reach',
+            align: 'center',
+            verticalAlign: 'middle',
+            y: 40
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                dataLabels: {
+                    enabled: true,
+                    distance: -50,
+                    style: {
+                        fontWeight: 'bold',
+                        color: 'white',
+                        textShadow: '0px 1px 2px black'
+                    }
+                },
+                startAngle: -90,
+                endAngle: 90,
+                center: ['50%', '75%']
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Page impressions',
+            innerSize: '50%',
+            data: [
+                ['Viral',   pageData.page_impressions_viral],
+                ['Organic',       pageData.page_impressions_organic],
+                ['Paid', pageData.page_impressions_paid],
+                {
+                    name: 'Proprietary or Undetectable',
+                    y: 0.2,
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            ]
+        }]
+    });
+}
+
 
 function FbPagePostsDataFormat (page_id, base_url) {
         var jqxhr =
@@ -785,7 +870,6 @@ function populateFbPostChartData (postData) {
   if(postData.length == 0)
     comment = fan = link = other = 0;
   else{
-    populateFacebookPostModalChart(postData);
     comment = postData.comment;
     fan = postData.fan;
     link = postData.link;
@@ -793,8 +877,9 @@ function populateFbPostChartData (postData) {
   }
   
 
-  setTimeout(populateFacebookPostModalChart, 5000, comment, fan, link, other); //chart has a bug so sleeping till canvas is ready
+  // setTimeout(populateFacebookPostModalChart, 5000, comment, fan, link, other); //chart has a bug so sleeping till canvas is ready
   // populateFacebookPostModalChart(comment, fan, link, other);
+  populateFacebookPostModalHighChart(comment, fan, link, other);
 }
 
 
@@ -846,6 +931,64 @@ function populateFacebookPostModalChart (comment, fan, link, other) {
     ];
     modalPolarAreaChart = new Chart(ctx).PolarArea(data, option_bars);
   }
+
+function populateFacebookPostModalHighChart (comment, fan, link, other) {
+  
+  $("#fbModalText").text("Post impressions"); //change from Loading to the title
+  if( $('#modal-polar-area-chart').highcharts() != null )
+    $('#modal-polar-area-chart').highcharts().destroy();
+  $('#modal-polar-area-chart').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 0,
+            plotShadow: false
+        },
+        title: {
+            text: 'Page reach',
+            align: 'center',
+            verticalAlign: 'middle',
+            y: 40
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                dataLabels: {
+                    enabled: true,
+                    distance: -50,
+                    style: {
+                        fontWeight: 'bold',
+                        color: 'white',
+                        textShadow: '0px 1px 2px black'
+                    }
+                },
+                startAngle: -90,
+                endAngle: 90,
+                center: ['50%', '75%']
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Page impressions',
+            innerSize: '50%',
+            data: [
+                ['Comment',   comment],
+                ['Fan', fan],
+                ['Link', link],
+                ['Other', other],
+                {
+                    name: 'Proprietary or Undetectable',
+                    y: 0.2,
+                    dataLabels: {
+                        enabled: false
+                    }
+                }
+            ]
+        }]
+    });
+}
+
 
 
 function FbPostStoryDataFormat (post_id, base_url) {
