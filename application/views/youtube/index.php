@@ -218,7 +218,6 @@
             <!-- Javascript Libs -->
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/bower_components/jquery/dist/jquery.min.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-            <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/bower_components/chartjs/Chart.min.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/bower_components/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/bower_components/iCheck/icheck.min.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/bower_components/matchHeight/jquery.matchHeight-min.js"></script>
@@ -233,7 +232,6 @@
             <script src="https://code.highcharts.com/modules/exporting.js"></script>
 
             <!-- Javascript -->
-            <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/js/app.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/js/formatting.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/js/waiting.js"></script>
 

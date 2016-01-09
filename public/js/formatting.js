@@ -172,78 +172,10 @@ function populateChartData (data) {
 
 }
 
-function populateChart (months, likes, shares, views) {
-
-    var ctx, data, myLineChart, options;
-    Chart.defaults.global.responsive = true;
-    ctx = $('#jumbotron-line-chart').get(0).getContext('2d');
-    options = {
-      showScale: true,
-      scaleShowGridLines: false,
-      scaleGridLineColor: "rgba(0,0,0,.05)",
-      scaleGridLineWidth: 0,
-      scaleShowHorizontalLines: false,
-      scaleShowVerticalLines: false,
-      bezierCurve: false,
-      bezierCurveTension: 0.4,
-      pointDot: false,
-      pointDotRadius: 1,
-      pointDotStrokeWidth: 2,
-      pointHitDetectionRadius: 20,
-      datasetStroke: true,
-      datasetStrokeWidth: 4,
-      datasetFill: true,
-      legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\">\
-      <% for (var i=0; i<datasets.length; i++){%>\
-      <li style=\" display:inline;\"><span style=\"background-color:<%=datasets[i].strokeColor%>\">\
-      <%if(datasets[i].label){%>\
-      	<%=datasets[i].label%><%}%>\
-      	</span></li><%}%></ul>"
-    };
-    data = {
-      labels: months,
-      datasets: [
-        {
-          label: "Likes",
-          fillColor: "rgba(34, 167, 240,0.2)",
-          strokeColor: "#22A7F0",
-          pointColor: "#22A7F0",
-          pointStrokeColor: "#fff",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: "#22A7F0",
-          data: likes
-        },
-        {
-          label: "Views",
-          fillColor: "rgba(34, 210, 240,0.2)",
-          strokeColor: "#22F0E2",
-          pointColor: "#22F0E2",
-          pointStrokeColor: "#fff",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: "#22F0E2",
-          data: views
-        },
-        {
-          label: "Shares",
-          fillColor: "rgba(134, 21, 240,0.2)",
-          strokeColor: "#AF22F0",
-          pointColor: "#AF22F0",
-          pointStrokeColor: "#fff",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: "#AF22F0",
-          data: shares
-        }
-
-      ]
-    };
-    myLineChart = new Chart(ctx).Line(data, options);
-    //then you just need to generate the legend
-  var legend = myLineChart.generateLegend();
-  $('#line-chart-legend').html(legend);
-
-}
-
 function populateHighChart (months, likes, shares, views) {
+      if( $('#jumbotron-line-chart').highcharts() != null )
+        $('#jumbotron-line-chart').highcharts().destroy();
+  
     $('#jumbotron-line-chart').highcharts({
             chart: {
                 zoomType: 'x'
@@ -360,59 +292,11 @@ function populateSubscribersChartData (subscribersData) {
      populateSubscribersHighChart(months, subscribersGained, subscribersLost);
 }
 
-function populateSubscribersChart (months, subscribersGained, subscribersLost ) {
-    var ctx, data, myBarChart, option_bars;
-    Chart.defaults.global.responsive = true;
-    ctx = $('#jumbotron-bar-chart').get(0).getContext('2d');
-    option_bars = {
-      scaleBeginAtZero: true,
-      scaleShowGridLines: true,
-      scaleGridLineColor: "rgba(0,0,0,.05)",
-      scaleGridLineWidth: 1,
-      scaleShowHorizontalLines: true,
-      scaleShowVerticalLines: false,
-      barShowStroke: true,
-      barStrokeWidth: 1,
-      barValueSpacing: 5,
-      barDatasetSpacing: 3,
-      legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\">\
-      <% for (var i=0; i<datasets.length; i++){%>\
-      <li style=\" display:inline;\"><span style=\"background-color:<%=datasets[i].strokeColor%>\">\
-      <%if(datasets[i].label){%>\
-        <%=datasets[i].label%><%}%>\
-        </span></li><%}%></ul>"
-    };
-    data = {
-      labels: months,
-      datasets: [
-        {
-          label: "Subscribers Gained",
-          fillColor: "rgba(26, 188, 156,0.6)",
-          strokeColor: "#1ABC9C",
-          pointColor: "#1ABC9C",
-          pointStrokeColor: "#fff",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: "#1ABC9C",
-          data: subscribersGained
-        }, {
-          label: "Subscribers Lost",
-          fillColor: "rgba(34, 167, 240,0.6)",
-          strokeColor: "#22A7F0",
-          pointColor: "#22A7F0",
-          pointStrokeColor: "#fff",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: "#22A7F0",
-          data: subscribersLost
-        }
-      ]
-    };
-    myBarChart = new Chart(ctx).Bar(data, option_bars);
-     //then you just need to generate the legend
-    var legend = myBarChart.generateLegend();
-    $('#bar-chart-legend').html(legend);
-}
-
 function populateSubscribersHighChart(months, subscribersGained, subscribersLost){
+
+    if( $('#jumbotron-bar-chart').highcharts() != null )
+      $('#jumbotron-bar-chart').highcharts().destroy();
+
     $('#jumbotron-bar-chart').highcharts({
             chart: {
                 zoomType: 'x'
@@ -549,56 +433,11 @@ function populateFBChartData (data) {
 
 }
 
-function populateFacebookChart (days,views) {
-    var ctx, data, myLineChart, options;
-    Chart.defaults.global.responsive = true;
-    ctx = $('#jumbotron-line-chart').get(0).getContext('2d');
-    options = {
-      showScale: true,
-      scaleShowGridLines: false,
-      scaleGridLineColor: "rgba(0,0,0,.05)",
-      scaleGridLineWidth: 0,
-      scaleShowHorizontalLines: false,
-      scaleShowVerticalLines: false,
-      bezierCurve: false,
-      bezierCurveTension: 0.4,
-      pointDot: false,
-      pointDotRadius: 1,
-      pointDotStrokeWidth: 2,
-      pointHitDetectionRadius: 20,
-      datasetStroke: true,
-      datasetStrokeWidth: 4,
-      datasetFill: true,
-      legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\">\
-      <% for (var i=0; i<datasets.length; i++){%>\
-      <li style=\" display:inline;\"><span style=\"background-color:<%=datasets[i].strokeColor%>\">\
-      <%if(datasets[i].label){%>\
-        <%=datasets[i].label%><%}%>\
-        </span></li><%}%></ul>"
-    };
-    data = {
-      labels: days,
-      datasets: [
-        {
-          label: "Page Views",
-          fillColor: "rgba(34, 167, 240,0.2)",
-          strokeColor: "#22A7F0",
-          pointColor: "#22A7F0",
-          pointStrokeColor: "#fff",
-          pointHighlightFill: "#fff",
-          pointHighlightStroke: "#22A7F0",
-          data: views
-        }
-      ]
-    };
-    fbLineChart = new Chart(ctx).Line(data, options);
-    //then you just need to generate the legend
-  var legend = fbLineChart.generateLegend();
-  $('#line-chart-legend').html(legend);
-
-}
-
 function populateFacebookHighChart (days, views) {
+    if( $('#jumbotron-line-chart').highcharts() != null )
+      $('#jumbotron-line-chart').highcharts().destroy();
+  
+
     $('#jumbotron-line-chart').highcharts({
             chart: {
                 zoomType: 'x'
@@ -662,49 +501,10 @@ function populateFbPageImpressionChartData (pageData) {
 }
 
 function populateFacebookPageImpressionChart (pageData) {
-    var ctx, data, myPolarAreaChart, option_bars;
-    Chart.defaults.global.responsive = true;
-    ctx = $('#my-polar-area-chart').get(0).getContext('2d');
-    option_bars = {
-      scaleShowLabelBackdrop: true,
-      scaleBackdropColor: "rgba(255,255,255,0.75)",
-      scaleBeginAtZero: true,
-      scaleBackdropPaddingY: 2,
-      scaleBackdropPaddingX: 2,
-      scaleShowLine: true,
-      segmentShowStroke: true,
-      segmentStrokeColor: "#fff",
-      segmentStrokeWidth: 2,
-      animationSteps: 100,
-      animationEasing: "easeOutBounce",
-      animateRotate: true,
-      animateScale: false,
-      legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
-    };
-    data = [
-      {
-        value: pageData.page_impressions_viral,
-        color: "#FA2A00",
-        highlight: "#FA2A00",
-        label: "Viral"
-      }, {
-        value: pageData.page_impressions_organic,
-        color: "#1ABC9C",
-        highlight: "#1ABC9C",
-        label: "Organic"
-      }, {
-        value: pageData.page_impressions_paid,
-        color: "#FABE28",
-        highlight: "#FABE28",
-        label: "Paid"
-      }
-    ];
-    myPolarAreaChart = new Chart(ctx).PolarArea(data, option_bars);
-  }
+  if( $('#my-polar-area-chart').highcharts() != null )
+    $('#my-polar-area-chart').highcharts().destroy();
 
-
-function populateFacebookPageImpressionChart (pageData) {
-$('#my-polar-area-chart').highcharts({
+  $('#my-polar-area-chart').highcharts({
         chart: {
             plotBackgroundColor: null,
             plotBorderWidth: 0,
@@ -882,55 +682,6 @@ function populateFbPostChartData (postData) {
   populateFacebookPostModalHighChart(comment, fan, link, other);
 }
 
-
-function populateFacebookPostModalChart (comment, fan, link, other) {
-
-    $("#fbModalText").text("Post impressions"); //change from Loading to the title
-
-    var ctx, data, option_bars;
-    Chart.defaults.global.responsive = true;
-    ctx = $('#modal-polar-area-chart').get(0).getContext('2d');
-    option_bars = {
-      scaleShowLabelBackdrop: true,
-      scaleBackdropColor: "rgba(255,255,255,0.75)",
-      scaleBeginAtZero: true,
-      scaleBackdropPaddingY: 2,
-      scaleBackdropPaddingX: 2,
-      scaleShowLine: true,
-      segmentShowStroke: true,
-      segmentStrokeColor: "#fff",
-      segmentStrokeWidth: 2,
-      animationSteps: 100,
-      animationEasing: "easeOutBounce",
-      animateRotate: true,
-      animateScale: false,
-      legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
-    };
-    data = [
-      {
-        value: comment,
-        color: "#FA2A00",
-        highlight: "#FA2A00",
-        label: "Comment"
-      }, {
-        value: fan,
-        color: "#1ABC9C",
-        highlight: "#1ABC9C",
-        label: "Fan"
-      }, {
-        value: link,
-        color: "#FABE28",
-        highlight: "#FABE28",
-        label: "Link"
-      }, {
-        value: other,
-        color: "##9FEAAE",
-        highlight: "#40D65D",
-        label: "Other"
-      }
-    ];
-    modalPolarAreaChart = new Chart(ctx).PolarArea(data, option_bars);
-  }
 
 function populateFacebookPostModalHighChart (comment, fan, link, other) {
   
