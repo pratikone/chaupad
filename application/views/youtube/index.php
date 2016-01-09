@@ -182,8 +182,8 @@
                                             <div id="jumbotron-bar-chart" class="chart no-padding"></div>
                                         </div>
                                         <div class="card-body half-padding">
-                                            <h4 class="float-left no-margin font-weight-300">Legend</h4>
-                                            <h3 class="float-right no-margin font-weight-300" id="bar-chart-legend">$3200</h3>
+                                            <h4 class="float-left no-margin font-weight-300">Channel subscription</h4>
+                                            <h3 class="float-right no-margin font-weight-300" id="bar-chart-legend"></h3>
                                             <div class="clear-both"></div>
                                         </div>
                                     </div>
