@@ -194,11 +194,20 @@
                         
 
                     <div class="row">
-                        <div class="col-sm-12 col-xs-12" id="videoCards">
+                    <div class="card card-success">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="title"><i class="fa fa-comments-o"></i> Most watched videos</div>
+                            </div>
+                            <div class="clear-both"></div>
+                        </div>                    
+                        <div class="col-sm-12 col-xs-12 card-body no-padding" id="videoCards">
+
                             <div class="row">
                                                                        
                                         
                              </div>
+                        </div>
                         </div>
                     </div>
                 </div>

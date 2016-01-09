@@ -233,7 +233,8 @@ class Youtube extends CI_Controller{
 		  $optParams = [
 								"dimensions" => "video",  //get video wise likes and views
 								"sort" => "-views",       //descending order
-								"max-results" => 200      // max results returned, should be sufficient
+								"max-results" => 5,     // max results returned, should be sufficient
+								"start-index" => 1
 						];
 		  
 	  	$response = $youtube->reports->query( $id, $start_date, $end_date, $metrics, $optParams );	
