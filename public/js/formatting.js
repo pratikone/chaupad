@@ -16,6 +16,9 @@
 //         `--`                `--`----'                `--`----'   `----'     `----'     
 //------------------------------------------------------------------------------------------------
 
+var num_of_videos = 2; //to be changed in Youtube.php too
+var youtube_video_index = 1 + num_of_videos;
+
 function YoutubePageLoad (base_url) {
   googleProfileDataFormat(base_url);
   channelDataFormat(base_url);
@@ -84,6 +87,29 @@ function loopVideoCards ( json_data ) {
 	});
 }
 
+function youtubeVideoLoadMore (base_url) {
+        var jqxhr =
+              $.ajax({
+                  url: base_url + 'index.php/youtube/getVideoDataAJAX/' + youtube_video_index,
+                  dataType: 'json',
+                  beforeSend: function(){
+                                          waitingDialog.show('Loading more youtube videos');
+                                        },
+                  complete: function () {
+                                          waitingDialog.hide();
+                                        }
+              })
+              .done (function(data) {
+                   youtube_video_index = youtube_video_index + num_of_videos;
+                   var videoData = $.parseJSON(data["json"]);
+                   loopVideoCards(videoData);
+                })
+              .fail   (function()     { console.error("Error in getting more youtube videos")   ; })
+              ;
+}  
+
+
+
 
 function channelDataFormat (base_url) {
 				var jqxhr =
@@ -146,28 +172,7 @@ function populateChartData (data) {
     	shares.push(value[2]);
 
 	});
-	
-	/*
-	//cumulative data
-	for (var sum = 0, i = 0; i < likes.length; i++) {
-		likes[i] += sum;
-		sum = likes[i];
-	};
-	
-	for (var sum = 0, i = 0; i < views.length; i++) {
-		views[i] += sum;
-		sum = views[i];
-	};
 
-	for (var sum = 0, i = 0; i < shares.length; i++) {
-		shares[i] += sum;
-		sum = shares[i];
-	};
-	*/
-
-
-
-	//populateChart( months, likes, shares, views );
   populateHighChart( months, likes, shares, views );
 
 }
@@ -338,6 +343,10 @@ function populateSubscribersHighChart(months, subscribersGained, subscribersLost
         });
 
 }
+
+
+
+
 
 //------------------------------------------------------------------------------------------------
 //                                                           ,----..       ,----..          ,--. 

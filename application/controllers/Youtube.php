@@ -30,7 +30,7 @@ class Youtube extends CI_Controller{
 	   				 $_SESSION['access_token'] = $client->getAccessToken(); //refreshing token
 	  			}
 				echo "I have the token NIGGA";
-				$data['likha_denge'] = $this->youtubeApiCall( [$this, "youtubeVideosApiCall"] );
+				$data['likha_denge'] = $this->youtubeApiCall( [$this, "youtubeVideosApiCall"], ["index" => '1'] );
 			}
 			else
 			{	
@@ -145,20 +145,20 @@ class Youtube extends CI_Controller{
 			
 	}   
 	
-	private function youtubeApiCall( callable $apiCall ){
+	private function youtubeApiCall( callable $apiCall, $opts=[] ){
 		  $client = $_SESSION['client'];
 		  $client->setAccessToken($_SESSION['access_token']);
 		  $youtube = new Google_Service_YouTubeAnalytics($client);
 		  $youtubeData = new Google_Service_YouTube($client);
 		  $OAuth2Data = new Google_Service_Oauth2($client); //used for fetching logged in user info
-		
+
 		  //using callbacks
 		  $this->load->model('youtube_channel');
-		  return $apiCall($youtube, $youtubeData, $OAuth2Data); //return appropriate function
+		  return $apiCall($youtube, $youtubeData, $OAuth2Data, $opts); //return appropriate function
 		  
 	}
 
-	public function youtubeChannelApiCall($youtube, $youtubeData, $OAuth2Data)
+	public function youtubeChannelApiCall($youtube, $youtubeData, $OAuth2Data, $opts=[])
 	{
 		  $id = "channel==MINE";
 		  $start_date = "2005-03-15";
@@ -173,7 +173,7 @@ class Youtube extends CI_Controller{
 	}
 
 
-	public function youtubeChannelSubscribersApiCall($youtube, $youtubeData, $OAuth2Data)
+	public function youtubeChannelSubscribersApiCall($youtube, $youtubeData, $OAuth2Data, $opts=[])
 	{
 		  $id = "channel==MINE";
 		  $start_date = date('Y-m', strtotime("-1 year", time())) . "-01"; //first day of that month
@@ -194,7 +194,7 @@ class Youtube extends CI_Controller{
 
 
 
-	public function youtubeChannelMonthlyApiCall($youtube, $youtubeData, $OAuth2Data)
+	public function youtubeChannelMonthlyApiCall($youtube, $youtubeData, $OAuth2Data, $opts=[])
 	{
 		  $id = "channel==MINE";
 		  $start_year = date('Y', strtotime("-1 year", time())); 
@@ -220,11 +220,7 @@ class Youtube extends CI_Controller{
 	  	
 	}
 
-
-
-
-
-	public function youtubeVideosApiCall($youtube, $youtubeData, $OAuth2Data)
+	public function youtubeVideosApiCall($youtube, $youtubeData, $OAuth2Data, $opts)
 	{
 		  $id = "channel==MINE";
 		  $start_date = "2005-03-15";
@@ -233,10 +229,9 @@ class Youtube extends CI_Controller{
 		  $optParams = [
 								"dimensions" => "video",  //get video wise likes and views
 								"sort" => "-views",       //descending order
-								"max-results" => 5,     // max results returned, should be sufficient
-								"start-index" => 1
+								"max-results" => 2,     // max results returned, should be sufficient
+								"start-index" => $opts["index"]
 						];
-		  
 	  	$response = $youtube->reports->query( $id, $start_date, $end_date, $metrics, $optParams );	
 	  	$this->youtube_channel->processAnalyticsResponse( $response );
 
@@ -253,7 +248,7 @@ class Youtube extends CI_Controller{
 	    return $likha_denge;	
 	}
 
-public function googleOAuth2ProfileApiCall($youtube, $youtubeData, $OAuth2Data)
+public function googleOAuth2ProfileApiCall($youtube, $youtubeData, $OAuth2Data, $opts=[])
 	{
 
 	    $response = $OAuth2Data->userinfo->get();
@@ -261,11 +256,6 @@ public function googleOAuth2ProfileApiCall($youtube, $youtubeData, $OAuth2Data)
 	    $likha_denge =   $this->youtube_channel->viewGoogleProfileData();
 	    return $likha_denge;	
 	}
-
-
-
-
-
 
 	public function dashboard($value='')
 	{
@@ -278,9 +268,10 @@ public function googleOAuth2ProfileApiCall($youtube, $youtubeData, $OAuth2Data)
     }
 
 
-	public function getVideoDataAJAX($value='')
+	public function getVideoDataAJAX($value='1')
 	{
-		$response = $this->youtubeApiCall([$this, "youtubeVideosApiCall"]); //will fetch all video data of logged in user
+		$opts = ["index" => $value];
+		$response = $this->youtubeApiCall([$this, "youtubeVideosApiCall"], $opts); //will fetch all video data of logged in user
 		$data['json'] = json_encode($response);  
 		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
 	}

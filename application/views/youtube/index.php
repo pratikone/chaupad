@@ -200,8 +200,18 @@
                                 <div class="title"><i class="fa fa-comments-o"></i> Most watched videos</div>
                             </div>
                             <div class="clear-both"></div>
+                        </div>
+                        <div class="row">
+                            <ul class="message-list" id="youtube_posts_list">
+                                <a href="#" id="message-load-more">
+                                    <li class="text-center load-more">
+                                        <i class="fa fa-refresh"></i> load more..
+                                    </li>
+                                </a>
+                            </ul>
                         </div>                    
                         <div class="col-sm-12 col-xs-12 card-body no-padding" id="videoCards">
+
 
                             <div class="row">
                                                                        
@@ -249,6 +259,18 @@
             <script type="text/javascript">
                 var base_url = $("#base_url").text();
                 YoutubePageLoad(base_url);
+
+                $("#message-load-more").click(
+                             function(e) {
+                               e.preventDefault();
+                               youtubeVideoLoadMore(base_url);
+                             }
+                 );
+
+
+
+
+
             </script>
 </body>
 
