@@ -148,6 +148,11 @@ class Youtube extends CI_Controller{
 	private function youtubeApiCall( callable $apiCall, $opts=[] ){
 		  $client = $_SESSION['client'];
 		  $client->setAccessToken($_SESSION['access_token']);
+          if ($client->isAccessTokenExpired()) {
+		 	$client->refreshToken($_SESSION['refresh_token']);
+		 	$_SESSION['access_token'] = $client->getAccessToken(); //refreshing token
+		  }
+
 		  $youtube = new Google_Service_YouTubeAnalytics($client);
 		  $youtubeData = new Google_Service_YouTube($client);
 		  $OAuth2Data = new Google_Service_Oauth2($client); //used for fetching logged in user info
