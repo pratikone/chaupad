@@ -386,7 +386,7 @@ function populateChannelMap (data) {
         },
 
         subtitle : {
-            text : 'Source map: <a href="https://code.highcharts.com/mapdata/custom/world-lowres.js">World, Miller projection, low resolution</a>'
+            text : 'Double click , scroll or pinch to zoom'
         },
 
         mapNavigation: {
@@ -438,13 +438,13 @@ function populateChannelMap (data) {
 // `----'                     `---`    `----'    `----'                                 '---'   
 // 
 //------------------------------------------------------------------------------------------------
-function FbPageLoad (page_id, base_url) {
+function FbPageLoad (page_id, page_name, base_url) {
   
     googleProfileDataFormat(base_url);
     FbPageDataFormat(page_id, base_url);
     FbChartDataFormat(page_id, base_url);
     FbPageReachChartDataFormat(page_id, base_url);
-    FbPagePostsDataFormat(page_id, base_url);
+    FbPagePostsDataFormat(page_id, page_name, base_url);
 
 
 }
@@ -638,7 +638,7 @@ function populateFacebookPageImpressionChart (pageData) {
 }
 
 
-function FbPagePostsDataFormat (page_id, base_url) {
+function FbPagePostsDataFormat (page_id, page_name, base_url) {
         var jqxhr =
               $.ajax({
                   url: base_url + 'index.php/facebook/getFacebookPagesPostsAJAX/' + page_id,
@@ -653,7 +653,7 @@ function FbPagePostsDataFormat (page_id, base_url) {
               .done (function(data) {
                    var pageData = $.parseJSON(data["json"]);
                    $("#message-load-more").attr({"href" : pageData["paging"]["next"]}); //for load more url
-                   populateFbPagePostData(pageData["data"]);
+                   populateFbPagePostData(page_name, pageData["data"]);
                 })
               .fail   (function()     { console.error("Error in getting page posts")   ; })
               ;
@@ -661,19 +661,19 @@ function FbPagePostsDataFormat (page_id, base_url) {
 
 
 
-function populateFbPagePostData (pageData) {
+function populateFbPagePostData (page_name, pageData) {
   waitingDialog.show('Displaying page posts');
   
   days = [];
   views = [];
   $.each(pageData, function(key, valueSet){
-    createPagePost(valueSet);
+    createPagePost(page_name, valueSet);
   });
 
   waitingDialog.hide();
 }
 
-function createPagePost (valueSet) {
+function createPagePost (page_name, valueSet) {
   if(valueSet["message"] == null)
       message = valueSet["story"];
     else
@@ -684,16 +684,16 @@ function createPagePost (valueSet) {
     id = valueSet["id"];
 
     //creating the html content
-    content = contentBodyforPagePost( message, time_of_post, id );
+    content = contentBodyforPagePost( page_name, message, time_of_post, id );
     $("#fb_posts_list").append(content);
 }
 
 
-function contentBodyforPagePost (message, time_of_post, id) {
+function contentBodyforPagePost (page_name, message, time_of_post, id) {
     content ='<a href="' + id + '" data-toggle="modal" data-target="#fbPostModal"> \
               <li> \
                   <div class="message-block"> \
-                      <div><span class="username">Tui2Tone</span> <span class="message-datetime">' + time_of_post + '</span> \
+                      <div><span class="username">' + page_name + '</span> <span class="message-datetime">' + time_of_post + '</span> \
                       </div> \
                       <div class="message">' + message + '</div> \
                   </div> \
@@ -703,7 +703,7 @@ function contentBodyforPagePost (message, time_of_post, id) {
     return content;
 }
 
-function pagePostsLoadMore (next_url) {
+function pagePostsLoadMore (page_name, next_url) {
         var jqxhr =
               $.ajax({
                   url: next_url,
@@ -718,7 +718,7 @@ function pagePostsLoadMore (next_url) {
               .done (function(data) {
                    $("#message-load-more").attr({"href" : data["paging"]["next"]}); //for load more url
                    pageData = data["data"];
-                   populateFbPagePostData(pageData);
+                   populateFbPagePostData(page_name, pageData);
                
                 })
               .fail   (function()     { console.error("Error in getting page posts")   ; })

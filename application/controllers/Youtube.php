@@ -20,63 +20,29 @@ class Youtube extends CI_Controller{
 	public function analytics( $page=' ' ){
 		if (session_status() == PHP_SESSION_NONE)
 				session_start();
-
 			
-		if( $page == 'old' ){
-			if (isset($_SESSION['access_token'])) {
-				$client = $_SESSION['client'];
-				if ($client->isAccessTokenExpired()) {
-	   				 $client->refreshToken($_SESSION['refresh_token']);
-	   				 $_SESSION['access_token'] = $client->getAccessToken(); //refreshing token
-	  			}
-				echo "I have the token NIGGA";
-				$data['likha_denge'] = $this->youtubeApiCall( [$this, "youtubeVideosApiCall"], ["index" => '1'] );
-			}
-			else
-			{	
-				
-				$data['authUrl'] = base_url() . 'index.php/youtube/login';
-				
-				//$this->login();
-			}
+		//dashboard flow
+		if (isset($_SESSION['access_token'])) {
+			$client = $_SESSION['client'];
+			$this->youtubeTokenCheck($client);
+			//$data['likha_denge'] = $this->youtubeApiCall( false );
 			
+			// redirect( base_url() . 'index.php/youtube/dashboard', 'location', 301);
+			$this->dashboard();
+		}
+		else
+		{	
 			
-			$data['logout'] = base_url();// . 'index.php/youtube/logout';
-			
+			$data['authUrl'] = base_url() . 'index.php/youtube/login';
 			$this->load->view('templates/youtube_header');
-			$this->load->view('youtube/viewlogin', $data);
+			$data['logout'] = base_url();// . 'index.php/youtube/logout';
+			//$this->load->view('youtube/viewlogin', $data);
+			$this->load->view('youtube/viewNewlogin', $data);
 			if( isset($data['likha_denge']) )
 				$this->load->view('youtube/videoList', $data );
 			$this->load->view('templates/youtube_footer');
 		}
-		else{
 
-			//dashboard flow
-			if (isset($_SESSION['access_token'])) {
-				$client = $_SESSION['client'];
-				if ($client->isAccessTokenExpired()) {
-	   				 $client->refreshToken($_SESSION['refresh_token']);
-	   				 $_SESSION['access_token'] = $client->getAccessToken(); //refreshing token
-	  			}
-				//$data['likha_denge'] = $this->youtubeApiCall( false );
-				
-				// redirect( base_url() . 'index.php/youtube/dashboard', 'location', 301);
-				$this->dashboard();
-			}
-			else
-			{	
-				
-				$data['authUrl'] = base_url() . 'index.php/youtube/login';
-				$this->load->view('templates/youtube_header');
-				$data['logout'] = base_url();// . 'index.php/youtube/logout';
-				//$this->load->view('youtube/viewlogin', $data);
-				$this->load->view('youtube/viewNewlogin', $data);
-				if( isset($data['likha_denge']) )
-					$this->load->view('youtube/videoList', $data );
-				$this->load->view('templates/youtube_footer');
-			}
-
-		}
 			
 			
 
@@ -147,11 +113,7 @@ class Youtube extends CI_Controller{
 	
 	private function youtubeApiCall( callable $apiCall, $opts=[] ){
 		  $client = $_SESSION['client'];
-		  $client->setAccessToken($_SESSION['access_token']);
-          if ($client->isAccessTokenExpired()) {
-		 	$client->refreshToken($_SESSION['refresh_token']);
-		 	$_SESSION['access_token'] = $client->getAccessToken(); //refreshing token
-		  }
+		  $this->youtubeTokenCheck($client);
 
 		  $youtube = new Google_Service_YouTubeAnalytics($client);
 		  $youtubeData = new Google_Service_YouTube($client);
@@ -162,6 +124,19 @@ class Youtube extends CI_Controller{
 		  return $apiCall($youtube, $youtubeData, $OAuth2Data, $opts); //return appropriate function
 		  
 	}
+
+	public function youtubeTokenCheck($client){
+      if ($client->isAccessTokenExpired()) {
+
+		 	$client->refreshToken($_SESSION['refresh_token']);
+		 	$access_token = $client->getAccessToken(); //refreshing token
+		 	$_SESSION['access_token'] = $access_token;
+		    $tokens_decoded = json_decode($access_token);
+    	    $refresh_token = $tokens_decoded->refresh_token;
+    	    $_SESSION['refresh_token'] = $refresh_token;
+	  }
+	}
+
 
 	public function youtubeChannelApiCall($youtube, $youtubeData, $OAuth2Data, $opts=[])
 	{
@@ -194,7 +169,6 @@ class Youtube extends CI_Controller{
 	      return $likha_denge;
 	  	
 	}
-
 
 
 

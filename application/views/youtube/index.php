@@ -50,7 +50,7 @@
                                 <li>
                                     <div class="profile-info">
                                         <h4 class="username">Emily Hart</h4>
-                                        <p>emily_hart@email.com</p>
+                                        <p>noname@email.com</p>
                                         <div class="btn-group margin-bottom-2x" role="group">
                                         <a target="_blank" id = "google-profile-link" href="" class="btn btn-default" role="button"><i class="fa fa-user"></i> Profile</a>
                                             <a href="<?php echo base_url()?>index.php/youtube/logout" class="btn btn-default" role="button"><i class="fa fa-sign-out"></i> Logout</a>
@@ -102,7 +102,7 @@
                                     <div class="card-body">
                                         <i class="icon fa fa-thumbs-up fa-4x"></i>
                                         <div class="content">
-                                            <div class="title" id="channelLikes">50</div>
+                                            <div class="title" id="channelLikes">LO</div>
                                             <div class="sub-title">Likes</div>
                                         </div>
                                         <div class="clear-both"></div>
@@ -116,7 +116,7 @@
                                     <div class="card-body">
                                         <i class="icon fa fa-comments fa-4x"></i>
                                         <div class="content">
-                                            <div class="title" id="channelComments">23</div>
+                                            <div class="title" id="channelComments">AD</div>
                                             <div class="sub-title">Comments</div>
                                         </div>
                                         <div class="clear-both"></div>
@@ -130,7 +130,7 @@
                                     <div class="card-body">
                                         <i class="icon fa fa-users fa-4x"></i>
                                         <div class="content">
-                                            <div class="title" id="channelViews">280</div>
+                                            <div class="title" id="channelViews">IN</div>
                                             <div class="sub-title">Views</div>
                                         </div>
                                         <div class="clear-both"></div>
@@ -144,7 +144,7 @@
                                     <div class="card-body">
                                         <i class="icon fa fa-share-alt fa-4x"></i>
                                         <div class="content">
-                                            <div class="title" id="channelShares">16</div>
+                                            <div class="title" id="channelShares">G..</div>
                                             <div class="sub-title">Shares</div>
                                         </div>
                                         <div class="clear-both"></div>

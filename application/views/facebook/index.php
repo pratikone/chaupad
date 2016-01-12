@@ -51,7 +51,7 @@
                                 <li>
                                     <div class="profile-info">
                                         <h4 class="username">Emily Hart</h4>
-                                        <p>emily_hart@email.com</p>
+                                        <p>noname@email.com</p>
                                         <div class="btn-group margin-bottom-2x" role="group">
                                         <a target="_blank" id = "google-profile-link" href="" class="btn btn-default" role="button"><i class="fa fa-user"></i> Profile</a>
                                             <a href="<?php echo base_url()?>index.php/facebook/logout" class="btn btn-default" role="button"><i class="fa fa-sign-out"></i> Logout</a>
@@ -115,7 +115,7 @@
                                     <div class="card-body">
                                         <i class="icon fa fa-thumbs-up fa-4x"></i>
                                         <div class="content">
-                                            <div class="title" id="channelLikes">50</div>
+                                            <div class="title" id="channelLikes">LO</div>
                                             <div class="sub-title">Page Likes</div>
                                             <span class="pull-right">Lifetime</span>
                                         </div>
@@ -130,7 +130,7 @@
                                     <div class="card-body">
                                         <i class="icon fa fa-comments fa-4x"></i>
                                         <div class="content">
-                                            <div class="title" id="channelComments">23</div>
+                                            <div class="title" id="channelComments">AD</div>
                                             <div class="sub-title">Page Impressions(reach)</div>
                                             <span class="pull-right">Last 30 days</span>
                                         </div>
@@ -145,7 +145,7 @@
                                     <div class="card-body">
                                         <i class="icon fa fa-users fa-4x"></i>
                                         <div class="content">
-                                            <div class="title" id="channelViews">280</div>
+                                            <div class="title" id="channelViews">IN</div>
                                             <div class="sub-title">Page Views</div>
                                             <span class="pull-right">Last 30 days</span>
                                         </div>
@@ -160,7 +160,7 @@
                                     <div class="card-body">
                                         <i class="icon fa fa-share-alt fa-4x"></i>
                                         <div class="content">
-                                            <div class="title" id="channelShares">16</div>
+                                            <div class="title" id="channelShares">G..</div>
                                             <div class="sub-title">Content clicks</div>
                                             <span class="pull-right">Last 30 days</span>
                                         </div>
@@ -315,7 +315,7 @@
                 var base_url = $("#base_url").text();
             
                 var parent=null; //making parent global to refer it later to remove class=active
-                
+                var page_name = null;
                 $(document).ready(function() {
                     $('#facebook_pages_list li:first a').trigger('click');
                         });
@@ -328,12 +328,13 @@
                                parent = $(this).parent();
                                parent.attr("class", "active"); //making the nav bar entry as active
                                page_id = $(this).attr("id"); //do something with this
+                               page_name = $(this).text();
                                $( "#fb_posts_list a" ).each(function( index ) {
                                     if( $(this).attr("id")  != "message-load-more" ){ //if not load more , then remove fb post
                                         $(this).remove();
                                     }
                                 });
-                               FbPageLoad(page_id, base_url);
+                               FbPageLoad(page_id, page_name, base_url);
                                
                              }
                  );
@@ -341,8 +342,13 @@
                 $("#message-load-more").click(
                              function(e) {
                                e.preventDefault();
+                               if($( "#fb_posts_list a" ).children().size() < 2){
+                                    console.log("Cannot add to an empty list. No posts loaded yet");
+                                    return; //can't load more if no post apart from Load more is there
+                               }
+                            
                                next_url = $(this).attr("href"); //load more facebook posts
-                               pagePostsLoadMore(next_url);
+                               pagePostsLoadMore(page_name, next_url);
                              }
                  );
 
