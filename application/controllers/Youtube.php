@@ -7,7 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Content-Length, Accept-Encod
 
 class Youtube extends CI_Controller{
 
-	
+	public $num_of_videos = 5; //to be changed in formatting.js too
 	public function __construct(){
 			parent::__construct();
 		
@@ -234,7 +234,7 @@ class Youtube extends CI_Controller{
 		  $optParams = [
 								"dimensions" => "video",  //get video wise likes and views
 								"sort" => "-views",       //descending order
-								"max-results" => 2,     // max results returned, should be sufficient
+								"max-results" => $this->num_of_videos,
 								"start-index" => $opts["index"]
 						];
 	  	$response = $youtube->reports->query( $id, $start_date, $end_date, $metrics, $optParams );	
@@ -250,6 +250,31 @@ class Youtube extends CI_Controller{
 	    $response = $youtubeData->videos->listVideos($part, $opt);
 	    $this->youtube_channel->processVideoIds( $response );
 	    $likha_denge = $this->youtube_channel->viewVideoData();
+	    return $likha_denge;	
+	}
+
+		public function youtubeChannelCountriesApiCall($youtube, $youtubeData, $OAuth2Data, $opts)
+	{
+		  $id = "channel==MINE";
+		  $start_year = date('Y', strtotime("-1 year", time())); 
+		  $start_month = date('m', strtotime("-1 year", time()));
+  		  $end_year = date('Y'); 
+		  $end_month = date('m');
+		  $date = "01";
+		  
+		  $start_date = "$start_year-$start_month-$date";
+		  $end_date = "$end_year-$end_month-$date";
+		  $metrics = "views";
+		  $optParams = [
+								"dimensions" => "country",  //get video wise likes and views
+								"sort" => "-views",       //descending order
+								"max-results" => 200     // max results returned, should be sufficient
+						];
+
+	  	$response = $youtube->reports->query( $id, $start_date, $end_date, $metrics, $optParams );	
+
+	    // Youtube Data API
+	    $likha_denge = $this->youtube_channel->processChannelCountriesResponse($response);
 	    return $likha_denge;	
 	}
 
@@ -311,6 +336,14 @@ public function googleOAuth2ProfileApiCall($youtube, $youtubeData, $OAuth2Data, 
 		$data['json'] = json_encode($response);  
 		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
 	}
+
+	public function getYoutubeChannelCountriesAJAX($value='')
+	{
+		$response = $this->youtubeApiCall([$this, "youtubeChannelCountriesApiCall"]); //will fetch all video data of logged in user
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+	}
+
 
 
 	public function ajaxTest($value='')

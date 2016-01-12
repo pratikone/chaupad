@@ -6,6 +6,7 @@ class Youtube_channel extends CI_Model {
 		public $monthlyChannelList = [];
 		public $email, $name, $picture, $profile_link;
 		public $subscribersData = [];
+		public $countryViews = [];
 		//stats
 		public $channel_likes, $channel_views, $channel_shares, $channel_comments;
 
@@ -60,6 +61,16 @@ class Youtube_channel extends CI_Model {
 			}
 		}
 
+		public function processChannelCountriesResponse( $response ){
+			
+			foreach( $response->getrows() as $row){
+		  		//echo sprintf(" <p>This data is weird : %s  %d  %s %d </p>", $response->getColumnHeaders()[0]['name'], $row[1], $response->getColumnHeaders()[1]['name'], $row[2]);
+		  		$this->countryViews[$row[0]] = $row[1];  // IN =>1241
+			}
+
+			return $this->countryViews;
+		}
+		
 		
 		public function processChannelSubscribersResponse( $response ){
 			if($response->getrows() == null)

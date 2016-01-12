@@ -16,15 +16,16 @@
 //         `--`                `--`----'                `--`----'   `----'     `----'     
 //------------------------------------------------------------------------------------------------
 
-var num_of_videos = 2; //to be changed in Youtube.php too
+var num_of_videos = 5; //to be changed in Youtube.php too
 var youtube_video_index = 1 + num_of_videos;
 
 function YoutubePageLoad (base_url) {
   googleProfileDataFormat(base_url);
   channelDataFormat(base_url);
-  videoDataFormat(base_url);
   chartDataFormat(base_url);
   subscribersChartDataFormat(base_url);
+  channelMapDataFormat(base_url);
+  videoDataFormat(base_url);
 
 }
 
@@ -344,6 +345,78 @@ function populateSubscribersHighChart(months, subscribersGained, subscribersLost
 
 }
 
+function channelMapDataFormat (base_url) {
+        var jqxhr =
+              $.ajax({
+                  url: base_url + 'index.php/youtube/getYoutubeChannelCountriesAJAX',
+                  dataType: 'json',
+                  beforeSend: function(){
+                                          waitingDialog.show('Fetching views map data');
+                                        },
+                  complete: function(){
+                                          waitingDialog.hide();
+                                        }
+              })
+              .done (function(data) {
+                   var mapData = $.parseJSON(data["json"]);
+                   populateChannelMapData(mapData);
+               
+                })
+              .fail   (function()     { console.error("Error in getting views map data")   ; })
+              ;
+}
+
+
+function populateChannelMapData (mapData) {
+  formattedMap = [];
+  $.each(mapData, function(key, value) {
+    formattedMap.push({"hc-key" : key.toLowerCase(), "value" : value});
+  });
+  populateChannelMap(formattedMap);
+}
+
+
+
+function populateChannelMap (data) {
+  // Initiate the chart
+    $('#channelmap').highcharts('Map', {
+
+        title : {
+            text : 'Top countries by views'
+        },
+
+        subtitle : {
+            text : 'Source map: <a href="https://code.highcharts.com/mapdata/custom/world-lowres.js">World, Miller projection, low resolution</a>'
+        },
+
+        mapNavigation: {
+            enabled: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
+        },
+
+        colorAxis: {
+            min: 0
+        },
+
+        series : [{
+            data : data,
+            mapData: Highcharts.maps['custom/world-lowres'],
+            joinBy: 'hc-key',
+            name: 'Views (Last 12 months)',
+            states: {
+                hover: {
+                    color: '#BADA55'
+                }
+            },
+            dataLabels: {
+                enabled: false,
+                format: '{point.name}'
+            }
+        }]
+    });
+}
 
 
 

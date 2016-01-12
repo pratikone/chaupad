@@ -189,6 +189,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div id="channelmap"> </div>
+                            </div>
                         </div>
                     </div>
                         
@@ -247,8 +250,10 @@
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/vendor/js/ace/mode-html.js"></script>
             <script type="text/javascript" src="<?php echo base_url()?>public/flat-admin-bootstrap-templates/vendor/js/ace/theme-github.js"></script>
             
-            <script src="https://code.highcharts.com/highcharts.js"></script>
+            
+            <script src="https://code.highcharts.com/maps/highmaps.js"></script>
             <script src="https://code.highcharts.com/modules/exporting.js"></script>
+            <script src="https://code.highcharts.com/mapdata/custom/world-lowres.js"></script>
 
             <!-- Javascript -->
             <script type="text/javascript" src="<?php echo base_url()?>public/js/formatting.js"></script>
