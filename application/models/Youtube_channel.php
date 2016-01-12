@@ -94,7 +94,7 @@ class Youtube_channel extends CI_Model {
 		  												$row[1],
 		  												$row[2],
 		  												$row[3]
-		  											 ]; //likes,shares,views
+		  											 ]; //likes,views, shares
 			}
 			
 		}

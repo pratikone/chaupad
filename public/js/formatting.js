@@ -81,7 +81,7 @@ function loopVideoCards ( json_data ) {
                         </div>\
                         </p>\
                         <p>\
-                        <a id="'+ data.id +'" class="btn btn-primary" role="button">Stats</a>\
+                        <a id="'+ data.id +'" data-toggle="modal" data-target="#ytPostModal" class="btn btn-primary" role="button">Stats</a>\
                         <a id="launcher" target="_blank" href="https://www.youtube.com/watch?v='+ data.id + '" class="btn btn-primary" role="button">Launch</a>\
                         </p>\
                     </div>\
@@ -420,6 +420,109 @@ function populateChannelMap (data) {
             }
         }]
     });
+}
+
+function youtubeVideoChartDataFormat (video_id, base_url) {
+        var jqxhr =
+              $.ajax({
+                  url: base_url + 'index.php/youtube/getVideoMonthlyDataAJAX/' + video_id,
+                  dataType: 'json',
+                  /*
+                  beforeSend: function(){
+                                          waitingDialog.show('Fetching page posts');
+                                        },
+                  complete: function () {
+                                          waitingDialog.hide();
+                                        }
+                  */
+              })
+              .done (function(data) {
+                   var postData = $.parseJSON(data["json"]);
+                   populateYoutubeModalChartData(postData);
+                })
+              .fail   (function()     { console.error("Error in getting post data")   ; })
+              ;
+}
+
+
+function populateYoutubeModalChartData (data) {
+  months = [];
+  likes = [];
+  views = [];
+  shares = [];
+  $.each(data, function(key, value){
+      months.push(key);
+      likes.push(value[0]);
+      views.push(value[1]);
+      shares.push(value[2]);
+
+  });
+
+  populateModalHighChart( months, likes, views, shares );
+
+}
+
+
+function populateModalHighChart (months, likes, views, shares) {
+    $("#ytModalText").text("Video popularity stats"); //change from Loading to the title
+      if( $('#modal-polar-area-chart').highcharts() != null )
+        $('#modal-polar-area-chart').highcharts().destroy();
+  
+    $('#modal-polar-area-chart').highcharts({
+            chart: {
+                zoomType: 'x'
+            },
+            title: {
+                text: 'Stats for last 12 months'
+            },
+            subtitle: {
+                text: document.ontouchstart === undefined ?
+                        'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+            },
+            xAxis: {
+                //type: 'datetime',
+                categories: months
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                }
+            },
+            legend: {
+                enabled: true
+            },
+
+            series: [
+                      {
+                          type: 'line',
+                          name: 'Likes',
+                          color: Highcharts.getOptions().colors[0],
+                          data: likes
+                      },
+                      {
+                          type: 'line',
+                          name: 'Shares',
+                          color: Highcharts.getOptions().colors[1],
+                          data: shares
+                      },
+                      {
+                          type: 'column',
+                          name: 'Views',
+                          color: Highcharts.getOptions().colors[2],
+                          data: views
+                      }
+            ]
+        });
+}
+
+
+
+function populateYoutubeVideoModalPostData (data) {
+  $("#postLikes").text(data[0]);
+  $("#postViews").text(data[1]);
+  $("#postShares").text(data[2]);
+  $("#postComments").text(data[3]);
+  
 }
 
 
@@ -763,8 +866,6 @@ function populateFbPostChartData (postData) {
   }
   
 
-  // setTimeout(populateFacebookPostModalChart, 5000, comment, fan, link, other); //chart has a bug so sleeping till canvas is ready
-  // populateFacebookPostModalChart(comment, fan, link, other);
   populateFacebookPostModalHighChart(comment, fan, link, other);
 }
 

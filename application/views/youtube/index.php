@@ -228,7 +228,53 @@
                         </div>
                     </div>
                 </div>
-                                
+
+                <!-- Modal -->
+                <div class="modal fade" id="ytPostModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="ytModalLabel">Modal title</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card primary">
+                                    <div class="card-jumbotron no-padding">
+                                        <div id="modal-polar-area-chart" class="chart no-padding"></div>
+                                    </div>
+                                    <div class="card-body half-padding">
+                                        <h4 class="float-left font-weight-300" id="ytModalText">Loading...</h4>
+                                        <div class="clear-both"></div>
+                                         <div class="col-md-12 col-sm-12">
+                                                <div class="caption">
+                                                
+                                                
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item list-group-item-success">
+                                                                <span class="badge"  id="postLikes">0</span> Likes
+                                                            </li>
+                                                            <li class="list-group-item list-group-item-info">
+                                                                <span class="badge"  id="postViews">0</span> Views
+                                                            </li>                                                            
+                                                            <li class="list-group-item list-group-item-warning">
+                                                                <span class="badge" id="postShares">0</span> Shares
+                                                            </li>                                                            
+                                                            <li class="list-group-item list-group-item-danger">
+                                                                <span class="badge" id="postComments">0</span> Comments
+                                                            </li>
+
+                                                        </ul>
+                                                    </div>
+                                            </div>
+                                    </div>
+                                </div>
+                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>                                
 
                      
                 </div>
@@ -276,8 +322,25 @@
                              }
                  );
 
+                $('#ytPostModal').on('show.bs.modal', function (e) {
+                    var invoker = $(e.relatedTarget);
+                    var data = [];
+                    //init
+                    //collecting likes, views, shares and comments for display inside modal
+                    invoker.parent().parent().find("div ul li").each(function (err, element) {
+                        value = $(element).find("span").text();
+                        data.push( value );
+                    });
+                    $("#ytModalText").text("Loading");
 
+                    title = invoker.parent().parent().parent().find("#thumbnail-label").text();
+                    $("#ytModalLabel").text(title); //set modal text
+                    populateYoutubeVideoModalPostData(data);
+                    //ajax
+                     video_id = invoker.attr("id");
+                     youtubeVideoChartDataFormat(video_id, base_url);
 
+                });
 
 
             </script>

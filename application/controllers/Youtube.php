@@ -43,10 +43,6 @@ class Youtube extends CI_Controller{
 			$this->load->view('templates/youtube_footer');
 		}
 
-			
-			
-
-
 	}
 	
 	public function login(){
@@ -199,6 +195,37 @@ class Youtube extends CI_Controller{
 	  	
 	}
 
+	public function youtubeVideoMonthlyApiCall($youtube, $youtubeData, $OAuth2Data, $opts=[])
+	{
+		  $id = "channel==MINE";
+		  $start_year = date('Y', strtotime("-1 year", time())); 
+		  $start_month = date('m', strtotime("-1 year", time()));
+  		  $end_year = date('Y'); 
+		  $end_month = date('m');
+		  $date = "01";
+		  
+		  $start_date = "$start_year-$start_month-$date";
+		  $end_date = "$end_year-$end_month-$date";
+
+		  $metrics = "likes,views,shares";
+		  $optParams = [
+								"dimensions" => "month",  //get video wise likes and views
+								"sort" => "month",
+								"filters" => "video==" . $opts["video_id"]      // max results returned, should be sufficient
+						];
+		  $channel_response = $youtube->reports->query( $id, $start_date, $end_date, $metrics, $optParams ); 
+		  $this->youtube_channel->processChannelMonthlyResponse($channel_response);
+		  
+	  	  $likha_denge = $this->youtube_channel->monthlyChannelList;
+	      return $likha_denge;
+	  	
+	}
+
+
+
+
+
+
 	public function youtubeVideosApiCall($youtube, $youtubeData, $OAuth2Data, $opts)
 	{
 		  $id = "channel==MINE";
@@ -290,6 +317,15 @@ public function googleOAuth2ProfileApiCall($youtube, $youtubeData, $OAuth2Data, 
 	public function getChannelMonthlyDataAJAX($value='')
 	{
 		$response = $this->youtubeApiCall([$this, "youtubeChannelMonthlyApiCall"]); //will fetch all video data of logged in user
+
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+	}
+
+	public function getVideoMonthlyDataAJAX($value='')
+	{
+		$opts["video_id"] = $value;
+		$response = $this->youtubeApiCall([$this, "youtubeVideoMonthlyApiCall"], $opts); //will fetch all video data of logged in user
 
 		$data['json'] = json_encode($response);  
 		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
