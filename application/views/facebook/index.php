@@ -111,7 +111,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <a href="#">
-                                <div class="card red summary-inline">
+                                <div class="card blue summary-inline">
                                     <div class="card-body">
                                         <i class="icon fa fa-thumbs-up fa-4x"></i>
                                         <div class="content">
@@ -126,7 +126,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <a href="#">
-                                <div class="card yellow summary-inline">
+                                <div class="card blue summary-inline">
                                     <div class="card-body">
                                         <i class="icon fa fa-comments fa-4x"></i>
                                         <div class="content">
@@ -141,7 +141,7 @@
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <a href="#">
-                                <div class="card green summary-inline">
+                                <div class="card blue summary-inline">
                                     <div class="card-body">
                                         <i class="icon fa fa-users fa-4x"></i>
                                         <div class="content">
@@ -209,7 +209,7 @@
 
                             <div class="col-sm-12 col-xs-12" id="videoCards">
                                 <div class="row">
-                                    <div class="card card-success">
+                                    <div class="card card-info">
                                         <div class="card-header">
                                             <div class="card-title">
                                                 <div class="title"><i class="fa fa-comments-o"></i>Posts</div>

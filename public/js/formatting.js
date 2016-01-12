@@ -80,7 +80,10 @@ function loopVideoCards ( json_data ) {
                             </ul>\
                         </div>\
                         </p>\
-                        <p><a target="_blank" href="https://www.youtube.com/watch?v='+ data.id + '" class="btn btn-primary" role="button">Launch</a></p>\
+                        <p>\
+                        <a id="'+ data.id +'" class="btn btn-primary" role="button">Stats</a>\
+                        <a id="launcher" target="_blank" href="https://www.youtube.com/watch?v='+ data.id + '" class="btn btn-primary" role="button">Launch</a>\
+                        </p>\
                     </div>\
                 </div>\
                 </p>'
@@ -199,7 +202,7 @@ function populateHighChart (months, likes, shares, views) {
             },
             yAxis: {
                 title: {
-                    text: 'Exchange rate'
+                    text: ''
                 }
             },
             legend: {
@@ -390,12 +393,11 @@ function populateChannelMap (data) {
         },
 
         mapNavigation: {
-            enabled: true,
+            enabled: false,
             buttonOptions: {
                 verticalAlign: 'bottom'
             }
         },
-
         colorAxis: {
             min: 0
         },
@@ -405,6 +407,8 @@ function populateChannelMap (data) {
             mapData: Highcharts.maps['custom/world-lowres'],
             joinBy: 'hc-key',
             name: 'Views (Last 12 months)',
+            //nullColor: Highcharts.getOptions().colors[0],
+
             states: {
                 hover: {
                     color: '#BADA55'
@@ -548,7 +552,7 @@ function populateFacebookHighChart (days, views) {
                       {
                           type: 'line',
                           name: 'Views',
-                          color: Highcharts.getOptions().colors[0],
+                          color: Highcharts.getOptions().colors[2],
                           data: views
                       }
             ]
