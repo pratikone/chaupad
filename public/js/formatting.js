@@ -620,9 +620,7 @@ function populateFBChartData (data) {
   days = [];
   views = [];
   $.each(data, function(key, valueSet){
-      date_yyyy_mm_dd = valueSet["end_time"].split("T")[0];
-      date_yyyy_mm = date_yyyy_mm_dd.slice(0, -3);
-      days.push(date_yyyy_mm);
+      days.push(valueSet["end_time"].split("T")[0]);
       views.push(valueSet["value"]);
 
   });
