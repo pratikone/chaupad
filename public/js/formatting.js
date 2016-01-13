@@ -61,7 +61,6 @@ function loopVideoCards ( json_data ) {
                     <img src="' + data.thumbnail_medium + '">\
                     <div class="caption">\
                         <h3 id="thumbnail-label">' + data.title + '<a class="anchorjs-link" href="#thumbnail-label"><span class="anchorjs-icon"></span></a></h3>\
-                        <p> Description: '+ data.description + '</p>\
                         <p>\
                         <div>\
                             <ul class="list-group">\
