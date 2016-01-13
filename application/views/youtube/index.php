@@ -208,23 +208,19 @@
                             </div>
                             <div class="clear-both"></div>
                         </div>
-                        <div class="row">
-                            <ul class="message-list" id="youtube_posts_list">
-                                <a href="#" id="message-load-more">
-                                    <li class="text-center load-more">
-                                        <i class="fa fa-refresh"></i> load more..
-                                    </li>
-                                </a>
-                            </ul>
-                        </div>                    
-                        <div class="col-sm-12 col-xs-12 card-body no-padding" id="videoCards">
-
-
                             <div class="row">
-                                                                       
-                                        
-                             </div>
-                        </div>
+                                <ul class="message-list" id="youtube_posts_list">
+                                    <a href="#" id="message-load-more">
+                                        <li class="text-center load-more">
+                                            <i class="fa fa-refresh"></i> load more..
+                                        </li>
+                                    </a>
+                                </ul>
+                            </div>                    
+                            <div class="col-sm-12 col-xs-12 card-body no-padding" id="videoCards">
+
+
+                            </div>
                         </div>
                     </div>
                 </div>

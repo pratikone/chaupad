@@ -53,10 +53,19 @@ function videoDataFormat (base_url) {
 
 
 function loopVideoCards ( json_data ) {
+  var entry_count = 0;
 	json_data.forEach(function(data){
+    row_start = "";
+    row_end = "";
+    entry_count = entry_count + 1;
+    if(entry_count % 3 == 0){
+      row_start = '<div class="row">';
+      row_end = '</div>';
+    }
+
 		$("#videoCards").append('\
-			<p>\
-			 <div class="col-md-4 col-sm-12">\
+			<p>' + row_start +
+			 '<div class="col-md-4 col-sm-12">\
                 <div class="thumbnail no-margin-bottom">\
                     <img src="' + data.thumbnail_medium + '">\
                     <div class="caption">\
@@ -84,8 +93,8 @@ function loopVideoCards ( json_data ) {
                         <a id="launcher" target="_blank" href="https://www.youtube.com/watch?v='+ data.id + '" class="btn btn-primary" role="button">Launch</a>\
                         </p>\
                     </div>\
-                </div>\
-                </p>'
+                </div>' + row_end +
+                '</p>'
 			);
 	});
 }
