@@ -369,6 +369,10 @@ public function googleOAuth2ProfileApiCall($youtube, $youtubeData, $OAuth2Data, 
 		echo json_encode($data);
 	}
 
+	public function testPage($value='')
+	{
+		$this->load->view('youtube/'. $value);	
+	}
 
 	public function test($value='')
 	{

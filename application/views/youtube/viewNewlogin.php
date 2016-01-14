@@ -26,16 +26,14 @@
 	</head>
 	<body class="flat-blue login-page">
 <!--login modal-->
-<div id="loginModal" class="modal show" tabindex="-1" role="dialog" aria-hidden="true">
+<div>
   <div class="container">
     <div class="login-box">
-      <div class="modal-dialog">
-        <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h1 class="text-center">Analytics dashboard</h1>
+              <h1 style="color:white;"><span class="glyphicon glyphicon-barcode"></span><h1>
+              <h1 class="text-left" style="color:white;">_analytics dashboard_</h1>
           </div>
-          <div class="modal-body">
             <!-- Show Login if the OAuth Request URL is set -->
             <form class="form col-md-12 center-block">
             <div class="form-group">
@@ -43,7 +41,6 @@
                  <a class="btn btn-info btn-lg <?php if(isset($_SESSION['access_token'])) echo ''; else echo 'disabled';?>" aria-hidden="true" href='<?php echo $fb_authUrl; ?>'><span class="icon fa fa-facebook"></span> Login with Facebook</a>
             </div>
             </form>
-          </div>      
 
 
 
@@ -53,8 +50,6 @@
     		    </div>	
           </div>
 
-        </div>
-      </div>
     </div>
   </div>
 </div>
