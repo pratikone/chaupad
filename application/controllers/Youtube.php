@@ -46,8 +46,6 @@ class Youtube extends CI_Controller{
 	}
 	
 	public function login(){
-		echo "Nigga";
-	
 		$client = new Google_Client();
 		$oauth_creds = APPPATH.'third_party/google/oauth-credentials.json';
 		$client->setAuthConfigFile($oauth_creds);
@@ -101,7 +99,6 @@ class Youtube extends CI_Controller{
 		}
 		session_write_close(); 
 		//session_destroy();
-		echo "Logged out nigga";
 		$this->load->helper('url');
 		redirect( base_url(), 'location', 301);
 			
@@ -123,13 +120,11 @@ class Youtube extends CI_Controller{
 
 	public function youtubeTokenCheck($client){
       if ($client->isAccessTokenExpired()) {
-
 		 	$client->refreshToken($_SESSION['refresh_token']);
 		 	$access_token = $client->getAccessToken(); //refreshing token
 		 	$_SESSION['access_token'] = $access_token;
 		    $tokens_decoded = json_decode($access_token);
     	    $refresh_token = $tokens_decoded->refresh_token;
-    	    $_SESSION['refresh_token'] = $refresh_token;
 	  }
 	}
 
@@ -165,8 +160,6 @@ class Youtube extends CI_Controller{
 	      return $likha_denge;
 	  	
 	}
-
-
 
 
 	public function youtubeChannelMonthlyApiCall($youtube, $youtubeData, $OAuth2Data, $opts=[])
@@ -221,11 +214,6 @@ class Youtube extends CI_Controller{
 	  	
 	}
 
-
-
-
-
-
 	public function youtubeVideosApiCall($youtube, $youtubeData, $OAuth2Data, $opts)
 	{
 		  $id = "channel==MINE";
@@ -254,7 +242,7 @@ class Youtube extends CI_Controller{
 	    return $likha_denge;	
 	}
 
-		public function youtubeChannelCountriesApiCall($youtube, $youtubeData, $OAuth2Data, $opts)
+	public function youtubeChannelCountriesApiCall($youtube, $youtubeData, $OAuth2Data, $opts)
 	{
 		  $id = "channel==MINE";
 		  $start_year = date('Y', strtotime("-1 year", time())); 
@@ -278,6 +266,56 @@ class Youtube extends CI_Controller{
 	    $likha_denge = $this->youtube_channel->processChannelCountriesResponse($response);
 	    return $likha_denge;	
 	}
+
+
+	public function youtubeExternalVideoPublicDataApiCall($youtube, $youtubeData, $OAuth2Data, $opts)
+	{
+	    // Youtube Data API
+	    $videoID = $opts["video_id"];
+	  
+	    $part = "snippet,statistics";
+	    $opt = array(
+		  			'id' => $videoID
+		  		  );
+	    $response = $youtubeData->videos->listVideos($part, $opt);
+	    $this->youtube_channel->processExternalVideoResponse($response);
+	    $likha_denge = $this->youtube_channel->viewVideoData();
+	    return $likha_denge;	
+	}	
+
+	public function youtubeExternalChannelPublicDataApiCall($youtube, $youtubeData, $OAuth2Data, $opts)
+	{
+	    // Youtube Data API
+	    $channelID = $opts["channel_id"];
+	  
+	    $part = "snippet,statistics";
+	    $opt = array(
+		  			'id' => $channelID
+		  		  );
+	    $response = $youtubeData->channels->listChannels($part, $opt);
+	    $this->youtube_channel->processExternalChannelResponse($response);
+	    $likha_denge = $this->youtube_channel->viewChannelData();
+	    return $likha_denge;	
+	}	
+
+	public function youtubeExternalChannelVideoPublicDataAggregatorApiCall($youtube, $youtubeData, $OAuth2Data, $opts)
+	{
+
+		$likha_denge = [];
+		$opt["video_id"] = $opts["video_id"];
+		$response = $this->youtubeExternalVideoPublicDataApiCall($youtube, $youtubeData, $OAuth2Data, $opt);
+		$likha_denge["video"] = $response;
+
+		//channel id has been set up the function above it.
+		$opt["channel_id"] = $this->youtube_channel->channel_id;
+		$response = $this->youtubeExternalChannelPublicDataApiCall($youtube, $youtubeData, $OAuth2Data, $opt);
+		$likha_denge["channel"] = $response;
+
+		// error_log(json_encode($likha_denge));
+		return $likha_denge;
+
+	}
+
 
 public function googleOAuth2ProfileApiCall($youtube, $youtubeData, $OAuth2Data, $opts=[])
 	{
@@ -354,7 +392,29 @@ public function googleOAuth2ProfileApiCall($youtube, $youtubeData, $OAuth2Data, 
 		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
 	}
 
+	public function getYoutubeExternalVideoPublicDataAJAX($value='')
+	{
+		$opts["video_id"] = $value;
+		$response = $this->youtubeApiCall([$this, "youtubeExternalVideoPublicDataApiCall"], $opts); //will fetch all video data of logged in user
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+	}
 
+	public function getYoutubeExternalChannelPublicDataAJAX($value='')
+	{
+		$opts["channel_id"] = $value;
+		$response = $this->youtubeApiCall([$this, "youtubeExternalChannelPublicDataApiCall"], $opts); //will fetch all video data of logged in user
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+	}
+
+	public function youtubeExternalChannelVideoPublicDataAggregatorAJAX($value='')
+	{
+		$opts["video_id"] = $value;
+		$response = $this->youtubeApiCall([$this, "youtubeExternalChannelVideoPublicDataAggregatorApiCall"], $opts); //will fetch all video data of logged in user
+		$data['json'] = json_encode($response);  
+		echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+	}
 
 	public function ajaxTest($value='')
 	{
