@@ -74,16 +74,16 @@ function loopVideoCards ( json_data ) {
                         <div>\
                             <ul class="list-group">\
                                 <li class="list-group-item list-group-item-success">\
-                                    <span class="badge">' + data.likes + '</span> Likes\
+                                    <span class="badge">' + formatNumber(data.likes) + '</span> Likes\
                                 </li>\
                                 <li class="list-group-item list-group-item-info">\
-                                    <span class="badge">' + data.views + '</span> Views\
+                                    <span class="badge">' + formatNumber(data.views) + '</span> Views\
                                 </li>\
                                 <li class="list-group-item list-group-item-warning">\
-                                    <span class="badge">' + data.shares + '</span> Shares\
+                                    <span class="badge">' + formatNumber(data.shares) + '</span> Shares\
                                 </li>\
                                 <li class="list-group-item list-group-item-danger">\
-                                    <span class="badge">' + data.comments + '</span> Comments\
+                                    <span class="badge">' + formatNumber(data.comments) + '</span> Comments\
                                 </li>\
                             </ul>\
                         </div>\
@@ -145,10 +145,10 @@ function channelDataFormat (base_url) {
 }
 
 function populateChannelData (channelData) {
-	$("#channelLikes").html(channelData.likes);
-	$("#channelViews").html(channelData.views);
-	$("#channelShares").html(channelData.shares);
-	$("#channelComments").html(channelData.comments);
+	$("#channelLikes").text(formatNumber(channelData.likes));
+	$("#channelViews").text(formatNumber(channelData.views));
+	$("#channelShares").text(formatNumber(channelData.shares));
+	$("#channelComments").text(formatNumber(channelData.comments));
 }
 
 function chartDataFormat (base_url) {
@@ -563,17 +563,17 @@ function populateExternalVideoDataModal (postData) {
   $("#ytExternalVideoModalLabel").text(videoData.title);
   $("#video_thumbnail").html('<img src="' + videoData.thumbnail_medium + '"  class="img-fluid center-block"/>' );
 
-  $("#videoLikes").text(videoData.likes);
-  $("#videoDislikes").text(videoData.dislikes);
-  $("#videoViews").text(videoData.views);
-  $("#videoComments").text(videoData.comments);
+  $("#videoLikes").text(formatNumber(videoData.likes));
+  $("#videoDislikes").text(formatNumber(videoData.dislikes));
+  $("#videoViews").text(formatNumber(videoData.views));
+  $("#videoComments").text(formatNumber(videoData.comments));
 
-  $("#ytExternalVideoModalText").text(channelData.title);
+  $("#ytExternalVideoModalText").text("Channel : " + channelData.title);
 
-  $("#channelSubs").text(channelData.subscribers);
-  $("#channelViews").text(channelData.views);
-  $("#channelVideoCount").text(channelData.video_count);
-  $("#channelComments").text(channelData.comments);
+  $("#channelSubs").text(formatNumber(channelData.subscribers));
+  $("#channelViews").text(formatNumber(channelData.views));
+  $("#channelVideoCount").text(formatNumber(channelData.video_count));
+  $("#channelComments").text(formatNumber(channelData.comments));
 
   
 
@@ -630,10 +630,10 @@ function FbPageDataFormat (page_id, base_url) {
 }
 
 function populateFbPageData (pageData) {
-  $("#channelLikes").html(pageData.lifetime_likes);
-  $("#channelViews").html(pageData.total_views);
-  $("#channelShares").html(pageData.total_clicks);
-  $("#channelComments").html(pageData.total_impressions);
+  $("#channelLikes").text(formatNumber(pageData.lifetime_likes));
+  $("#channelViews").text(formatNumber(pageData.total_views));
+  $("#channelShares").text(formatNumber(pageData.total_clicks));
+  $("#channelComments").text(formatNumber(pageData.total_impressions));
 }
 
 
@@ -781,8 +781,8 @@ function populateFacebookPageImpressionChart (pageData) {
             innerSize: '50%',
             data: [
                 ['Viral',   pageData.page_impressions_viral],
-                ['Organic',       pageData.page_impressions_organic],
-                ['Paid', pageData.page_impressions_paid],
+                ['Organic', pageData.page_impressions_organic],
+                ['Paid',    pageData.page_impressions_paid],
                 {
                     name: 'Proprietary or Undetectable',
                     y: 0.2,
@@ -1003,8 +1003,25 @@ function FbPostStoryDataFormat (post_id, base_url) {
 }
 
 function populateFbPostStoryData (pageData) {
-  $("#postLikes").text(pageData.like);
-  $("#postComments").text(pageData.comment);
-  $("#postShares").text(pageData.share);
+  $("#postLikes").text(formatNumber(pageData.like));
+  $("#postComments").text(formatNumber(pageData.comment));
+  $("#postShares").text(formatNumber(pageData.share));
 }
 
+var ranges = [
+  { divider: 1e18 , suffix: 'P' },
+  { divider: 1e15 , suffix: 'E' },
+  { divider: 1e12 , suffix: 'T' },
+  { divider: 1e9 , suffix: 'G' },
+  { divider: 1e6 , suffix: 'M' },
+  { divider: 1e3 , suffix: 'K' }
+];
+
+function formatNumber(n) {
+  for (var i = 0; i < ranges.length; i++) {
+    if (n >= ranges[i].divider) {
+      return (n / ranges[i].divider).toFixed(1).toString() + ranges[i].suffix;
+    }
+  }
+  return n.toString();
+}

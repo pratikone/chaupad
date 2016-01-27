@@ -306,50 +306,50 @@
                                         <div class="clear-both"></div>
                                          <div class="col-md-12 col-sm-12">
                                                 <div class="caption">
-                                                    <div class="col-md-4 col-sm-4">
+                                                    <div class="col-md-4">
                                                 
-                                                        <ul class="list-group">
+                                                        <ul class="list-group">Video
                                                             <li class="list-group-item list-group-item-success">
-                                                                <span class="badge"  id="videoLikes">0</span> Likes
+                                                                <span class="badge"  id="videoLikes">0</span>Likes
                                                             </li>
                                                             <li class="list-group-item list-group-item-info">
-                                                                <span class="badge"  id="videoDislikes">0</span> Dislikes
+                                                                <span class="badge"  id="videoDislikes">0</span>Dislikes
                                                             </li>                                                            
                                                             <li class="list-group-item list-group-item-warning">
-                                                                <span class="badge" id="videoViews">0</span> Views
+                                                                <span class="badge" id="videoViews">0</span>Views
                                                             </li>                                                            
                                                             <li class="list-group-item list-group-item-danger">
-                                                                <span class="badge" id="videoComments">0</span> Comments
+                                                                <span class="badge" id="videoComments">0</span>Comments
                                                             </li>
 
                                                         </ul>
                                                     </div>
-                                                    <div class="col-md-4 col-sm-4">
+                                                    <div class="col-md-4">
                                                 
-                                                        <ul class="list-group">
+                                                        <ul class="list-group">Channel
                                                             <li class="list-group-item list-group-item-success">
-                                                                <span class="badge"  id="channelSubs">0</span> Channel Subscribers
+                                                                <span class="badge"  id="channelSubs">0</span>Subscribed
                                                             </li>
                                                             <li class="list-group-item list-group-item-info">
-                                                                <span class="badge"  id="channelViews">0</span> Channel Views
+                                                                <span class="badge"  id="channelViews">0</span>Views
                                                             </li>                                                            
                                                             <li class="list-group-item list-group-item-warning">
-                                                                <span class="badge" id="channelVideoCount">0</span> Video count
+                                                                <span class="badge" id="channelVideoCount">0</span>Videos
                                                             </li>                                                            
                                                             <li class="list-group-item list-group-item-danger">
-                                                                <span class="badge" id="channelComments">0</span> Channel Comments
+                                                                <span class="badge" id="channelComments">0</span>Comments
                                                             </li>
 
                                                         </ul>
                                                     </div>
-                                                    <div class="col-md-4 col-sm-4">
+                                                    <div class="col-md-4">
                                                 
-                                                        <ul class="list-group">
+                                                        <ul class="list-group">Facebook
                                                             <li class="list-group-item list-group-item-success">
-                                                                <span class="badge"  id="fbShare">0</span> Facebook share
+                                                                <span class="badge"  id="fbShare">0</span>Shares
                                                             </li>
                                                             <li class="list-group-item list-group-item-info">
-                                                                <span class="badge"  id="fbComment">0</span> Facebook comment
+                                                                <span class="badge"  id="fbComment">0</span>Comments
                                                             </li>                                                            
                                                         </ul>
                                                     </div>                                                    
