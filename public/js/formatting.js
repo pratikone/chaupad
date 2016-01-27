@@ -559,6 +559,22 @@ function populateExternalVideoDataModal (postData) {
   
   videoData = postData.video[0]; // 0 because we are using an api capable of sending multiple video, but using it for only 1
   channelData = postData.channel;
+
+  $("#ytExternalVideoModalLabel").text(videoData.title);
+  $("#video_thumbnail").html('<img src="' + videoData.thumbnail_medium + '"  class="img-fluid center-block"/>' );
+
+  $("#videoLikes").text(videoData.likes);
+  $("#videoDislikes").text(videoData.dislikes);
+  $("#videoViews").text(videoData.views);
+  $("#videoComments").text(videoData.comments);
+
+  $("#ytExternalVideoModalText").text(channelData.title);
+
+  $("#channelSubs").text(channelData.subscribers);
+  $("#channelViews").text(channelData.views);
+  $("#channelVideoCount").text(channelData.video_count);
+  $("#channelComments").text(channelData.comments);
+
   
 
 }

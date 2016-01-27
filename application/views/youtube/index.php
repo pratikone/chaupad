@@ -232,10 +232,10 @@
                                 <div class="clear-both"></div>
                             </div>
                               <div class="input-group">
-                              <input type="text" class="form-control" placeholder="Enter Youtube video URL Example: https://www.youtube.com/watch?v=enyCO7HPv18" aria-describedby="basic-addon2">
-                              <span class="input-group-addon" id="basic-addon2">
-                              <a href="" id="externalVideoLink" data-toggle="modal" data-target="#ytExternalVideoModal">Video Stats</a>
-                              </span>
+                                <input id="external_video_url" type="text" class="form-control" placeholder="Enter Youtube video URL Example: https://www.youtube.com/watch?v=enyCO7HPv18" aria-describedby="basic-addon2">
+                                <span class="input-group-addon" id="basic-addon2">
+                                    <a href="" id="externalVideoLink" data-toggle="modal" data-target="#ytExternalVideoModal">Video Stats</a>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -431,6 +431,17 @@
                      youtubeVideoChartDataFormat(video_id, base_url);
 
                 });
+
+                $('#ytExternalVideoModal').on('show.bs.modal', function (e) {
+                    var invoker = $(e.relatedTarget);
+
+                    url = $("#external_video_url").val();
+                    //ajax
+                     video_id = url.split("v=")[1];
+                     youtubeExternalVideoDataAggregatorFormat(video_id, base_url);
+
+                });
+
 
 
             </script>
