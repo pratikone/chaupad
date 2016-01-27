@@ -437,8 +437,10 @@
 
                     url = $("#external_video_url").val();
                     //ajax
-                     video_id = url.split("v=")[1];
-                     youtubeExternalVideoDataAggregatorFormat(video_id, base_url);
+                    video_id = url.split("v=")[1];
+                    youtubeExternalVideoDataAggregatorFormat(video_id, base_url);
+                    //facebook data
+                    facebookPublicDataofURL(url, base_url);
 
                 });
 

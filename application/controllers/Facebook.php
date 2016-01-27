@@ -126,7 +126,7 @@ public function dashboard($value='')
 			];
 
 		$data["json"] = json_encode($str);
-		//echo json_encode($data);
+		echo json_encode($data);
 	}
 
 	
@@ -366,8 +366,6 @@ public function dashboard($value='')
         }
     }
 
-
-
 	//aggregator
 	public function facebookPageDataAggregatorAJAX($page_id)
 	{
@@ -537,6 +535,37 @@ public function dashboard($value='')
         $data['json'] = json_encode($response);  
         echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
     }
+
+    public function getFacebookURLPublicStatsApiCallAJAX()
+    {
+    	$url = $this->input->get('url');
+    	
+    	if(isset($_SESSION['fb_access_token'])){
+			$client = $_SESSION['fb_client'];
+			try {
+				$response = $client->get('/?id=' . $url);
+			} catch(Facebook\Exceptions\FacebookResponseException $e) {
+			  // When Graph returns an error
+			  return 'Graph returned an error: ' . $e->getMessage();
+			} catch(Facebook\Exceptions\FacebookSDKException $e) {
+			  // When validation fails or other local issues
+			  return 'Facebook SDK returned an error: ' . $e->getMessage();
+			}
+    		
+
+			$formatted = $response->getDecodedBody();
+			$likha_denge["share"] = $formatted["share"]["share_count"];
+			$likha_denge["comment"] = $formatted["share"]["comment_count"];    		
+    	}
+    	else{
+    		$likha_denge["share"] = "-1";
+			$likha_denge["comment"] = "-1";
+    	}
+        
+
+        $data['json'] = json_encode($likha_denge);  
+        echo json_encode($data);   //somehow only double json encoding works. Lord JS works in mysterious ways
+    }    
 
 
 

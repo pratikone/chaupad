@@ -575,8 +575,6 @@ function populateExternalVideoDataModal (postData) {
   $("#channelVideoCount").text(formatNumber(channelData.video_count));
   $("#channelComments").text(formatNumber(channelData.comments));
 
-  
-
 }
 
 //------------------------------------------------------------------------------------------------
@@ -1007,6 +1005,41 @@ function populateFbPostStoryData (pageData) {
   $("#postComments").text(formatNumber(pageData.comment));
   $("#postShares").text(formatNumber(pageData.share));
 }
+
+function facebookPublicDataofURL (url, base_url) {
+        var jqxhr =
+              $.ajax({
+                  url: base_url + 'index.php/facebook/getFacebookURLPublicStatsApiCallAJAX/?url=' + url,
+                  dataType: 'json',
+                  /*
+                  beforeSend: function(){
+                                          waitingDialog.show('Fetching page posts');
+                                        },
+                  complete: function () {
+                                          waitingDialog.hide();
+                                        }
+                  */
+              })
+              .done (function(data) {
+                   var postData = $.parseJSON(data["json"]);
+                   populateFacebookDataforExternalVideoDataModal(postData, base_url);
+                })
+              .fail   (function()     { console.error("Error in getting facebook external url data")   ; })
+              ;
+}
+
+function populateFacebookDataforExternalVideoDataModal (postData, base_url) {
+  
+  if ( postData.share == -1 ){ //no facebook token
+      $("#fbShare").html('<a href="'+ base_url + 'index.php/youtube/facebook"> Login to facebook</a>');
+      $("#fbComment").html('<a href="'+ base_url + 'index.php/youtube/facebook"> Login to facebook</a>');
+  } 
+  else{
+    $("#fbShare").text(formatNumber(postData.share));
+    $("#fbComment").text(formatNumber(postData.comment));
+  }
+}
+
 
 var ranges = [
   { divider: 1e18 , suffix: 'P' },

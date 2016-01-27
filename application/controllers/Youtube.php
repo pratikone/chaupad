@@ -341,6 +341,7 @@ public function googleOAuth2ProfileApiCall($youtube, $youtubeData, $OAuth2Data, 
         redirect( base_url() . 'index.php/facebook/analytics', 'location', 301);
     }
 
+//-----------------------------__ A  ____ J _____ A______X ----------------------------------------------
 
 	public function getVideoDataAJAX($value='1')
 	{
