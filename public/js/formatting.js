@@ -533,8 +533,35 @@ function populateYoutubeVideoModalPostData (data) {
   
 }
 
+function youtubeExternalVideoDataAggregatorFormat (video_id, base_url) {
+        var jqxhr =
+              $.ajax({
+                  url: base_url + 'index.php/youtube/youtubeExternalChannelVideoPublicDataAggregatorAJAX/' + video_id,
+                  dataType: 'json',
+                  /*
+                  beforeSend: function(){
+                                          waitingDialog.show('Fetching page posts');
+                                        },
+                  complete: function () {
+                                          waitingDialog.hide();
+                                        }
+                  */
+              })
+              .done (function(data) {
+                   var postData = $.parseJSON(data["json"]);
+                   populateExternalVideoDataModal(postData);
+                })
+              .fail   (function()     { console.error("Error in getting external video data")   ; })
+              ;
+}
 
+function populateExternalVideoDataModal (postData) {
+  
+  videoData = postData.video[0]; // 0 because we are using an api capable of sending multiple video, but using it for only 1
+  channelData = postData.channel;
+  
 
+}
 
 //------------------------------------------------------------------------------------------------
 //                                                           ,----..       ,----..          ,--. 

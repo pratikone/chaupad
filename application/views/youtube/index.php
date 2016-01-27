@@ -223,10 +223,26 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="card card-info">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <div class="title"><i class="fa fa-comments-o"></i> Stats of external youtube video</div>
+                                </div>
+                                <div class="clear-both"></div>
+                            </div>
+                              <div class="input-group">
+                              <input type="text" class="form-control" placeholder="Enter Youtube video URL Example: https://www.youtube.com/watch?v=enyCO7HPv18" aria-describedby="basic-addon2">
+                              <span class="input-group-addon" id="basic-addon2">
+                              <a href="" id="externalVideoLink" data-toggle="modal" data-target="#ytExternalVideoModal">Video Stats</a>
+                              </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Modal -->
-                <div class="modal fade" id="ytPostModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal fade" id="ytPostModal" tabindex="-1" role="dialog" aria-labelledby="ytModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -264,13 +280,91 @@
                                             </div>
                                     </div>
                                 </div>
-                    </div>
                             </div>
+                        </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             </div>
                         </div>
                     </div>                                
+
+                <!-- Modal -->
+                <div class="modal fade" id="ytExternalVideoModal" tabindex="-1" role="dialog" aria-labelledby="ytExternalVideoModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="ytExternalVideoModalLabel">Modal title</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card primary">
+                                    <div class="card-jumbotron no-padding">
+                                        <div id="video_thumbnail" class="chart no-padding"></div>
+                                    </div>
+                                    <div class="card-body half-padding">
+                                        <h4 class="float-left font-weight-300" id="ytExternalVideoModalText">Loading...</h4>
+                                        <div class="clear-both"></div>
+                                         <div class="col-md-12 col-sm-12">
+                                                <div class="caption">
+                                                    <div class="col-md-4 col-sm-4">
+                                                
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item list-group-item-success">
+                                                                <span class="badge"  id="videoLikes">0</span> Likes
+                                                            </li>
+                                                            <li class="list-group-item list-group-item-info">
+                                                                <span class="badge"  id="videoDislikes">0</span> Dislikes
+                                                            </li>                                                            
+                                                            <li class="list-group-item list-group-item-warning">
+                                                                <span class="badge" id="videoViews">0</span> Views
+                                                            </li>                                                            
+                                                            <li class="list-group-item list-group-item-danger">
+                                                                <span class="badge" id="videoComments">0</span> Comments
+                                                            </li>
+
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4">
+                                                
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item list-group-item-success">
+                                                                <span class="badge"  id="channelSubs">0</span> Channel Subscribers
+                                                            </li>
+                                                            <li class="list-group-item list-group-item-info">
+                                                                <span class="badge"  id="channelViews">0</span> Channel Views
+                                                            </li>                                                            
+                                                            <li class="list-group-item list-group-item-warning">
+                                                                <span class="badge" id="channelVideoCount">0</span> Video count
+                                                            </li>                                                            
+                                                            <li class="list-group-item list-group-item-danger">
+                                                                <span class="badge" id="channelComments">0</span> Channel Comments
+                                                            </li>
+
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4">
+                                                
+                                                        <ul class="list-group">
+                                                            <li class="list-group-item list-group-item-success">
+                                                                <span class="badge"  id="fbShare">0</span> Facebook share
+                                                            </li>
+                                                            <li class="list-group-item list-group-item-info">
+                                                                <span class="badge"  id="fbComment">0</span> Facebook comment
+                                                            </li>                                                            
+                                                        </ul>
+                                                    </div>                                                    
+                                                    </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>  
+
 
                      
                 </div>
