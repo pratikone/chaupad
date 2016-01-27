@@ -2,7 +2,6 @@
 /*
 * TODO : Refresh token fails sometime. Atleast I should make the app to logout when Google_Auth_Exception is thrown
 * TODO : Bread icon for side navigation is not working. Maybe due to some cleanup of code
-* TODO : Add formatting option to convert big value to K and M etc
 */
 
 require_once APPPATH.'third_party/google/vendor/autoload.php';
