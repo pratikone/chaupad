@@ -78,8 +78,6 @@ class Youtube extends CI_Controller{
 		  $_SESSION['access_token'] = $access_token;
 		  $_SESSION['refresh_token'] = $refresh_token;
 		  
-		  if(isset($_SESSION['refresh_token']) == false)
-		  	redirect( base_url() . 'index.php/youtube/logout', 'location', 301);
 
 		  
 	   }
@@ -128,12 +126,16 @@ class Youtube extends CI_Controller{
 
 	public function youtubeTokenCheck($client){
       if ($client->isAccessTokenExpired()) {
-		 	$client->refreshToken($_SESSION['refresh_token']);
-		 	$access_token = $client->getAccessToken(); //refreshing token
-		 	$_SESSION['access_token'] = $access_token;
-		    $tokens_decoded = json_decode($access_token);
-    	    $refresh_token = $tokens_decoded->refresh_token;
-    	    $_SESSION['refresh_token'] = $refresh_token;
+	        if(isset($_SESSION['refresh_token']) == false)
+		  		redirect( base_url() . 'index.php/youtube/logout', 'location', 301);
+		  	else{
+			 	$client->refreshToken($_SESSION['refresh_token']);
+			 	$access_token = $client->getAccessToken(); //refreshing token
+			 	$_SESSION['access_token'] = $access_token;
+			    $tokens_decoded = json_decode($access_token);
+	    	    $refresh_token = $tokens_decoded->refresh_token;
+	    	    $_SESSION['refresh_token'] = $refresh_token;
+		  	}
 	  }
 	}
 
