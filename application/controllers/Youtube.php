@@ -78,6 +78,10 @@ class Youtube extends CI_Controller{
 		  $_SESSION['access_token'] = $access_token;
 		  $_SESSION['refresh_token'] = $refresh_token;
 		  
+		  if(isset($_SESSION['refresh_token']) == false)
+		  	redirect( base_url() . 'index.php/youtube/logout', 'location', 301);
+
+		  
 	   }
 	   
 	   $_SESSION['client'] = $client;
@@ -129,6 +133,7 @@ class Youtube extends CI_Controller{
 		 	$_SESSION['access_token'] = $access_token;
 		    $tokens_decoded = json_decode($access_token);
     	    $refresh_token = $tokens_decoded->refresh_token;
+    	    $_SESSION['refresh_token'] = $refresh_token;
 	  }
 	}
 
@@ -433,6 +438,21 @@ public function googleOAuth2ProfileApiCall($youtube, $youtubeData, $OAuth2Data, 
 		$data["json"] = json_encode($str);
 		echo json_encode($data);
 	}
+
+	public function testSession($value='')
+	{
+		$str = [
+
+				"youtube token"=> isset($_SESSION['access_token']) ? $_SESSION['access_token'] : "-1",
+				"refresh token"=> isset($_SESSION['access_token']) ? $_SESSION['refresh_token'] : "-1",
+				"facebook token"=> isset($_SESSION['fb_access_token']) ? $_SESSION['fb_access_token'] : "-1",
+			];
+
+		$data["json"] = json_encode($str);
+		echo json_encode($data);
+	}
+
+
 
 	public function testPage($value='')
 	{
