@@ -54,7 +54,6 @@ class Facebook extends CI_Controller{
 
 
 	public function login(){
-		echo "Nigga";
 		$client = new Facebook\Facebook([
 			'app_id' => '558049591013252',
 			'app_secret' => '6678bbf4ef0bfad674601faee955a507',
@@ -379,21 +378,24 @@ public function dashboard($value='')
      	$response = $this->facebookApiCall([$this, "facebookPageImpressionsApiCall"], $page_id); 
      	$total_impressions = 0;
      	foreach($response["data"][0]["values"] as $daily_value){
-     		$total_impressions += $daily_value["value"];
+     		if( isset($daily_value["value"]))
+     			$total_impressions += $daily_value["value"];
      	}
 		
 		//page clicks
      	$response = $this->facebookApiCall([$this, "facebookPageClicksApiCall"], $page_id); 
      	$total_clicks = 0;
      	foreach($response["data"][0]["values"] as $daily_value){
-     		$total_clicks += $daily_value["value"];
+     		if( isset($daily_value["value"]))
+     			$total_clicks += $daily_value["value"];
      	}
 
      	//page views
      	$response = $this->facebookApiCall([$this, "facebookPageViewsApiCall"], $page_id); 
      	$total_views = 0;
      	foreach($response["data"][0]["values"] as $daily_value){
-     		$total_views += $daily_value["value"];
+     		if( isset($daily_value["value"]))
+     			$total_views += $daily_value["value"];
      	}
 
 
