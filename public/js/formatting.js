@@ -662,7 +662,10 @@ function populateFBChartData (data) {
   views = [];
   $.each(data, function(key, valueSet){
       days.push(valueSet["end_time"].split("T")[0]);
-      views.push(valueSet["value"]);
+      if( valueSet["value"] > 0 )
+        views.push(valueSet["value"]);
+      else 
+        views.push(0);
 
   });
   
