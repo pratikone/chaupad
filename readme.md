@@ -3,8 +3,8 @@
 
 Chaupad is an codeigniter based dashboard for monitoring youtube and facebook post analytical data.
 
- [[https://github.com/pratikone/chaupad/blob/master/Capture.PNG|alt=login]]
-
+![Alt text](https://github.com/pratikone/chaupad/blob/master/Capture.PNG?raw=true "Title")
+![Alt text](https://github.com/pratikone/chaupad/blob/master/Capture2.PNG?raw=true "Title")
 
 ##### Libaries used
 
